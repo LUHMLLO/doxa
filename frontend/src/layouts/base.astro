@@ -1,0 +1,28 @@
+---
+import LayoutHtml from "../layouts/html.astro";
+import Nav from "../components/nav";
+import Footer from "../components/footer";
+import Notification from "../components/notification";
+import Cart from "../components/cart";
+import CommandPalette from "../components/commandpalette";
+---
+
+<LayoutHtml>
+  <Nav client:load />
+  <main class="h-min--100vh">
+    <slot />
+  </main>
+  <Footer client:load />
+
+  <widget
+    class="ps--fixed inset w--100 h--100vh zindex--12 flex column overflow-hidden px--4 pt--56 hidden child-visible"
+  >
+    <row
+      class="ps--relative flex column gap--8 w--100 h--100 p--8 align--end overflow-hidden shrink hidden child-visible"
+    >
+      <Notification client:load />
+      <Cart client:load />
+      <CommandPalette client:load />
+    </row>
+  </widget>
+</LayoutHtml>

@@ -1,0 +1,19 @@
+---
+import LayoutBase from "../../layouts/base.astro";
+import Header from "../../components/header.jsx";
+
+export function getStaticPaths() {
+  return [{ params: { product: "1" } }];
+}
+
+const { product } = Astro.params;
+---
+
+<LayoutBase>
+  <Header title={product} content="lorem"/>
+  <section class="section">
+    <container class="container block">
+      <h1>{product}</h1>
+    </container>
+  </section>
+</LayoutBase>

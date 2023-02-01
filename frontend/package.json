@@ -1,0 +1,20 @@
+{
+  "name": "mindesignsystem",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/solid-js": "^2.0.0",
+    "@nanostores/solid": "^0.3.2",
+    "astro": "^2.0.0",
+    "nanostores": "^0.7.1",
+    "solid-js": "^1.6.9"
+  }
+}
