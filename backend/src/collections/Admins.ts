@@ -2,9 +2,7 @@ import { CollectionConfig } from "payload/types";
 
 const Admins: CollectionConfig = {
   slug: "admins",
-  auth: {
-    useAPIKey: true,
-  },
+  auth: true,
   admin: {
     useAsTitle: "email",
     group: "Admin",
@@ -17,7 +15,6 @@ const Admins: CollectionConfig = {
     {
       name: "name",
       type: "text",
-      saveToJWT: true,
     },
   ],
 };
