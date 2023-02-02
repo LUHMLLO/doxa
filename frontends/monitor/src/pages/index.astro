@@ -1,10 +1,10 @@
 ---
 import LayoutBase from "../layouts/base.astro";
 import Temperature from "../components/temperature.jsx";
-import AddNewDevice from "../components/addNewDevice.jsx";
+import AddNewDevice from "../components/addNewDevice.svelte";
 
 const response = await fetch(
-  "http://localhost:5000/api/devices",
+  "https://doxamonitor-adminpanel.onrender.com/api/devices",
   {
     method: "GET",
     headers: {
@@ -23,12 +23,13 @@ const fridges = await response.json();
       <h6 class="offb--16">Smart Fridges</h6>
       <p class="offb--16">Real time monitoring for all your online devices</p>
       <p>Anything above 18deg will be mark unhealthy by default</p>
-      <AddNewDevice client:idle/>
+
+      <AddNewDevice client:idle />
     </div>
     <div class="flex column gap--8 noshrink">
       {
         fridges.docs.map((data: any) => (
-          <Temperature name={data.name} temp={Math.floor(Math.random() * 50)} />
+          <Temperature name={data.name} temp={Math.floor(Math.random() * 30)} />
         ))
       }
     </div>

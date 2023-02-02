@@ -3,10 +3,18 @@ import LayoutHtml from "../layouts/html.astro";
 ---
 
 <LayoutHtml>
-  <app class="flex row">
-    <sidebar class="p--16 w--200p noshrink">
-      <p>sidebar</p>
-    </sidebar>
+  <app class="flex row bg-primary h--100vh">
+    <nav
+      class="flex column weight--medium gap--16 p--16 w--148p h--100 noshrink bg-light"
+    >
+      <a href="/" class="icon noshrink">
+        <i class="iconoir-3d-select-face"></i>
+      </a>
+      <nav class="flex column gap--8">
+        <a href="/fridges">Neveras</a>
+        <a href="/vaccinators">Vacunadores</a>
+      </nav>
+    </nav>
     <main class="p--16 w--100 nosrhink">
       <slot />
     </main>
