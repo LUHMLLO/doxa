@@ -1,0 +1,45 @@
+---
+import LayoutBase from "../layouts/base.astro";
+import Temperature from "../components/temperature.jsx";
+
+const fridges = [
+  {
+    name: "Fridge #01",
+    location: "Home",
+    temp: 14.8,
+  },
+  {
+    name: "Fridge #02",
+    location: "Lab",
+    temp: 12,
+  },
+  {
+    name: "Fridge #01",
+    location: "Lab",
+    temp: 27.3,
+  },
+];
+---
+
+<LayoutBase>
+  <section
+    class="grid grid-cols--1 md:grid-cols--2 gap--32 p--16 bg-accent radius-theme dpt-dark"
+  >
+    <div class="w--100">
+      <h6 class="offb--16">Smart Fridges</h6>
+      <p>Real time monitoring for all your online devices</p>
+      <button class="clr-primary bg-dark radius-theme">add new device</button>
+    </div>
+    <div class="flex column gap--8 noshrink">
+      {
+        fridges.map((data) => (
+          <Temperature
+            name={data.name}
+            location={data.location}
+            temp={data.temp}
+          />
+        ))
+      }
+    </div>
+  </section>
+</LayoutBase>
