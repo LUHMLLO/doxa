@@ -7,6 +7,9 @@ import Categories from "./collections/Categories";
 
 export default buildConfig({
   serverURL: process.env.PAYLOAD_PUBLIC_BASE_DNS,
+  rateLimit: {
+    trustProxy: true,
+  },
   admin: {
     user: Admins.slug,
   },

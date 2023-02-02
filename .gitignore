@@ -164,3 +164,9 @@ dist
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode
+
+
+# Profile files
+.env
+# Dependencies
+node_modules/
