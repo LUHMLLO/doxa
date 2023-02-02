@@ -1,29 +1,18 @@
 ---
 import LayoutBase from "../layouts/base.astro";
 import Temperature from "../components/temperature.jsx";
+import AddNewDevice from "../components/addNewDevice.jsx";
 
 const response = await fetch(
-  "https://doxamonitor-adminpanel.onrender.com/api/devices"
+  "http://localhost:5000/api/devices",
+  {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+  }
 );
 const fridges = await response.json();
-// const firstDevice = data.docs[0];
-// const fridgesold = [
-//   {
-//     name: "Fridge #01",
-//     location: "Home",
-//     temp: 14.8,
-//   },
-//   {
-//     name: "Fridge #02",
-//     location: "Lab",
-//     temp: 12,
-//   },
-//   {
-//     name: "Fridge #01",
-//     location: "Lab",
-//     temp: 27.3,
-//   },
-// ];
 ---
 
 <LayoutBase>
@@ -32,16 +21,14 @@ const fridges = await response.json();
   >
     <div class="w--100">
       <h6 class="offb--16">Smart Fridges</h6>
-      <p>Real time monitoring for all your online devices</p>
-      <button class="clr-primary bg-dark radius-theme">add new device</button>
+      <p class="offb--16">Real time monitoring for all your online devices</p>
+      <p>Anything above 18deg will be mark unhealthy by default</p>
+      <AddNewDevice client:idle/>
     </div>
     <div class="flex column gap--8 noshrink">
       {
         fridges.docs.map((data: any) => (
-          <Temperature
-            name={data.name}
-            temp={data.temp}
-          />
+          <Temperature name={data.name} temp={Math.floor(Math.random() * 50)} />
         ))
       }
     </div>
