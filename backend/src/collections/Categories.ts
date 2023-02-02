@@ -1,11 +1,11 @@
 import { CollectionConfig } from "payload/types";
 
-const SmartTypes: CollectionConfig = {
-  slug: "types",
+const Categories: CollectionConfig = {
+  slug: "categories",
   admin: {
     useAsTitle: "name",
     defaultColumns: ["id", "name",],
-    group: "Customers",
+    group: "Utilities",
   },
   access: {
     create: () => true,
@@ -22,4 +22,4 @@ const SmartTypes: CollectionConfig = {
   ],
 };
 
-export default SmartTypes;
+export default Categories;

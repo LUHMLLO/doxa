@@ -1,5 +1,5 @@
 {
-  "name": "doxavet",
+  "name": "doxamonitor-adminpanel",
   "description": "Payload project created from ts-todo template",
   "version": "1.0.0",
   "main": "dist/server.js",

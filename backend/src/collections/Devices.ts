@@ -5,7 +5,7 @@ const Devices: CollectionConfig = {
   admin: {
     useAsTitle: "name",
     defaultColumns: ["id", "name", "type", "owner"],
-    group: "Customers",
+    group: "Products",
   },
   access: {
     create: () => true,
@@ -20,9 +20,9 @@ const Devices: CollectionConfig = {
       localized: true,
     },
     {
-      name: "type",
+      name: "category",
       type: "relationship",
-      relationTo: "types",
+      relationTo: "categories",
       hasMany: false,
     },
     {
