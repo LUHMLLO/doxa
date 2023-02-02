@@ -49,3 +49,10 @@ type SmartVaccinator struct {
 	Vaccinations string `json:"vaccinations"`
 }
 ```
+
+
+```env
+MONGODB_URI=mongodb+srv://clusterwatchdog:ttcQtFR4M9EqhyOF@doxavet.depuo43.mongodb.net/?retryWrites=true&w=majority
+PAYLOAD_SECRET=5b58058d198dabaef6ffe29c
+PAYLOAD_PUBLIC_BASE_DNS=http://localhost:5000
+```

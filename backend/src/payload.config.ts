@@ -6,7 +6,7 @@ import Devices from "./collections/Devices";
 import Categories from "./collections/Categories";
 
 export default buildConfig({
-  serverURL: "http://localhost:5000",
+  serverURL: process.env.PAYLOAD_PUBLIC_BASE_DNS,
   admin: {
     user: Admins.slug,
   },
