@@ -26,9 +26,7 @@ const Temperature = (props) => {
           </Show>
         </row>
         <h3 class="offt--8 mb--0">{props.temp}</h3>
-        <p class="m--0 text--12 weight--medium">
-          {props.location}, {props.name}
-        </p>
+        <p class="m--0 text--12 weight--medium">{props.name}</p>
       </widget>
     </>
   );

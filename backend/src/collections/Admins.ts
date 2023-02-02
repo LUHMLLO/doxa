@@ -4,8 +4,9 @@ const Admins: CollectionConfig = {
   slug: "admins",
   auth: true,
   admin: {
-    useAsTitle: "email",
-    group: "Admins",
+    useAsTitle: "name",
+    defaultColumns: ["id", "name", "email"],
+    group: "Users",
   },
   access: {
     read: () => true,

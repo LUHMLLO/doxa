@@ -4,8 +4,8 @@ const Devices: CollectionConfig = {
   slug: "devices",
   admin: {
     useAsTitle: "name",
-    defaultColumns: ["id", "name", "type", "owner"],
-    group: "Products",
+    defaultColumns: ["id", "name", "category", "owner"],
+    group: "Devices",
   },
   access: {
     create: () => true,

@@ -5,7 +5,7 @@ const Categories: CollectionConfig = {
   admin: {
     useAsTitle: "name",
     defaultColumns: ["id", "name",],
-    group: "Utilities",
+    group: "Devices",
   },
   access: {
     create: () => true,

@@ -5,8 +5,8 @@ const Clients: CollectionConfig = {
   auth: true,
   admin: {
     useAsTitle: "name",
-    defaultColumns: ["id", "name", "email", "phone", "secret"],
-    group: "Customers",
+    defaultColumns: ["id", "name", "email", "phone"],
+    group: "Users",
   },
   access: {
     create: () => true,
