@@ -8,26 +8,15 @@
 </script>
 
 <grid class="grid grid-cols--1 md:grid-cols--2 h--100vh">
-  <column>
-    <figure class="w--100 h--100">
-      <img
-        src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-        alt="cover"
-        class="w--100 h--100"
-        loading="lazy"
-      />
-    </figure>
-  </column>
-
-  <column class="flex justify--center align--center">
+  <column class="flex justify--center align--center dpt-dark zindex--2">
     <section>
-      <container class="container block ">
+      <container class="container block">
         <form on:submit|preventDefault class="flex column gap--24">
           <header>
             <h4>Bienvenido a Doxatec, inicie sesion para continuar</h4>
             <p>
               Aun no tienes una cuenta?
-              <a href="/auth/login" class="clr-tertiary">Crear cuenta</a>
+              <a href="/auth/login">Crear cuenta</a>
             </p>
           </header>
 
@@ -39,9 +28,7 @@
             <fieldset>
               <small>Contraseña</small>
               <input type="password" bind:value={user.pass} />
-              <a
-                href="/auth/login"
-                class="block clr-tertiary text--10 text--end w--100"
+              <a href="/auth/login" class="block text--10 text--end"
                 >Olvidaste tu contraseña?</a
               >
             </fieldset>
@@ -56,4 +43,5 @@
       </container>
     </section>
   </column>
+  <column class="none md:block zindex--1 bg-accent h--100" />
 </grid>
