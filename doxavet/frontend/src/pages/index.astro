@@ -1,0 +1,100 @@
+---
+import LayoutBase from "../layouts/base.astro";
+import Product from "../components/product.jsx";
+import Category from "../components/category.jsx";
+import Header from "../components/header.jsx";
+
+let brandLogos = [
+  "https://cdn.dribbble.com/userupload/4088578/file/original-f3c410ded7b0253a61d8712374768a5d.png",
+  "https://cdn.dribbble.com/users/26068/screenshots/17831732/media/48cbcd3bcd582fdc1d29deca0f80cd81.png",
+  "https://1000marcas.net/wp-content/uploads/2021/06/Friskies-Logo-1921.jpg",
+  "https://cdn.dribbble.com/userupload/3591913/file/original-f394852e3601f67a7c357c3a2f93e302.png",
+  "https://cdn.dribbble.com/userupload/2767390/file/original-689dc0b665307f8a2806cb6bdf42c510.jpg",
+  "https://seeklogo.com/images/P/Pedigree-logo-0B0352F571-seeklogo.com.png",
+  "https://cdn.dribbble.com/userupload/3893386/file/original-fcd559721d258e8932830011b3e5a02d.png",
+  "https://cdn.dribbble.com/users/58072/screenshots/17877096/media/54ca70577e4ff635645a05be1c9e175d.jpg?",
+];
+---
+
+<LayoutBase>
+  <Header />
+  <section class="section">
+    <container class="container flex column gap--16">
+      <h4 class="clr-tertiary">Categorias</h4>
+      <grid class="grid grid-cols--4 md:grid-cols--8 gap--32">
+        {[...Array(8).keys()].map((data) => <Category />)}
+      </grid>
+    </container>
+  </section>
+  <container class="container flex row gap--8">
+    {[...Array(32).keys()].map((data) => <hr class="h--2p bg-muted shrink" />)}
+  </container>
+  <section class="section">
+    <container class="container flex column gap--16">
+      <h4 class="clr-tertiary">Recientes</h4>
+      <slider
+        class="flex row justify--space-evenly align--center gap--32 overflow-hidden"
+      >
+        {
+          [...Array(4).keys()].map((data) => (
+            <div class="w--23 noshrink ratio--1-1 m--auto">
+              <Product client:load />
+            </div>
+          ))
+        }
+      </slider>
+      <slider-controllers
+        class="w--100 flex row justify--center align--center ps--absolute top bottom m--auto hidden child-visible"
+      >
+        <button
+          class="p--0 icon circle--32 clr-secondary bg-light dpt-dark bord--hidden offl--24"
+        >
+          <i class="iconoir-nav-arrow-left"></i>
+        </button>
+
+        <hr class="bg-none w-100 shrink" />
+
+        <button
+          class="p--0 icon circle--32 clr-secondary bg-light dpt-dark bord--hidden offr--24"
+        >
+          <i class="iconoir-nav-arrow-right"></i>
+        </button>
+      </slider-controllers>
+    </container>
+  </section>
+  <section class="section">
+    <container class="container flex column gap--16">
+      <h4 class="clr-tertiary">Populares</h4>
+      <grid class="grid grid-cols--1 sm:grid-cols--2 md:grid-cols--3 gap--32">
+        {[...Array(8).keys()].map((data) => <Product client:load />)}
+      </grid>
+    </container>
+  </section>
+  <section class="section">
+    <container class="container flex column gap--16">
+      <h4 class="clr-tertiary">Nuestras seleccion para ti</h4>
+      <p class="clr-secondary">
+        Amet consectetur aperiam enim a ad deleniti ullam saepe totam labore ea
+        expedita doloremque
+      </p>
+      <grid class="grid grid-cols--2 md:grid-cols--3 gap--16">
+        <div
+          class="w--100 ratio--1-1 block p--24 bg-muted radius-theme dpt-dark"
+        >
+        </div>
+        <div
+          class="w--100 ratio--1-1 block p--24 bg-muted radius-theme dpt-dark"
+        >
+        </div>
+        <div
+          class="w--100 ratio--1-1 block p--24 bg-muted radius-theme dpt-dark"
+        >
+        </div>
+        <div
+          class="w--100 ratio--1-1 block p--24 bg-muted radius-theme dpt-dark"
+        >
+        </div>
+      </grid>
+    </container>
+  </section>
+</LayoutBase>
