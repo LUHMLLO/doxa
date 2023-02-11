@@ -68,7 +68,9 @@
               <input type="text" bind:value={newDeviceName} />
             </fieldset>
           </fieldgroup>
-          <button class="w--100 bg-secondary clr-primary" on:click={() => createNewDevice()}
+          <button
+            class="w--100 bg-secondary clr-primary"
+            on:click={() => createNewDevice()}
             >Add device
           </button>
         </widget>
