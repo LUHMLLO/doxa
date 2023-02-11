@@ -7,7 +7,7 @@
   };
 </script>
 
-<grid class="grid md:grid-cols--2 h--100vh">
+<grid class="grid md:grid-cols--2 h-min--100vh">
   <column class="flex justify--center align--center dpt-dark zindex--2">
     <section>
       <container class="container block">

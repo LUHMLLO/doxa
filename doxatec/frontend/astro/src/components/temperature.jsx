@@ -4,7 +4,7 @@ const TempTag = (props) => {
   return (
     <>
       <Show
-        when={props.temp >= 18 || props.temp <= 13}
+        when={props.temp >= 20 || props.temp <= 10}
         fallback={
           <span class="inline-flex justify--center align--center gap--4 clr-tertiary text--12 m--0 px--12 py--6 bg-primary radius-theme noshrink">
             <icon class="icon circle--12 text--12 p--8">
