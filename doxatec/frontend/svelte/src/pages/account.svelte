@@ -4,17 +4,19 @@
 </script>
 
 {#if $currentUser}
+  <header>
+    <div class="m--0 bg-accent h--300p" />
+    <container class="container block offt--56">
+      <figure class="size--100 circle bg-muted bord-primary bord--solid" />
+      <h4>{$currentUser.username}</h4>
+      <p>{$currentUser.name}</p>
+    </container>
+  </header>
   <section>
     <container class="container block">
-      <header class="w--100 text--center">
-        <h1>Bienvenido {$currentUser.username}</h1>
-      </header>
-
-      <button
-        on:click={() => signOut()}
-        class="w--100 bg-secondary clr-complementary radius-theme bord--hidden"
-        >Cerrar sesion</button
-      >
+      <button class="bg-secondary clr-primary" on:click={() => signOut()}
+        >Cerrar sesion
+      </button>
     </container>
   </section>
 {/if}

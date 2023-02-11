@@ -8,8 +8,14 @@
   };
 </script>
 
-<grid class="grid grid-cols--1 md:grid-cols--2 h--100vh">
-  <column class="none md:block zindex--1 bg-accent h--100" />
+<grid class="grid md:grid-cols--2 h--100vh">
+  <column
+    class="none md:flex justify--center align--center zindex--1 bg-accent h--100"
+  >
+    <container class="container block">
+      <h3 class="text--center">Bienvenido a Doxatec</h3>
+    </container>
+  </column>
 
   <column class="flex justify--center align--center dpt-dark zindex--2">
     <section>
