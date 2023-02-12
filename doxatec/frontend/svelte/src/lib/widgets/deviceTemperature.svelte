@@ -6,18 +6,18 @@
   export { name, category, temp };
 </script>
 
-<widget class="flex column bg-accent radius-theme p--16 dpt-dark">
+<widget class="flex column bg-accent radius-theme p--16 dpt-secondary">
   <h6 class="w--100">{name}</h6>
   <small class="weight--medium">{category}</small>
 
   <row class="flex row align--center">
-    <p class="text--64 w--100">{temp}</p>
+    <p class="text--64">{temp}</p>
 
     <icon class="icon">
-      {#if temp >= 20 || temp <= 10}
-        <i class="iconoir-warning-triangle" />
-      {:else}
+      {#if temp >= 2 || temp <= 8}
         <i class="iconoir-lens" />
+      {:else}
+        <i class="iconoir-warning-triangle" />
       {/if}
     </icon>
   </row>

@@ -19,7 +19,7 @@
 }
 
 :root {
-  --base--fontColor: var(--theme-dark);
+  --base--fontColor: var(--theme-secondary);
   --base--fontFamily: "Work Sans", sans-serif;
   --headings--fontFamily: "Unbounded", sans-serif;
 }

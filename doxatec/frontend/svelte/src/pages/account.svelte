@@ -10,31 +10,39 @@
   let unsubscribe: () => void;
 
   async function createNewDevice() {
-    const data = {
-      name: newDeviceName,
-      owner: $currentUser.id,
-    };
+    try {
+      const data = {
+        name: newDeviceName,
+        owner: $currentUser.id,
+      };
 
-    await pb.collection("devices").create(data);
+      await pb.collection("devices").create(data);
+    } catch (err: any) {
+      console.log(err.data);
+    }
   }
 
   onMount(async () => {
-    const devicesList = await pb.collection("devices").getList(1, 20, {
-      sort: "created",
-      expand: "user",
-    });
-    devices = devicesList.items;
-
-    unsubscribe = await pb
-      .collection("devices")
-      .subscribe("*", async ({ action, record }) => {
-        if (action === "create") {
-          devices = [...devices, record];
-        }
-        if (action === "delete") {
-          devices = devices.filter((device) => device.id !== record.id);
-        }
+    try {
+      const devicesList = await pb.collection("devices").getList(1, 20, {
+        sort: "created",
+        expand: "user",
       });
+      devices = devicesList.items;
+
+      unsubscribe = await pb
+        .collection("devices")
+        .subscribe("*", async ({ action, record }) => {
+          if (action === "create") {
+            devices = [...devices, record];
+          }
+          if (action === "delete") {
+            devices = devices.filter((device) => device.id !== record.id);
+          }
+        });
+    } catch (err: any) {
+      console.log(err.data);
+    }
   });
 
   onDestroy(() => {
@@ -46,14 +54,37 @@
   <header>
     <div class="m--0 bg-accent h--300p" />
     <container class="container block offt--56">
-      <figure class="size--100 circle bg-muted bord-primary bord--solid" />
+      <figure>
+        <img
+          src={$currentUser.avatar}
+          alt=""
+          class="size--100 circle bg-muted bord-primary bord--solid"
+        />
+      </figure>
       <h4>{$currentUser.username}</h4>
       <p>{$currentUser.name}</p>
     </container>
   </header>
   <section>
     <container class="container block">
-      <grid class="grid grid-cols--2 md:grid-cols--4 gap--16">
+      <widget class="flex column bord-accent bord--dashed radius-theme p--16">
+        <fieldgroup>
+          <fieldset>
+            <small>Device name</small>
+            <input type="text" bind:value={newDeviceName} />
+          </fieldset>
+        </fieldgroup>
+        <button
+          class="w--100 bg-secondary clr-primary"
+          on:click={() => createNewDevice()}
+          >Add device
+        </button>
+      </widget>
+    </container>
+  </section>
+  <section>
+    <container class="container block">
+      <grid class="grid md:grid-cols--2 gap--16">
         {#each devices as device (device.id)}
           <DeviceTemperature
             name={device.name}
@@ -61,19 +92,6 @@
             temp={Math.floor(Math.random() * 24)}
           />
         {/each}
-        <widget class="flex column bord-accent bord--dashed radius-theme p--16">
-          <fieldgroup>
-            <fieldset>
-              <small>Device name</small>
-              <input type="text" bind:value={newDeviceName} />
-            </fieldset>
-          </fieldgroup>
-          <button
-            class="w--100 bg-secondary clr-primary"
-            on:click={() => createNewDevice()}
-            >Add device
-          </button>
-        </widget>
       </grid>
     </container>
   </section>

@@ -1,7 +1,7 @@
 <script lang="ts">
   const Theme = {
     common:
-      "flex row gap--16 align--center px--16 py--8 mx--auto bg-primary clr-secondary dpt-dark ps--absolute zindex--12 left right",
+      "flex row gap--16 align--center px--16 py--8 mx--auto bg-primary clr-secondary dpt-secondary ps--absolute zindex--12 left right",
     mobile: "justify--space-between bottom mb--16 w--92 radius-theme",
     desktop: "",
   };

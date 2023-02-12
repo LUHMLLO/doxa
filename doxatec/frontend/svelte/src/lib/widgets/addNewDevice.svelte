@@ -6,7 +6,7 @@
   export { name, category, temp };
 </script>
 
-<widget class="flex column bg-accent radius-theme p--16 dpt-dark">
+<widget class="flex column bg-accent radius-theme p--16 dpt-secondary">
   <h6 class="w--100">{name}</h6>
   <small class="weight--medium">{category}</small>
 

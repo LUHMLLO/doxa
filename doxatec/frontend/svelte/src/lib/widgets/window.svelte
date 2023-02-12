@@ -3,7 +3,7 @@
 </script>
 
 <wrapper
-  class="overflow-hidden container block bg-primary clr-secondary dpt-dark radius-theme w--100vw"
+  class="overflow-hidden container block bg-primary clr-secondary dpt-secondary radius-theme w--100vw"
 >
   <main>
     <slot />

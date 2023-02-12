@@ -17,7 +17,7 @@
     </container>
   </column>
 
-  <column class="flex justify--center align--center dpt-dark zindex--2">
+  <column class="flex justify--center align--center dpt-secondary zindex--2">
     <section>
       <container class="container block ">
         <form on:submit|preventDefault class="flex column gap--24">
@@ -46,7 +46,7 @@
 
           <button
             on:click={() => signUp(user.name, user.pass, user.fullname)}
-            class="bg-dark clr-primary bord--hidden text--center"
+            class="bg-secondary clr-primary bord--hidden text--center"
             >Crear usuario</button
           >
         </form>

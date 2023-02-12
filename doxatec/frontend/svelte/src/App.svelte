@@ -7,7 +7,7 @@
   import Dashboard from "./pages/dashboard.svelte";
 </script>
 
-<demo class="bg-grayscale--5 flex column gap--16 p--16">
+<demo class="grid xl:grid-cols--2 gap--16 p--16">
   <WindowWrapper>
     <SignUp />
   </WindowWrapper>

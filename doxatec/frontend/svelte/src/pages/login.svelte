@@ -8,7 +8,7 @@
 </script>
 
 <grid class="grid md:grid-cols--2 h-min--100vh">
-  <column class="flex justify--center align--center dpt-dark zindex--2">
+  <column class="flex justify--center align--center dpt-secondary zindex--2">
     <section>
       <container class="container block">
         <form on:submit|preventDefault class="flex column gap--24">
@@ -36,7 +36,7 @@
 
           <button
             on:click={() => logIn(user.name, user.pass)}
-            class="bg-dark clr-primary bord--hidden text--center"
+            class="bg-secondary clr-primary bord--hidden text--center"
             >Iniciar sesion</button
           >
         </form>
