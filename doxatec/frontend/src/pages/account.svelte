@@ -61,7 +61,7 @@
 <svelte:component this={layout}>
   {#if $currentUser}
     <header>
-      <div class="m--0 bg-accent h--300p" />
+      <div class="m--0 bg-accent h--300p radius-theme" />
       <container class="container block offt--56">
         <figure>
           <img

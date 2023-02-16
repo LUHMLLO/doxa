@@ -16,6 +16,8 @@
   --theme-muted: var(--clr-gray--1);
   --theme-success: var(--clr-green--5);
   --theme-warning: var(--clr-yellow--5);
+
+  --theme-radius: var(--sizingScale--8);
 }
 
 :root {
@@ -26,4 +28,8 @@
 
 button {
   font-family: "Unbounded", sans-serif;
+}
+
+.clr-inherit {
+  color: inherit !important;
 }
