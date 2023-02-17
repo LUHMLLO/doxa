@@ -1,8 +1,8 @@
-type Owner = {
+interface Customer {
   ID: string;
   Name: string;
   Phone: string;
   Email: string;
-};
+}
 
-export type { Owner };
+export default Customer;

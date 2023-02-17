@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import type { PageLoad } from "./$types";
+import type { PageServerLoad } from "./$types";
 
 export const load = (({ params }) => {
   if (params.id === "001") {
@@ -10,4 +10,4 @@ export const load = (({ params }) => {
   }
 
   throw error(404, "Not found");
-}) satisfies PageLoad;
+}) satisfies PageServerLoad;

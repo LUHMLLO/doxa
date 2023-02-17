@@ -1,11 +1,11 @@
+import type Customer from "./customer.interface";
+
 interface User {
   ID: string;
   Avatar: string;
   Username: string;
   Password: string;
-  Name: string;
-  Phone: string;
-  Email: string;
+  Customer: Customer
 }
 
 export default User;

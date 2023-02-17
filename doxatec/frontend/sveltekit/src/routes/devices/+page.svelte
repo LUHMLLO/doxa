@@ -25,10 +25,8 @@
   ];
 </script>
 
-<section>
-  <grid class="grid md:grid-cols--2 gap--16">
-    {#each Devices as d}
-      <Device name={d.name} temp={d.temp} />
-    {/each}
-  </grid>
-</section>
+<grid class="grid md:grid-cols--2 gap--16">
+  {#each Devices as d}
+    <Device name={d.name} temp={d.temp} />
+  {/each}
+</grid>
