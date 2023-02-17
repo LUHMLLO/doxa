@@ -12,8 +12,8 @@
   ];
 </script>
 
-<bottombar
-  class="flex sm:none row justify--space-between align--center gap--32 px--16 py--8 w--100 bg-light bord-light bord--solid bord-width--2 theme-radius zindex--12 ps--fixed right bottom left"
+<nav
+  class="sm:none justify--space-between align--center gap--16 h--32p sm:mx--16 px--12 py--6 bg-primary bord-light bord--solid bord-width--2 theme-radius zindex--12 dpt-secondary"
 >
   {#each buttons as button}
     <a
@@ -40,4 +40,4 @@
   >
     <Avatar size={24} />
   </a>
-</bottombar>
+</nav>

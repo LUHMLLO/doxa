@@ -3,8 +3,7 @@
 </script>
 
 <nav
-  class="align--center gap--16 w--100 h--32p mb--16 bd-blur--8 bord-light bord--solid bord-width--2 theme-radius zindex--12 ps--fixed sm:ps--sticky right top left dpt-secondary"
-  style="background-color:rgba(240, 240, 240, 0.8);"
+  class="align--center gap--16 h--32p sm:mx--16 bg-primary bord-light bord--solid bord-width--2 theme-radius zindex--12 dpt-secondary"
 >
   <a href={void 0} class="inline-flex justify--center align--center">
     <button class="flex row align--center gap--8 bg-light bord--hidden">
