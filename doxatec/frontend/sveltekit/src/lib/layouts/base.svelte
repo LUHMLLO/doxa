@@ -10,7 +10,7 @@
   <Sidebar />
   <main class="h--100 sm:mt--16 mx--16 scroll--y">
     <Navbar />
-    <content class="block w--100 mt--16 sm:mt--0">
+    <content class="block w--100 my--48 sm:my--0">
       <slot />
     </content>
   </main>

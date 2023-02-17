@@ -12,7 +12,7 @@
       <row class="flex row align--center w--100 mt--32">
         <column class="flex column w--100">
           <h4>{$currentUser.Username}</h4>
-          <p>{$currentUser.Name}</p>
+          <p>{$currentUser.Customer.Name}</p>
         </column>
         <button class="p--0 bord--hidden">
           <icon class="icon size--24">

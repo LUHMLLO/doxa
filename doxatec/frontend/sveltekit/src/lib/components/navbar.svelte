@@ -6,11 +6,14 @@
   class="align--center gap--16 w--100 h--32p mb--16 bd-blur--8 bord-light bord--solid bord-width--2 theme-radius zindex--12 ps--fixed sm:ps--sticky right top left dpt-secondary"
   style="background-color:rgba(240, 240, 240, 0.8);"
 >
-  <button class="flex row align--center gap--8 bg-light bord--hidden">
-    <h6 class="text--capitalize w--100">
-      {$page.url.pathname.replace("/", "")}
-    </h6>
-  </button>
+  <a href={void 0} class="inline-flex justify--center align--center">
+    <button class="flex row align--center gap--8 bg-light bord--hidden">
+      <h6 class="text--capitalize w--100">
+        {$page.url.pathname.replace("/", "")}
+      </h6>
+    </button>
+    <tooltip class="tooltip dpt-secondary">Ruta actual</tooltip>
+  </a>
 
   <nav class="justify--end align--center gap--16 w--100">
     <button class="p--0 bord--hidden">

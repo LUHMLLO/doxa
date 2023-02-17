@@ -1,15 +1,5 @@
 <script lang="ts">
   import Avatar from "$lib/components/avatar.svelte";
-  const buttons = [
-    {
-      icon: "iconoir-compass",
-      name: "dashboard",
-    },
-    {
-      icon: "iconoir-computer",
-      name: "devices",
-    },
-  ];
 </script>
 
 <sidebar
@@ -21,22 +11,29 @@
       <icon class="icon size--32">
         <img src="/logo.svg" alt="logo" loading="lazy" />
       </icon>
-      <tooltip class="tooltip dpt-secondary">go home</tooltip>
+      <tooltip class="tooltip dpt-secondary">Volver al inicio</tooltip>
     </a>
   </nav>
 
   <nav class="column gap--8 align--center grow">
-    {#each buttons as button}
-      <a
-        href="/{button.name}"
-        class="clr-secondary inline-flex justify--center align--center"
-      >
-        <icon class="icon size--24">
-          <i class={button.icon} />
-        </icon>
-        <tooltip class="tooltip dpt-secondary">{button.name}</tooltip>
-      </a>
-    {/each}
+    <a
+      href="/dashboard"
+      class="clr-secondary inline-flex justify--center align--center"
+    >
+      <icon class="icon size--24">
+        <i class="iconoir-compass" />
+      </icon>
+      <tooltip class="tooltip dpt-secondary">dashboard</tooltip>
+    </a>
+    <a
+      href="/devices"
+      class="clr-secondary inline-flex justify--center align--center"
+    >
+      <icon class="icon size--24">
+        <i class="iconoir-computer" />
+      </icon>
+      <tooltip class="tooltip dpt-secondary">dispositivos</tooltip>
+    </a>
   </nav>
 
   <nav class="column gap--8 align--center">
@@ -47,14 +44,14 @@
       <icon class="icon size--24">
         <i class="iconoir-settings" />
       </icon>
-      <tooltip class="tooltip dpt-secondary">settings</tooltip>
+      <tooltip class="tooltip dpt-secondary">ajustes</tooltip>
     </a>
     <a
       href="/account"
       class="clr-secondary inline-flex justify--center align--center"
     >
       <Avatar size={24} />
-      <tooltip class="tooltip dpt-secondary">account</tooltip>
+      <tooltip class="tooltip dpt-secondary">mi cuenta</tooltip>
     </a>
   </nav>
 </sidebar>

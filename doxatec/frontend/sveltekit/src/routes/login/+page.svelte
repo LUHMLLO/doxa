@@ -20,7 +20,7 @@
     <fieldset>
       <small>Contraseña</small>
       <input type="password" bind:value={$currentUser.Password} />
-      <a href="/forgot" class="block text--10 text--end"
+      <a href="/forgot" class="block w--100 text--10 text--end"
         >Olvidaste tu contraseña?</a
       >
     </fieldset>
