@@ -13,7 +13,7 @@
 </script>
 
 <sidebar
-  class="flex column align--center gap--32 w--64p py--16 bg-primary bord-light bord--solid bord-width--2 theme-radius h--100 zindex--12"
+  class="flex column align--center gap--32 w--64p py--16 m--16 bg-primary bord-light bord--solid bord-width--2 theme-radius zindex--12"
 >
   <nav class="column gap--8">
     <a href="/" class="clr-secondary inline-flex justify--center align--center">

@@ -4,12 +4,12 @@
 </script>
 
 <app
-  class="flex bg-primary clr-secondary p--16 gap--16 w--100vw h--100vh ps--fixed inset"
+  class="flex bg-primary clr-secondary w--100vw h--100vh ps--fixed inset overflow--hidden"
 >
   <Sidebar />
-  <main class="h--100">
+  <main class="h--100 mt--16 mr--16 scroll--y">
     <Navbar />
-    <content class="block w--100 mt--16">
+    <content class="block w--100">
       <slot />
     </content>
   </main>

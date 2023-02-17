@@ -30,3 +30,8 @@ button {
   font-family: "Unbounded", sans-serif;
 }
 
+*::-webkit-scrollbar {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+}
