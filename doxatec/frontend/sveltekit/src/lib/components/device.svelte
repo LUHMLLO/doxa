@@ -3,7 +3,10 @@
   export let temp: number;
 </script>
 
-<a href="/devices/001" class="bg-light clr-secondary flex w--100 column p--16 theme-radius">
+<a
+  href="/devices/001"
+  class="bg-light clr-secondary flex w--100 column p--16 theme-radius"
+>
   <grid class="grid grid-cols--2">
     <column class="block">
       <icon class="icon"><i class="iconoir-fridge" /></icon>
