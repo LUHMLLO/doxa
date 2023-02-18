@@ -1,7 +1,5 @@
 <script lang="ts">
   import Avatar from "$lib/components/avatar.svelte";
-  import { currentUser } from "$lib/stores/user";
-  import { goto } from "$app/navigation";
 </script>
 
 <header>
@@ -11,8 +9,8 @@
       <Avatar size={100} />
       <row class="flex row align--center w--100 mt--32">
         <column class="flex column w--100">
-          <h4>{$currentUser.Username}</h4>
-          <p>{$currentUser.Customer.Name}</p>
+          <h4>Username</h4>
+          <p>user full name</p>
         </column>
         <button class="p--0 bord--hidden">
           <icon class="icon size--24">
@@ -48,9 +46,11 @@
     <h6>Cerrar sesión</h6>
     <p>O cambiar de cuenta</p>
   </header>
-  <button
-    class="bg-secondary clr-primary bord-hidden theme-radius"
-    on:click={() => goto("/login")}
-    >Cerrar sesión
-  </button>
+  <form action="/logout" method="POST">
+    <button
+      type="submit"
+      class="bg-secondary clr-primary bord-hidden theme-radius"
+      >Cerrar sesión
+    </button>
+  </form>
 </container>
