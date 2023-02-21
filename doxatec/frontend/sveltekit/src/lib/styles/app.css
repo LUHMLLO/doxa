@@ -1,3 +1,5 @@
+@import url("https://mincss.vercel.app/css/main.css");
+
 :root {
   --theme-accent: var(--clr-orange--1);
   --theme-complementary: var(--clr-brown--3);
