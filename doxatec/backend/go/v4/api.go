@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -24,7 +25,7 @@ func (s *ApiServer) Start() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/users", MakeHttpHandleFunc(s.handleUser))
-	router.HandleFunc("/users/{id}", MakeHttpHandleFunc(s.handleUser))
+	router.HandleFunc("/users/{id}", MakeHttpHandleFunc(s.handleReadUserById))
 
 	log.Println("DOXA api server ruuning on port:", s.listenAddress)
 	log.Printf("http://localhost%s\n", s.listenAddress)
@@ -48,10 +49,29 @@ func (s *ApiServer) handleUser(w http.ResponseWriter, r *http.Request) error {
 }
 
 func (s *ApiServer) handleCreateUser(w http.ResponseWriter, r *http.Request) error {
-	return nil
+	createUserReq := new(CreateUserRequest)
+	if err := json.NewDecoder(r.Body).Decode(&createUserReq); err != nil {
+		return err
+	}
+
+	user := NewUser(createUserReq.Avatar, createUserReq.Username, createUserReq.Password)
+	if err := s.store.CreateUser(user); err != nil {
+		return err
+	}
+
+	return WriteJSON(w, http.StatusOK, user)
 }
 
 func (s *ApiServer) handleReadUser(w http.ResponseWriter, r *http.Request) error {
+	users, err := s.store.ReadUsers()
+	if err != nil {
+		return err
+	}
+
+	return WriteJSON(w, http.StatusOK, users)
+}
+
+func (s *ApiServer) handleReadUserById(w http.ResponseWriter, r *http.Request) error {
 	id := mux.Vars(r)["id"]
 	fmt.Println(id)
 

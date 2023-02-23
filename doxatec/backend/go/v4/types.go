@@ -6,6 +6,12 @@ import (
 	"github.com/google/uuid"
 )
 
+type CreateUserRequest struct {
+	Avatar   string `json:"avatar"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 type User struct {
 	ID       uuid.UUID `json:"id"`
 	Avatar   string    `json:"avatar"`
@@ -24,8 +30,8 @@ func NewUser(avatar, username, password string) *User {
 		Username: username,
 		Password: password,
 		Customer: uuid.NewString(),
-		Created:  time.Now(),
-		Modified: time.Now(),
-		Accessed: time.Now(),
+		Created:  time.Now().UTC(),
+		Modified: time.Now().UTC(),
+		Accessed: time.Now().UTC(),
 	}
 }

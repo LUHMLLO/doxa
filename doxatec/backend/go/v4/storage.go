@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 
 	"github.com/google/uuid"
 
@@ -10,6 +11,7 @@ import (
 
 type Storage interface {
 	CreateUser(*User) error
+	ReadUsers() ([]*User, error)
 	ReadUser(uuid.UUID) (*User, error)
 	UpdateUser(*User) error
 	DeleteUser(uuid.UUID) error
@@ -41,7 +43,7 @@ func (s *PostgresStore) Init() error {
 
 func (s *PostgresStore) CreateUserTable() error {
 	query := `create table if not exists users (
-		id serial primary key,
+		id varchar(250) primary key,
 		avatar varchar(250),
 		username varchar(250),
 		password varchar(250),
@@ -55,8 +57,41 @@ func (s *PostgresStore) CreateUserTable() error {
 	return err
 }
 
-func (s *PostgresStore) CreateUser(*User) error {
+func (s *PostgresStore) CreateUser(u *User) error {
+	query := (`
+		insert into users 
+		(id, avatar, username, password, customer, created, modified, accessed)
+		values 
+		($1,$2,$3,$4,$5,$6,$7,$8)
+	`)
+
+	res, err := s.db.Query(query, u.ID, u.Avatar, u.Username, u.Password, u.Customer, u.Created, u.Modified, u.Accessed)
+
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("%+v\n", res)
+
 	return nil
+}
+
+func (s *PostgresStore) ReadUsers() ([]*User, error) {
+	rows, err := s.db.Query(`select * from users`)
+	if err != nil {
+		return nil, err
+	}
+
+	users := []*User{}
+	for rows.Next() {
+		user := new(User)
+		if err := rows.Scan(&user.ID, &user.Avatar, &user.Username, &user.Password, &user.Customer, &user.Created, &user.Modified, &user.Accessed); err != nil {
+			return nil, err
+		}
+		users = append(users, user)
+	}
+
+	return users, nil
 }
 
 func (s *PostgresStore) ReadUser(id uuid.UUID) (*User, error) {
