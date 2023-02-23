@@ -22,11 +22,13 @@ func NewApiServer(listenAddress string, store Storage) *ApiServer {
 
 func (s *ApiServer) Start() {
 	router := mux.NewRouter()
+
 	router.HandleFunc("/users", MakeHttpHandleFunc(s.handleUser))
 	router.HandleFunc("/users/{id}", MakeHttpHandleFunc(s.handleUser))
 
 	log.Println("DOXA api server ruuning on port:", s.listenAddress)
 	log.Printf("http://localhost%s\n", s.listenAddress)
+
 	http.ListenAndServe(s.listenAddress, router)
 }
 
