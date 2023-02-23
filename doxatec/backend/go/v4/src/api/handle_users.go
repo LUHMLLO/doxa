@@ -27,7 +27,11 @@ func (s *Server) Handle_CreateUser(w http.ResponseWriter, r *http.Request) error
 		return err
 	}
 
-	user := types.NewUser(createUserReq.Avatar, createUserReq.Username, createUserReq.Password)
+	user := types.NewUser(
+		createUserReq.Username,
+		createUserReq.Password,
+	)
+
 	if err := s.store.Query_CreateUser(user); err != nil {
 		return err
 	}
@@ -45,7 +49,6 @@ func (s *Server) Handle_ReadUser(w http.ResponseWriter, r *http.Request) error {
 }
 
 func (s *Server) Handle_ReadUserById(w http.ResponseWriter, r *http.Request) error {
-
 	switch r.Method {
 	case "GET":
 		id, err := utils.GetID(r)

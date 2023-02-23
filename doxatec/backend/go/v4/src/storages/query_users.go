@@ -12,10 +12,11 @@ func (s *PostgresStore) Query_CreateUserTable() error {
 	query := `
 		create table if not exists users (
 			id varchar(250) primary key,
-			avatar varchar(250),
 			username varchar(250),
 			password varchar(250),
-			customer varchar(250),
+			
+			profile varchar(250),
+
 			created timestamp,
 			modified timestamp,
 			accessed timestamp
@@ -30,10 +31,11 @@ func (s *PostgresStore) Query_CreateUser(u *types.User) error {
 	query := (`
 		insert into users (
 			id, 
-			avatar, 
 			username, 
 			password, 
-			customer, 
+			
+			profile,
+
 			created, 
 			modified, 
 			accessed
@@ -45,18 +47,26 @@ func (s *PostgresStore) Query_CreateUser(u *types.User) error {
 			$4,
 			$5,
 			$6,
-			$7,
-			$8
+			$7
 		)
 	`)
 
-	_, err := s.db.Query(query, u.ID, u.Avatar, u.Username, u.Password, u.Customer, u.Created, u.Modified, u.Accessed)
+	_, err := s.db.Query(
+		query,
+		u.ID,
+		u.Username,
+		u.Password,
+
+		u.Profile,
+
+		u.Created,
+		u.Modified,
+		u.Accessed,
+	)
 
 	if err != nil {
 		return err
 	}
-
-	//fmt.Printf("%+v\n", res)
 
 	return nil
 }

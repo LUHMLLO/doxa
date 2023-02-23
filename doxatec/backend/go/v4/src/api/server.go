@@ -27,8 +27,11 @@ func (s *Server) Start() {
 	router.HandleFunc("/users", utils.MakeHttpHandleFunc(s.Handle_User))
 	router.HandleFunc("/users/{id}", utils.MakeHttpHandleFunc(s.Handle_ReadUserById))
 
-	log.Println("DOXA api server ruuning on port:", s.listenAddress)
+	log.Println("Doxatec server running on port:", s.listenAddress)
+	log.Println("Available api endpoints:")
 	log.Printf("http://localhost%s\n", s.listenAddress)
+	log.Printf("http://localhost%s/users\n", s.listenAddress)
+	log.Printf("http://localhost%s/users/{id}\n", s.listenAddress)
 
 	http.ListenAndServe(s.listenAddress, router)
 }
