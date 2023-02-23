@@ -12,7 +12,7 @@ import (
 type Storage interface {
 	CreateUser(*User) error
 	ReadUsers() ([]*User, error)
-	ReadUser(uuid.UUID) (*User, error)
+	ReadUserByID(uuid.UUID) (*User, error)
 	UpdateUser(*User) error
 	DeleteUser(uuid.UUID) error
 }
@@ -84,8 +84,8 @@ func (s *PostgresStore) ReadUsers() ([]*User, error) {
 
 	users := []*User{}
 	for rows.Next() {
-		user := new(User)
-		if err := rows.Scan(&user.ID, &user.Avatar, &user.Username, &user.Password, &user.Customer, &user.Created, &user.Modified, &user.Accessed); err != nil {
+		user, err := scanIntoUser(rows)
+		if err != nil {
 			return nil, err
 		}
 		users = append(users, user)
@@ -94,8 +94,15 @@ func (s *PostgresStore) ReadUsers() ([]*User, error) {
 	return users, nil
 }
 
-func (s *PostgresStore) ReadUser(id uuid.UUID) (*User, error) {
-	return nil, nil
+func (s *PostgresStore) ReadUserByID(id uuid.UUID) (*User, error) {
+	rows, err := s.db.Query("select * from users where id = $1", id)
+	if err != nil {
+		return nil, err
+	}
+	for rows.Next() {
+		return scanIntoUser(rows)
+	}
+	return nil, fmt.Errorf("user %s not found", id)
 }
 
 func (s *PostgresStore) UpdateUser(*User) error {
@@ -103,5 +110,6 @@ func (s *PostgresStore) UpdateUser(*User) error {
 }
 
 func (s *PostgresStore) DeleteUser(id uuid.UUID) error {
-	return nil
+	_, err := s.db.Query("delete from users where id = $1", id)
+	return err
 }

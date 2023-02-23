@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 )
 
@@ -39,10 +40,6 @@ func (s *ApiServer) handleUser(w http.ResponseWriter, r *http.Request) error {
 		return s.handleCreateUser(w, r)
 	case "GET":
 		return s.handleReadUser(w, r)
-	case "PUT":
-		return s.handleUpdateUser(w, r)
-	case "DELETE":
-		return s.handleDeleteUser(w, r)
 	default:
 		return fmt.Errorf("method not allowed %s", r.Method)
 	}
@@ -72,10 +69,27 @@ func (s *ApiServer) handleReadUser(w http.ResponseWriter, r *http.Request) error
 }
 
 func (s *ApiServer) handleReadUserById(w http.ResponseWriter, r *http.Request) error {
-	id := mux.Vars(r)["id"]
-	fmt.Println(id)
 
-	return WriteJSON(w, http.StatusOK, &User{})
+	switch r.Method {
+	case "GET":
+		id, err := getID(r)
+		if err != nil {
+			return err
+		}
+
+		users, err := s.store.ReadUserByID(id)
+		if err != nil {
+			return err
+		}
+
+		return WriteJSON(w, http.StatusOK, users)
+	case "PUT":
+		return s.handleUpdateUser(w, r)
+	case "DELETE":
+		return s.handleDeleteUser(w, r)
+	default:
+		return fmt.Errorf("method not allowed %s", r.Method)
+	}
 }
 
 func (s *ApiServer) handleUpdateUser(w http.ResponseWriter, r *http.Request) error {
@@ -83,5 +97,14 @@ func (s *ApiServer) handleUpdateUser(w http.ResponseWriter, r *http.Request) err
 }
 
 func (s *ApiServer) handleDeleteUser(w http.ResponseWriter, r *http.Request) error {
-	return nil
+	id, err := getID(r)
+	if err != nil {
+		return err
+	}
+
+	if err := s.store.DeleteUser(id); err != nil {
+		return err
+	}
+
+	return WriteJSON(w, http.StatusOK, map[string]uuid.UUID{"deleted": id})
 }
