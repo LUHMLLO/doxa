@@ -9,23 +9,23 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type ApiServer struct {
+type Server struct {
 	listenAddress string
 	store         types.Storage
 }
 
-func NewApiServer(listenAddress string, store types.Storage) *ApiServer {
-	return &ApiServer{
+func NewServer(listenAddress string, store types.Storage) *Server {
+	return &Server{
 		listenAddress: listenAddress,
 		store:         store,
 	}
 }
 
-func (s *ApiServer) Start() {
+func (s *Server) Start() {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/users", utils.MakeHttpHandleFunc(s.handleUser))
-	router.HandleFunc("/users/{id}", utils.MakeHttpHandleFunc(s.handleReadUserById))
+	router.HandleFunc("/users", utils.MakeHttpHandleFunc(s.Handle_User))
+	router.HandleFunc("/users/{id}", utils.MakeHttpHandleFunc(s.Handle_ReadUserById))
 
 	log.Println("DOXA api server ruuning on port:", s.listenAddress)
 	log.Printf("http://localhost%s\n", s.listenAddress)

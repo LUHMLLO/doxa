@@ -5,9 +5,9 @@ import (
 )
 
 type Storage interface {
-	CreateUser(*User) error
-	ReadUsers() ([]*User, error)
-	ReadUserByID(uuid.UUID) (*User, error)
-	UpdateUser(*User) error
-	DeleteUser(uuid.UUID) error
+	Query_CreateUser(*User) error
+	Query_ReadUsers() ([]*User, error)
+	Query_ReadUserByID(uuid.UUID) (*User, error)
+	Query_UpdateUser(*User) error
+	Query_DeleteUser(uuid.UUID) error
 }

@@ -10,9 +10,11 @@ import (
 
 func GetID(r *http.Request) (uuid.UUID, error) {
 	idString := mux.Vars(r)["id"]
+
 	id, err := uuid.Parse(idString)
 	if err != nil {
 		return id, fmt.Errorf("invalid id given %s", idString)
 	}
+
 	return id, nil
 }

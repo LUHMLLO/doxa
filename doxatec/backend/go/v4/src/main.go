@@ -16,6 +16,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	server := api.NewApiServer(":3000", store)
+	server := api.NewServer(":3000", store)
 	server.Start()
 }

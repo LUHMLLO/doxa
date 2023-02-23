@@ -27,5 +27,5 @@ func NewPostgresStore() (*PostgresStore, error) {
 }
 
 func (s *PostgresStore) Init() error {
-	return s.CreateUserTable()
+	return s.Query_CreateUserTable()
 }

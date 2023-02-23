@@ -10,33 +10,33 @@ import (
 	"github.com/google/uuid"
 )
 
-func (s *ApiServer) handleUser(w http.ResponseWriter, r *http.Request) error {
+func (s *Server) Handle_User(w http.ResponseWriter, r *http.Request) error {
 	switch r.Method {
 	case "POST":
-		return s.handleCreateUser(w, r)
+		return s.Handle_CreateUser(w, r)
 	case "GET":
-		return s.handleReadUser(w, r)
+		return s.Handle_ReadUser(w, r)
 	default:
 		return fmt.Errorf("method not allowed %s", r.Method)
 	}
 }
 
-func (s *ApiServer) handleCreateUser(w http.ResponseWriter, r *http.Request) error {
+func (s *Server) Handle_CreateUser(w http.ResponseWriter, r *http.Request) error {
 	createUserReq := new(types.CreateUserRequest)
 	if err := json.NewDecoder(r.Body).Decode(&createUserReq); err != nil {
 		return err
 	}
 
 	user := types.NewUser(createUserReq.Avatar, createUserReq.Username, createUserReq.Password)
-	if err := s.store.CreateUser(user); err != nil {
+	if err := s.store.Query_CreateUser(user); err != nil {
 		return err
 	}
 
 	return utils.WriteJSON(w, http.StatusOK, user)
 }
 
-func (s *ApiServer) handleReadUser(w http.ResponseWriter, r *http.Request) error {
-	users, err := s.store.ReadUsers()
+func (s *Server) Handle_ReadUser(w http.ResponseWriter, r *http.Request) error {
+	users, err := s.store.Query_ReadUsers()
 	if err != nil {
 		return err
 	}
@@ -44,7 +44,7 @@ func (s *ApiServer) handleReadUser(w http.ResponseWriter, r *http.Request) error
 	return utils.WriteJSON(w, http.StatusOK, users)
 }
 
-func (s *ApiServer) handleReadUserById(w http.ResponseWriter, r *http.Request) error {
+func (s *Server) Handle_ReadUserById(w http.ResponseWriter, r *http.Request) error {
 
 	switch r.Method {
 	case "GET":
@@ -53,32 +53,32 @@ func (s *ApiServer) handleReadUserById(w http.ResponseWriter, r *http.Request) e
 			return err
 		}
 
-		users, err := s.store.ReadUserByID(id)
+		users, err := s.store.Query_ReadUserByID(id)
 		if err != nil {
 			return err
 		}
 
 		return utils.WriteJSON(w, http.StatusOK, users)
 	case "PUT":
-		return s.handleUpdateUser(w, r)
+		return s.Handle_UpdateUser(w, r)
 	case "DELETE":
-		return s.handleDeleteUser(w, r)
+		return s.Handle_DeleteUser(w, r)
 	default:
 		return fmt.Errorf("method not allowed %s", r.Method)
 	}
 }
 
-func (s *ApiServer) handleUpdateUser(w http.ResponseWriter, r *http.Request) error {
+func (s *Server) Handle_UpdateUser(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
-func (s *ApiServer) handleDeleteUser(w http.ResponseWriter, r *http.Request) error {
+func (s *Server) Handle_DeleteUser(w http.ResponseWriter, r *http.Request) error {
 	id, err := utils.GetID(r)
 	if err != nil {
 		return err
 	}
 
-	if err := s.store.DeleteUser(id); err != nil {
+	if err := s.store.Query_DeleteUser(id); err != nil {
 		return err
 	}
 
