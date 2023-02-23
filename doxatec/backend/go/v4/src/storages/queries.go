@@ -50,13 +50,13 @@ func (s *PostgresStore) Query_CreateUser(u *types.User) error {
 		)
 	`)
 
-	res, err := s.db.Query(query, u.ID, u.Avatar, u.Username, u.Password, u.Customer, u.Created, u.Modified, u.Accessed)
+	_, err := s.db.Query(query, u.ID, u.Avatar, u.Username, u.Password, u.Customer, u.Created, u.Modified, u.Accessed)
 
 	if err != nil {
 		return err
 	}
 
-	fmt.Printf("%+v\n", res)
+	//fmt.Printf("%+v\n", res)
 
 	return nil
 }
