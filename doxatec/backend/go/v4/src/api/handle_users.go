@@ -15,7 +15,7 @@ func (s *Server) Handle_User(w http.ResponseWriter, r *http.Request) error {
 	case "POST":
 		return s.Handle_CreateUser(w, r)
 	case "GET":
-		return s.Handle_ReadUser(w, r)
+		return s.Handle_ReadUsers(w, r)
 	default:
 		return fmt.Errorf("method not allowed %s", r.Method)
 	}
@@ -46,7 +46,7 @@ func (s *Server) Handle_CreateUser(w http.ResponseWriter, r *http.Request) error
 	return utils.WriteJSON(w, http.StatusOK, user)
 }
 
-func (s *Server) Handle_ReadUser(w http.ResponseWriter, r *http.Request) error {
+func (s *Server) Handle_ReadUsers(w http.ResponseWriter, r *http.Request) error {
 	users, err := s.store.Query_ReadUsers()
 	if err != nil {
 		return err

@@ -5,7 +5,7 @@ import (
 	"doxatec/types"
 )
 
-func ScanIntoUser(rows *sql.Rows) (*types.User, error) {
+func ScanIntoUsers(rows *sql.Rows) (*types.User, error) {
 	user := new(types.User)
 	err := rows.Scan(
 		&user.ID,

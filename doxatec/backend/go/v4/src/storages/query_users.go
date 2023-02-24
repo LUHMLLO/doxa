@@ -79,7 +79,7 @@ func (s *PostgresStore) Query_ReadUsers() ([]*types.User, error) {
 
 	users := []*types.User{}
 	for rows.Next() {
-		user, err := utils.ScanIntoUser(rows)
+		user, err := utils.ScanIntoUsers(rows)
 		if err != nil {
 			return nil, err
 		}
@@ -95,7 +95,7 @@ func (s *PostgresStore) Query_ReadUserByID(id uuid.UUID) (*types.User, error) {
 		return nil, err
 	}
 	for rows.Next() {
-		return utils.ScanIntoUser(rows)
+		return utils.ScanIntoUsers(rows)
 	}
 	return nil, fmt.Errorf("user %s not found", id)
 }
