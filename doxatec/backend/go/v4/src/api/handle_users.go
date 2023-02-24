@@ -36,6 +36,13 @@ func (s *Server) Handle_CreateUser(w http.ResponseWriter, r *http.Request) error
 		return err
 	}
 
+	tokenString, err := utils.CreateJWT(user)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("JWT Token: ", tokenString)
+
 	return utils.WriteJSON(w, http.StatusOK, user)
 }
 

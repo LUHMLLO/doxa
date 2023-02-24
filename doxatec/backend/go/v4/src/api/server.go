@@ -5,6 +5,7 @@ import (
 	"doxatec/utils"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 )
@@ -22,10 +23,12 @@ func NewServer(listenAddress string, store types.Storage) *Server {
 }
 
 func (s *Server) Start() {
+	os.Setenv("JWT_SECRET", "D@x@dm1n_JWT_Secret")
+
 	router := mux.NewRouter()
 
 	router.HandleFunc("/users", utils.MakeHttpHandleFunc(s.Handle_User))
-	router.HandleFunc("/users/{id}", utils.MakeHttpHandleFunc(s.Handle_ReadUserById))
+	router.HandleFunc("/users/{id}", utils.ProtectWithJWT(utils.MakeHttpHandleFunc(s.Handle_ReadUserById), s.store))
 
 	log.Println("Doxatec server running on port:", s.listenAddress)
 	log.Println("Available api endpoints:")
