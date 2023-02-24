@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"reflect"
 
 	jwt "github.com/golang-jwt/jwt/v4"
 )
@@ -51,9 +50,10 @@ func ProtectWithJWT(handlerFunc http.HandlerFunc, store types.Storage) http.Hand
 		}
 
 		claims := token.Claims.(jwt.MapClaims)
-		fmt.Println(reflect.TypeOf(claims["UserID"]))
+		//fmt.Println(reflect.TypeOf(claims["UserID"]))
 		if user.ID.String() != string(claims["UserID"].(string)) {
 			PermissionDenied(w)
+			return
 		}
 
 		if err != nil {
