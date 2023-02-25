@@ -100,8 +100,28 @@ func (s *PostgresStore) Query_ReadUserByID(id uuid.UUID) (*types.User, error) {
 	return nil, fmt.Errorf("user %s not found", id)
 }
 
-func (s *PostgresStore) Query_UpdateUser(*types.User) error {
-	return nil
+func (s *PostgresStore) Query_UpdateUserByID(id uuid.UUID) (*types.User, error) {
+	query := (`
+		update users set
+			id = $1, 
+			username = $2, 
+			password = $3, 
+			
+			profile = $4,
+
+			created = $5, 
+			modified = $6, 
+			accessed = $7
+
+		where id = $1"
+	`)
+
+	_, err := s.db.Query(query, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, fmt.Errorf("user %s not found", id)
 }
 
 func (s *PostgresStore) Query_DeleteUser(id uuid.UUID) error {
