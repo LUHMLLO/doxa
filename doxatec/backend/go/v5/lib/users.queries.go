@@ -1,8 +1,6 @@
 package lib
 
 import (
-	"fmt"
-
 	"github.com/google/uuid"
 )
 
@@ -44,8 +42,6 @@ func (s *Database) Users_ReadFromTable() ([]*User, error) {
 
 		users = append(users, user)
 	}
-
-	fmt.Println(users)
 
 	return users, err
 }
@@ -100,28 +96,16 @@ func (s *Database) Users_ReadFromTableByID(id uuid.UUID) (*User, error) {
 		}
 	}
 
-	fmt.Println(user.ID)
-	fmt.Println(user.Username)
-	fmt.Println(user.Password)
-	fmt.Println(user.Avatar)
-	fmt.Println(user.Name)
-	fmt.Println(user.Email)
-	fmt.Println(user.Phone)
-	fmt.Println(user.Created)
-	fmt.Println(user.Modified)
-
 	return user, err
 }
 
 func (s *Database) Users_UpdateFromTableByID(id uuid.UUID, u *User) error {
-	query := `update users set username=$2, password=$3, avatar=$4, name=$5, email=$6, phone=$7 where id = $1`
+	query := `update users set username=$2, password=$3, avatar=$4, name=$5, email=$6, phone=$7 modified=$8 where id = $1`
 
-	rows, err := s.db.Exec(query, id, &u.Username, &u.Password, &u.Avatar, &u.Name, &u.Email, &u.Phone)
+	_, err := s.db.Exec(query, id, &u.Username, &u.Password, &u.Avatar, &u.Name, &u.Email, &u.Phone, &u.Modified)
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(rows.RowsAffected())
 
 	return nil
 }

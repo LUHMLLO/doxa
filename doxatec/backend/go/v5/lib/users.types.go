@@ -40,19 +40,3 @@ func NewUser(username, password, avatar, name, email, phone string) *User {
 		Modified: time.Now().UTC(),
 	}
 }
-
-type CreateDeviceRequest struct {
-	Owner string `json:"owner"`
-	Name  string `json:"name"`
-}
-
-type Device struct {
-	ID       uuid.UUID `json:"id"`
-	Owner    string    `json:"owner"`
-	Name     string    `json:"name"`
-	TempSup  string    `json:"temp_sup"`
-	TempMid  string    `json:"temp_mid"`
-	TempSub  string    `json:"temp_sub"`
-	Created  time.Time `json:"created"`
-	Modified time.Time `json:"modified"`
-}

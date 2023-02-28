@@ -2,7 +2,6 @@ package lib
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -17,12 +16,10 @@ func (s *Server) ReadAllUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Content-Type", "application/json")
 
-	fmt.Println("reading all users")
-
 	users, err := s.store.Users_ReadFromTable()
 
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 	json.NewEncoder(w).Encode(users)

@@ -11,8 +11,6 @@ import (
 func CreateTable(table string, cols_vals []string) {
 	query := fmt.Sprintf("create table if not exists %s (\n%s)", table, utils.StringToQuery(cols_vals))
 
-	// fmt.Println(query)
-
 	_, err := s.db.Exec(query)
 	if err != nil {
 		log.Fatal(err)
@@ -21,8 +19,6 @@ func CreateTable(table string, cols_vals []string) {
 
 func InsertToTable(table string, cols_vals []interface{}) {
 	query := fmt.Sprintf("insert into %s values (\n%s)", table, utils.InterfaceToQuery(cols_vals))
-
-	// fmt.Println(query)
 
 	_, err := s.db.Exec(query)
 	if err != nil {
@@ -51,8 +47,6 @@ func ReadFromTable(table string, dataType []interface{}) ([]interface{}, error) 
 
 		users = append(users, user)
 	}
-
-	fmt.Println(users)
 
 	return users, err
 }

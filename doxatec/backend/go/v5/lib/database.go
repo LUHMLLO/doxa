@@ -14,6 +14,13 @@ type Storage interface {
 	Users_ReadFromTableByID(id uuid.UUID) (*User, error)
 	Users_UpdateFromTableByID(id uuid.UUID, u *User) error
 	Users_DeleteFromTableByID(id uuid.UUID) (uuid.UUID, error)
+
+	Devices_CreateTable() error
+	Devices_InsertToTable(u *Device) error
+	Devices_ReadFromTable() ([]*Device, error)
+	Devices_ReadFromTableByID(id uuid.UUID) (*Device, error)
+	Devices_UpdateFromTableByID(id uuid.UUID, u *Device) error
+	Devices_DeleteFromTableByID(id uuid.UUID) (uuid.UUID, error)
 }
 
 type Database struct {
@@ -37,6 +44,7 @@ func NewDatabase() (*Database, error) {
 
 func (s *Database) Init() error {
 	s.Users_CreateTable()
+	s.Devices_CreateTable()
 
 	return nil
 }
