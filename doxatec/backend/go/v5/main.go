@@ -17,5 +17,4 @@ func main() {
 
 	server := lib.NewServer(":3000", store)
 	server.Start()
-
 }
