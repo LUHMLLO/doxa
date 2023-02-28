@@ -8,17 +8,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-const (
-	username string = "Nevera"
-	password string = "0144250809JDR@f"
-	hostname string = "142.93.207.120"
-	dbname   string = "Smart_Nevera"
-)
-
-var (
-	DSN = fmt.Sprintf("%s:%s@tcp(%s)/%s", username, password, hostname, dbname)
-)
-
 type Device struct {
 	Name    string
 	Owner   string
@@ -27,6 +16,15 @@ type Device struct {
 	TempSub float64
 	Created string
 }
+
+const (
+	username string = "Nevera"
+	password string = "0144250809JDR@f"
+	hostname string = "142.93.207.120"
+	dbname   string = "Smart_Nevera"
+)
+
+var DSN = fmt.Sprintf("%s:%s@tcp(%s)/%s", username, password, hostname, dbname)
 
 func CheckConnection() {
 	db, err := sql.Open("mysql", "")
@@ -78,7 +76,6 @@ func InsertToDevices(db *sql.DB) {
 }
 
 func ListAllDevices(db *sql.DB) {
-
 	res, err := db.Query("SELECT * FROM Devices")
 	if err != nil {
 		panic(err.Error())
