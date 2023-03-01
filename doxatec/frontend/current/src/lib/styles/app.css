@@ -1,0 +1,34 @@
+@import url("https://mincss.vercel.app/css/main.css");
+
+:root {
+  --theme-accent: var(--clr-orange--1);
+  --theme-complementary: var(--clr-brown--3);
+
+  --theme-primary: var(--clr-gray--0);
+  --theme-secondary: var(--clr-gray--10);
+  --theme-tertiary: var(--clr-brown--10);
+
+  --theme-error: var(--clr-red--5);
+  --theme-info: var(--clr-blue--2);
+  --theme-muted: var(--clr-gray--1);
+  --theme-success: var(--clr-green--5);
+  --theme-warning: var(--clr-yellow--5);
+
+  --theme-radius: var(--sizingScale--4);
+}
+
+:root {
+  --base--fontColor: var(--theme-secondary);
+  --base--fontFamily: "Work Sans", sans-serif;
+  --headings--fontFamily: "Unbounded", sans-serif;
+}
+
+button {
+  font-family: "Unbounded", sans-serif;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+}
