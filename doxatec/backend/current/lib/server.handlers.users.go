@@ -9,51 +9,67 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func (s *Server) ReadAllDevices(w http.ResponseWriter, r *http.Request) {
+func (s *Server) Users_Handler(w http.ResponseWriter, r *http.Request) {
+	switch r.URL.Path {
+	case "/":
+		s.handle_allUsers(w, r)
+	case "/create":
+		s.handle_insertUsers(w, r)
+	case "/read/{id}":
+		s.handle_readUsers(w, r)
+	case "/update/{id}":
+		s.handle_updateUsers(w, r)
+	case "/delete/{id}":
+		s.handle_deleteUsers(w, r)
+	}
+}
+
+func (s *Server) handle_allUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Content-Type", "application/json")
 
-	devices, err := s.store.Devices_ReadFromTable()
+	users, err := s.store.Query_allUsers()
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	json.NewEncoder(w).Encode(devices)
+	json.NewEncoder(w).Encode(users)
 }
 
-func (s *Server) InsertDevice(w http.ResponseWriter, r *http.Request) {
+func (s *Server) handle_insertUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
-	createDeviceReq := &CreateDeviceRequest{}
-	err := json.NewDecoder(r.Body).Decode(&createDeviceReq)
+	createUserReq := &CreateUserRequest{}
+	err := json.NewDecoder(r.Body).Decode(&createUserReq)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	device := NewDevice(
-		createDeviceReq.Owner,
-		createDeviceReq.Name,
-		createDeviceReq.TempSup,
-		createDeviceReq.TempMid,
-		createDeviceReq.TempSub,
+	user := NewUser(
+		createUserReq.Username,
+		createUserReq.Password,
+		createUserReq.Avatar,
+		createUserReq.Name,
+		createUserReq.Email,
+		createUserReq.Phone,
 	)
 
-	err = s.store.Devices_InsertToTable(device)
+	err = s.store.Query_insertUsers(user)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	json.NewEncoder(w).Encode(device)
+	json.NewEncoder(w).Encode(user)
 }
 
-func (s *Server) ReadDevice(w http.ResponseWriter, r *http.Request) {
+func (s *Server) handle_readUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
@@ -65,15 +81,15 @@ func (s *Server) ReadDevice(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	device, err := s.store.Devices_ReadFromTableByID(id)
+	user, err := s.store.Query_readUsers(id)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	json.NewEncoder(w).Encode(device)
+	json.NewEncoder(w).Encode(user)
 }
 
-func (s *Server) UpdateDevice(w http.ResponseWriter, r *http.Request) {
+func (s *Server) handle_updateUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "PUT")
@@ -85,21 +101,22 @@ func (s *Server) UpdateDevice(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	createDeviceReq := &CreateDeviceRequest{}
-	err = json.NewDecoder(r.Body).Decode(&createDeviceReq)
+	createUserReq := &CreateUserRequest{}
+	err = json.NewDecoder(r.Body).Decode(&createUserReq)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	device := NewDevice(
-		createDeviceReq.Owner,
-		createDeviceReq.Name,
-		createDeviceReq.TempSup,
-		createDeviceReq.TempMid,
-		createDeviceReq.TempSub,
+	user := NewUser(
+		createUserReq.Username,
+		createUserReq.Password,
+		createUserReq.Avatar,
+		createUserReq.Name,
+		createUserReq.Email,
+		createUserReq.Phone,
 	)
 
-	err = s.store.Devices_UpdateFromTableByID(id, device)
+	err = s.store.Query_updateUsers(id, user)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -107,7 +124,7 @@ func (s *Server) UpdateDevice(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]uuid.UUID{"updated": id})
 }
 
-func (s *Server) DeleteDevice(w http.ResponseWriter, r *http.Request) {
+func (s *Server) handle_deleteUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
@@ -119,7 +136,7 @@ func (s *Server) DeleteDevice(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	_, err = s.store.Devices_DeleteFromTableByID(id)
+	_, err = s.store.Query_deleteUsers(id)
 	if err != nil {
 		log.Fatal(err)
 	}

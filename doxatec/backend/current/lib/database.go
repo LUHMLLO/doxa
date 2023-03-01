@@ -8,19 +8,19 @@ import (
 )
 
 type Storage interface {
-	Users_CreateTable() error
-	Users_InsertToTable(u *User) error
-	Users_ReadFromTable() ([]*User, error)
-	Users_ReadFromTableByID(id uuid.UUID) (*User, error)
-	Users_UpdateFromTableByID(id uuid.UUID, u *User) error
-	Users_DeleteFromTableByID(id uuid.UUID) (uuid.UUID, error)
+	Query_tableUsers() error
+	Query_insertUsers(u *User) error
+	Query_allUsers() ([]*User, error)
+	Query_readUsers(id uuid.UUID) (*User, error)
+	Query_updateUsers(id uuid.UUID, u *User) error
+	Query_deleteUsers(id uuid.UUID) (uuid.UUID, error)
 
-	Devices_CreateTable() error
-	Devices_InsertToTable(u *Device) error
-	Devices_ReadFromTable() ([]*Device, error)
-	Devices_ReadFromTableByID(id uuid.UUID) (*Device, error)
-	Devices_UpdateFromTableByID(id uuid.UUID, u *Device) error
-	Devices_DeleteFromTableByID(id uuid.UUID) (uuid.UUID, error)
+	Query_tableDevices() error
+	Query_insertDevices(u *Device) error
+	Query_allDevices() ([]*Device, error)
+	Query_readDevices(id uuid.UUID) (*Device, error)
+	Query_updateDevices(id uuid.UUID, u *Device) error
+	Query_deleteDevices(id uuid.UUID) (uuid.UUID, error)
 }
 
 type Database struct {
@@ -43,8 +43,8 @@ func NewDatabase() (*Database, error) {
 }
 
 func (s *Database) Init() error {
-	s.Users_CreateTable()
-	s.Devices_CreateTable()
+	s.Query_tableUsers()
+	s.Query_tableDevices()
 
 	return nil
 }

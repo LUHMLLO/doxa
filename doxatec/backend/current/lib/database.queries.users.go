@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (s *Database) Users_CreateTable() error {
+func (s *Database) Query_tableUsers() error {
 	query := `
 		create table if not exists users (
 			id varchar(250) primary key,
@@ -23,7 +23,7 @@ func (s *Database) Users_CreateTable() error {
 	return err
 }
 
-func (s *Database) Users_ReadFromTable() ([]*User, error) {
+func (s *Database) Query_allUsers() ([]*User, error) {
 	query := `select * from users`
 
 	rows, err := s.db.Query(query)
@@ -46,7 +46,7 @@ func (s *Database) Users_ReadFromTable() ([]*User, error) {
 	return users, err
 }
 
-func (s *Database) Users_InsertToTable(u *User) error {
+func (s *Database) Query_insertUsers(u *User) error {
 	query := `
 		insert into users (
 			id,
@@ -80,7 +80,7 @@ func (s *Database) Users_InsertToTable(u *User) error {
 	return nil
 }
 
-func (s *Database) Users_ReadFromTableByID(id uuid.UUID) (*User, error) {
+func (s *Database) Query_readUsers(id uuid.UUID) (*User, error) {
 	query := `select * from users where id = $1`
 
 	rows, err := s.db.Query(query, id)
@@ -99,7 +99,7 @@ func (s *Database) Users_ReadFromTableByID(id uuid.UUID) (*User, error) {
 	return user, err
 }
 
-func (s *Database) Users_UpdateFromTableByID(id uuid.UUID, u *User) error {
+func (s *Database) Query_updateUsers(id uuid.UUID, u *User) error {
 	query := `update users set username=$2, password=$3, avatar=$4, name=$5, email=$6, phone=$7 modified=$8 where id = $1`
 
 	_, err := s.db.Exec(query, id, &u.Username, &u.Password, &u.Avatar, &u.Name, &u.Email, &u.Phone, &u.Modified)
@@ -110,7 +110,7 @@ func (s *Database) Users_UpdateFromTableByID(id uuid.UUID, u *User) error {
 	return nil
 }
 
-func (s *Database) Users_DeleteFromTableByID(id uuid.UUID) (uuid.UUID, error) {
+func (s *Database) Query_deleteUsers(id uuid.UUID) (uuid.UUID, error) {
 	query := `delete from users where id = $1`
 
 	_, err := s.db.Exec(query, id)

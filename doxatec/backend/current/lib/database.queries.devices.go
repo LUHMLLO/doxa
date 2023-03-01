@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (s *Database) Devices_CreateTable() error {
+func (s *Database) Query_tableDevices() error {
 	query := `
 		create table if not exists devices (
 			id varchar(250) primary key,
@@ -22,7 +22,7 @@ func (s *Database) Devices_CreateTable() error {
 	return err
 }
 
-func (s *Database) Devices_ReadFromTable() ([]*Device, error) {
+func (s *Database) Query_allDevices() ([]*Device, error) {
 	query := `select * from devices`
 
 	rows, err := s.db.Query(query)
@@ -45,7 +45,7 @@ func (s *Database) Devices_ReadFromTable() ([]*Device, error) {
 	return devices, err
 }
 
-func (s *Database) Devices_InsertToTable(d *Device) error {
+func (s *Database) Query_insertDevices(d *Device) error {
 	query := `
 		insert into devices (
 			id,
@@ -77,7 +77,7 @@ func (s *Database) Devices_InsertToTable(d *Device) error {
 	return nil
 }
 
-func (s *Database) Devices_ReadFromTableByID(id uuid.UUID) (*Device, error) {
+func (s *Database) Query_readDevices(id uuid.UUID) (*Device, error) {
 	query := `select * from devices where id = $1`
 
 	rows, err := s.db.Query(query, id)
@@ -96,7 +96,7 @@ func (s *Database) Devices_ReadFromTableByID(id uuid.UUID) (*Device, error) {
 	return device, err
 }
 
-func (s *Database) Devices_UpdateFromTableByID(id uuid.UUID, d *Device) error {
+func (s *Database) Query_updateDevices(id uuid.UUID, d *Device) error {
 	query := `update devices set owner=$2, name=$3, tempsup=$4, tempmid=$5, tempsub=$6, modified=$7 where id = $1`
 
 	_, err := s.db.Exec(query, id, &d.Owner, &d.Name, &d.TempSup, &d.TempMid, &d.TempSub, &d.Modified)
@@ -107,7 +107,7 @@ func (s *Database) Devices_UpdateFromTableByID(id uuid.UUID, d *Device) error {
 	return nil
 }
 
-func (s *Database) Devices_DeleteFromTableByID(id uuid.UUID) (uuid.UUID, error) {
+func (s *Database) Query_deleteDevices(id uuid.UUID) (uuid.UUID, error) {
 	query := `delete from devices where id = $1`
 
 	_, err := s.db.Exec(query, id)
