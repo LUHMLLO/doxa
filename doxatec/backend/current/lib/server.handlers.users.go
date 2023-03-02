@@ -44,6 +44,7 @@ func (s *Server) Handle_insertUsers(w http.ResponseWriter, r *http.Request) {
 		createUserReq.Name,
 		createUserReq.Email,
 		createUserReq.Phone,
+		createUserReq.Role,
 	)
 
 	err = s.store.Query_insertUsers(user)
@@ -99,6 +100,7 @@ func (s *Server) Handle_updateUsers(w http.ResponseWriter, r *http.Request) {
 		createUserReq.Name,
 		createUserReq.Email,
 		createUserReq.Phone,
+		createUserReq.Role,
 	)
 
 	err = s.store.Query_updateUsers(id, user)

@@ -14,6 +14,7 @@ func (s *Database) Query_tableUsers() error {
 			name varchar(250),
 			email varchar(250),
 			phone varchar(250),
+			role varchar(250),
 			created timestamp,
 			modified timestamp
 		)
@@ -35,7 +36,7 @@ func (s *Database) Query_allUsers() ([]*User, error) {
 	for rows.Next() {
 		user := &User{}
 
-		err := rows.Scan(&user.ID, &user.Username, &user.Password, &user.Avatar, &user.Name, &user.Email, &user.Phone, &user.Created, &user.Modified)
+		err := rows.Scan(&user.ID, &user.Username, &user.Password, &user.Avatar, &user.Name, &user.Email, &user.Phone, &user.Role, &user.Created, &user.Modified)
 		if err != nil {
 			return nil, err
 		}
@@ -56,6 +57,7 @@ func (s *Database) Query_insertUsers(u *User) error {
 			name,
 			email,
 			phone,
+			role,
 			created,
 			modified 
 		)
@@ -68,11 +70,12 @@ func (s *Database) Query_insertUsers(u *User) error {
 			$6,
 			$7,
 			$8,
-			$9
+			$9,
+			$10
 		)
 	`
 
-	_, err := s.db.Query(query, &u.ID, &u.Username, &u.Password, &u.Avatar, &u.Name, &u.Email, &u.Phone, &u.Created, &u.Modified)
+	_, err := s.db.Query(query, &u.ID, &u.Username, &u.Password, &u.Avatar, &u.Name, &u.Email, &u.Phone, &u.Role, &u.Created, &u.Modified)
 	if err != nil {
 		return err
 	}
@@ -90,7 +93,7 @@ func (s *Database) Query_readUsers(id uuid.UUID) (*User, error) {
 
 	user := &User{}
 	for rows.Next() {
-		err := rows.Scan(&user.ID, &user.Username, &user.Password, &user.Avatar, &user.Name, &user.Email, &user.Phone, &user.Created, &user.Modified)
+		err := rows.Scan(&user.ID, &user.Username, &user.Password, &user.Avatar, &user.Name, &user.Email, &user.Phone, &user.Role, &user.Created, &user.Modified)
 		if err != nil {
 			return nil, err
 		}
@@ -100,9 +103,9 @@ func (s *Database) Query_readUsers(id uuid.UUID) (*User, error) {
 }
 
 func (s *Database) Query_updateUsers(id uuid.UUID, u *User) error {
-	query := `update users set username=$2, password=$3, avatar=$4, name=$5, email=$6, phone=$7, modified=$8 where id = $1`
+	query := `update users set username=$2, password=$3, avatar=$4, name=$5, email=$6, phone=$7, role=$8, modified=$9 where id = $1`
 
-	_, err := s.db.Exec(query, id, &u.Username, &u.Password, &u.Avatar, &u.Name, &u.Email, &u.Phone, &u.Modified)
+	_, err := s.db.Exec(query, id, &u.Username, &u.Password, &u.Avatar, &u.Name, &u.Email, &u.Phone, &u.Role, &u.Modified)
 	if err != nil {
 		return err
 	}

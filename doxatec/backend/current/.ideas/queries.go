@@ -1,12 +1,11 @@
 package api
 
 import (
-	"doxatec/utils"
 	"fmt"
 	"log"
 )
 
-//the idea here is to have general use functions
+// the idea here is to have general use functions
 
 func CreateTable(table string, cols_vals []string) {
 	query := fmt.Sprintf("create table if not exists %s (\n%s)", table, utils.StringToQuery(cols_vals))

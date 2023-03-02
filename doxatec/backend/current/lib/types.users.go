@@ -13,6 +13,7 @@ type CreateUserRequest struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Phone    string `json:"phone"`
+	Role     string `json:"role"`
 }
 
 type User struct {
@@ -23,11 +24,12 @@ type User struct {
 	Name     string    `json:"name"`
 	Email    string    `json:"email"`
 	Phone    string    `json:"phone"`
+	Role     string    `json:"role"`
 	Created  time.Time `json:"created"`
 	Modified time.Time `json:"modified"`
 }
 
-func NewUser(username, password, avatar, name, email, phone string) *User {
+func NewUser(username, password, avatar, name, email, phone, role string) *User {
 	return &User{
 		ID:       uuid.New(),
 		Username: username,
@@ -36,6 +38,7 @@ func NewUser(username, password, avatar, name, email, phone string) *User {
 		Name:     name,
 		Email:    email,
 		Phone:    phone,
+		Role:     role,
 		Created:  time.Now().UTC(),
 		Modified: time.Now().UTC(),
 	}
