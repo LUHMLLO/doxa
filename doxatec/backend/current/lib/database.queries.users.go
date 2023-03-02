@@ -1,6 +1,8 @@
 package lib
 
 import (
+	"fmt"
+
 	"github.com/google/uuid"
 )
 
@@ -122,4 +124,44 @@ func (s *Database) Query_deleteUsers(id uuid.UUID) (uuid.UUID, error) {
 	}
 
 	return id, err
+}
+
+func (s *Database) Query_readUsers_Username(username string) (*User, error) {
+	fmt.Println("obtained from function parameters [username]", username)
+	query := `select * from users where username = $1`
+
+	rows, err := s.db.Query(query, username)
+	if err != nil {
+		return nil, err
+	}
+
+	user := &User{}
+	for rows.Next() {
+		err := rows.Scan(&user.ID, &user.Username, &user.Password, &user.Avatar, &user.Name, &user.Email, &user.Phone, &user.Role, &user.Created, &user.Modified)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	fmt.Println("obtained from table row scan [user]", user.Username)
+	return user, err
+}
+
+func (s *Database) Query_readUsers_Email(email string) (*User, error) {
+	query := `select * from users where email = $1`
+
+	rows, err := s.db.Query(query, email)
+	if err != nil {
+		return nil, err
+	}
+
+	user := &User{}
+	for rows.Next() {
+		err := rows.Scan(&user.ID, &user.Username, &user.Password, &user.Avatar, &user.Name, &user.Email, &user.Phone, &user.Role, &user.Created, &user.Modified)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return user, err
 }

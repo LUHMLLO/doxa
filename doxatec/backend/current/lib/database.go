@@ -9,15 +9,17 @@ import (
 
 type Storage interface {
 	Query_tableUsers() error
-	Query_insertUsers(u *User) error
 	Query_allUsers() ([]*User, error)
+	Query_insertUsers(u *User) error
 	Query_readUsers(id uuid.UUID) (*User, error)
+	Query_readUsers_Username(username string) (*User, error)
+	Query_readUsers_Email(email string) (*User, error)
 	Query_updateUsers(id uuid.UUID, u *User) error
 	Query_deleteUsers(id uuid.UUID) (uuid.UUID, error)
 
 	Query_tableDevices() error
-	Query_insertDevices(u *Device) error
 	Query_allDevices() ([]*Device, error)
+	Query_insertDevices(u *Device) error
 	Query_readDevices(id uuid.UUID) (*Device, error)
 	Query_updateDevices(id uuid.UUID, u *Device) error
 	Query_deleteDevices(id uuid.UUID) (uuid.UUID, error)
