@@ -24,8 +24,8 @@ func (s *Server) Start() {
 
 	router.HandleFunc("/auth/signup", s.SignUp).Methods("POST", "OPTIONS")
 	router.HandleFunc("/auth/signin", s.SignIn).Methods("POST", "OPTIONS")
-	router.HandleFunc("/auth/check-admin", IsAuthorized(s.AdminIndex)).Methods("GET", "OPTIONS")
-	router.HandleFunc("/auth/check-user", IsAuthorized(s.UserIndex)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/auth/check-admin", IsAuthorized(s.CheckAdmin)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/auth/check-role", IsAuthorized(s.CheckRole)).Methods("GET", "OPTIONS")
 
 	router.HandleFunc("/api/users", s.Handle_allUsers).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/users/create", s.Handle_insertUsers).Methods("POST", "OPTIONS")

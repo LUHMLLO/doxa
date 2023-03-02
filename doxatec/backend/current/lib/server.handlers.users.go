@@ -30,11 +30,13 @@ func (s *Server) Handle_insertUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
 
 	createUserReq := &CreateUserRequest{}
 	err := json.NewDecoder(r.Body).Decode(&createUserReq)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln("error in reading body: ", err.Error())
+		return
 	}
 
 	user := NewUser(
@@ -47,9 +49,22 @@ func (s *Server) Handle_insertUsers(w http.ResponseWriter, r *http.Request) {
 		createUserReq.Role,
 	)
 
+	_, err = s.store.Query_beforeInsertUsers(user)
+	if err != nil {
+		json.NewEncoder(w).Encode(err.Error())
+		return
+	}
+
+	user.Password, err = GeneratehashPassword(user.Password)
+	if err != nil {
+		log.Fatalln("error hashing password: ", err.Error())
+		return
+	}
+
 	err = s.store.Query_insertUsers(user)
 	if err != nil {
 		log.Fatal(err)
+		return
 	}
 
 	json.NewEncoder(w).Encode(user)
@@ -60,6 +75,7 @@ func (s *Server) Handle_readUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
 
 	params := mux.Vars(r)
 	id, err := uuid.Parse(params["id"])
@@ -80,6 +96,7 @@ func (s *Server) Handle_updateUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "PUT")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
 
 	params := mux.Vars(r)
 	id, err := uuid.Parse(params["id"])
@@ -116,6 +133,7 @@ func (s *Server) Handle_deleteUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
 
 	params := mux.Vars(r)
 	id, err := uuid.Parse(params["id"])

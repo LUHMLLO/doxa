@@ -43,3 +43,33 @@ func NewUser(username, password, avatar, name, email, phone, role string) *User 
 		Modified: time.Now().UTC(),
 	}
 }
+
+type SigninUserRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+type SigninUser struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+func NewSigninUser(username, password string) *SigninUser {
+	return &SigninUser{
+		Username: username,
+		Password: password,
+	}
+}
+
+type SecretJWTtoken struct {
+	Username string `json:"username"`
+	Role     string `json:"role"`
+	JWT      string `json:"jwt"`
+}
+
+func NewSecretJWTtoken(username, role, jwt string) *SecretJWTtoken {
+	return &SecretJWTtoken{
+		Username: username,
+		Role:     role,
+		JWT:      jwt,
+	}
+}

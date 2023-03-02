@@ -10,13 +10,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var secretkey string = "doxasecret"
-
-func SetError(err AuthError, message string) AuthError {
-	err.IsError = true
-	err.Message = message
-	return err
-}
+const secretJWTkey string = "doxasecret"
 
 func GeneratehashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
@@ -29,7 +23,7 @@ func CheckPasswordHash(password, hash string) bool {
 }
 
 func GenerateJWT(username, role string) (string, error) {
-	var mySigningKey = []byte(secretkey)
+	var jwtSigningKey = []byte(secretJWTkey)
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 
@@ -38,7 +32,7 @@ func GenerateJWT(username, role string) (string, error) {
 	claims["role"] = role
 	claims["exp"] = time.Now().Add(time.Minute * 30).Unix()
 
-	tokenString, err := token.SignedString(mySigningKey)
+	tokenString, err := token.SignedString(jwtSigningKey)
 
 	if err != nil {
 		return "", fmt.Errorf("something Went Wrong: %s", err.Error())
@@ -48,46 +42,37 @@ func GenerateJWT(username, role string) (string, error) {
 
 func IsAuthorized(handler http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-
 		if r.Header["Token"] == nil {
-			var err AuthError
-			err = SetError(err, "No Token Found")
-			json.NewEncoder(w).Encode(err)
+			json.NewEncoder(w).Encode("token not found")
 			return
 		}
 
-		var mySigningKey = []byte(secretkey)
+		var jwtSigningKey = []byte(secretJWTkey)
 
 		token, err := jwt.Parse(r.Header["Token"][0], func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("there was an error in parsing")
 			}
-			return mySigningKey, nil
+			return jwtSigningKey, nil
 		})
 
 		if err != nil {
-			var err AuthError
-			err = SetError(err, "your Token has been expired")
-			json.NewEncoder(w).Encode(err)
+			json.NewEncoder(w).Encode("token has expired")
 			return
 		}
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 			if claims["role"] == "admin" {
-
 				r.Header.Set("Role", "admin")
 				handler.ServeHTTP(w, r)
 				return
-
 			} else if claims["role"] == "user" {
-
 				r.Header.Set("Role", "user")
 				handler.ServeHTTP(w, r)
 				return
 			}
 		}
-		var authErr AuthError
-		authErr = SetError(authErr, "not Authorized")
-		json.NewEncoder(w).Encode(authErr)
+
+		json.NewEncoder(w).Encode("not Authorized")
 	}
 }
