@@ -9,22 +9,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func (s *Server) Devices_Handler(w http.ResponseWriter, r *http.Request) {
-	switch r.URL.Path {
-	case "/":
-		s.handle_allDevices(w, r)
-	case "/create":
-		s.handle_insertDevices(w, r)
-	case "/read/{id}":
-		s.handle_readDevices(w, r)
-	case "/update/{id}":
-		s.handle_updateDevices(w, r)
-	case "/delete/{id}":
-		s.handle_deleteDevices(w, r)
-	}
-}
-
-func (s *Server) handle_allDevices(w http.ResponseWriter, r *http.Request) {
+func (s *Server) Handle_allDevices(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
@@ -40,7 +25,7 @@ func (s *Server) handle_allDevices(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(devices)
 }
 
-func (s *Server) handle_insertDevices(w http.ResponseWriter, r *http.Request) {
+func (s *Server) Handle_insertDevices(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
@@ -68,7 +53,7 @@ func (s *Server) handle_insertDevices(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(device)
 }
 
-func (s *Server) handle_readDevices(w http.ResponseWriter, r *http.Request) {
+func (s *Server) Handle_readDevices(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
@@ -88,7 +73,7 @@ func (s *Server) handle_readDevices(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(device)
 }
 
-func (s *Server) handle_updateDevices(w http.ResponseWriter, r *http.Request) {
+func (s *Server) Handle_updateDevices(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "PUT")
@@ -122,7 +107,7 @@ func (s *Server) handle_updateDevices(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]uuid.UUID{"updated": id})
 }
 
-func (s *Server) handle_deleteDevices(w http.ResponseWriter, r *http.Request) {
+func (s *Server) Handle_deleteDevices(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "DELETE")

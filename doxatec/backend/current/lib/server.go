@@ -22,8 +22,17 @@ func NewServer(listenAddress string, store Storage) *Server {
 func (s *Server) Start() {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/api/users", s.Users_Handler).Methods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-	router.HandleFunc("/api/devices", s.Devices_Handler).Methods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+	router.HandleFunc("/api/users", s.Handle_allUsers).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/users/create", s.Handle_insertUsers).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/users/read/{id}", s.Handle_readUsers).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/users/update/{id}", s.Handle_updateUsers).Methods("PUT", "OPTIONS")
+	router.HandleFunc("/api/users/delete/{id}", s.Handle_deleteUsers).Methods("DELETE", "OPTIONS")
+
+	router.HandleFunc("/api/users", s.Handle_allDevices).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/users/create", s.Handle_insertDevices).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/users/read/{id}", s.Handle_readDevices).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/users/update/{id}", s.Handle_updateDevices).Methods("PUT", "OPTIONS")
+	router.HandleFunc("/api/users/delete/{id}", s.Handle_deleteDevices).Methods("DELETE", "OPTIONS")
 
 	log.Println("Doxatec server running on port:", s.listenAddress)
 	log.Fatal(http.ListenAndServe(s.listenAddress, router))

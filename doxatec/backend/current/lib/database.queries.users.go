@@ -100,7 +100,7 @@ func (s *Database) Query_readUsers(id uuid.UUID) (*User, error) {
 }
 
 func (s *Database) Query_updateUsers(id uuid.UUID, u *User) error {
-	query := `update users set username=$2, password=$3, avatar=$4, name=$5, email=$6, phone=$7 modified=$8 where id = $1`
+	query := `update users set username=$2, password=$3, avatar=$4, name=$5, email=$6, phone=$7, modified=$8 where id = $1`
 
 	_, err := s.db.Exec(query, id, &u.Username, &u.Password, &u.Avatar, &u.Name, &u.Email, &u.Phone, &u.Modified)
 	if err != nil {

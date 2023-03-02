@@ -9,22 +9,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func (s *Server) Users_Handler(w http.ResponseWriter, r *http.Request) {
-	switch r.URL.Path {
-	case "/":
-		s.handle_allUsers(w, r)
-	case "/create":
-		s.handle_insertUsers(w, r)
-	case "/read/{id}":
-		s.handle_readUsers(w, r)
-	case "/update/{id}":
-		s.handle_updateUsers(w, r)
-	case "/delete/{id}":
-		s.handle_deleteUsers(w, r)
-	}
-}
-
-func (s *Server) handle_allUsers(w http.ResponseWriter, r *http.Request) {
+func (s *Server) Handle_allUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
@@ -40,7 +25,7 @@ func (s *Server) handle_allUsers(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(users)
 }
 
-func (s *Server) handle_insertUsers(w http.ResponseWriter, r *http.Request) {
+func (s *Server) Handle_insertUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
@@ -69,7 +54,7 @@ func (s *Server) handle_insertUsers(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(user)
 }
 
-func (s *Server) handle_readUsers(w http.ResponseWriter, r *http.Request) {
+func (s *Server) Handle_readUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
@@ -89,7 +74,7 @@ func (s *Server) handle_readUsers(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(user)
 }
 
-func (s *Server) handle_updateUsers(w http.ResponseWriter, r *http.Request) {
+func (s *Server) Handle_updateUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "PUT")
@@ -124,7 +109,7 @@ func (s *Server) handle_updateUsers(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]uuid.UUID{"updated": id})
 }
 
-func (s *Server) handle_deleteUsers(w http.ResponseWriter, r *http.Request) {
+func (s *Server) Handle_deleteUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
