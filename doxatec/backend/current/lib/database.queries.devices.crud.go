@@ -1,8 +1,6 @@
 package lib
 
-import (
-	"github.com/google/uuid"
-)
+import "github.com/google/uuid"
 
 func (s *Database) Query_insertDevices(d *Device) error {
 	query := `

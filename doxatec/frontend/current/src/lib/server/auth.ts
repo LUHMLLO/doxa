@@ -1,3 +1,4 @@
+import type User from "$lib/types/user.interface"
 import type { RequestEvent } from "@sveltejs/kit"
 
 export const authenticateUser = (event: RequestEvent) => {
@@ -11,22 +12,32 @@ export const authenticateUser = (event: RequestEvent) => {
     // this is where you would check the user token against your database
     // to see if it is valid and return the user object
     if (userToken === "demo@user") {
-        const user = {
+        const user: User = {
             ID: "1",
-            Avatar:
-                "https://cdn.dribbble.com/userupload/2798814/file/original-3cfdbabadfd8f92aed97b0c0b57c6b89.png?compress=1&resize=752x",
-            Username: "ClientDev",
-            Password: "demo",
+            Username: "user",
+            Password: "1234",
+            Avatar: "https://cdn.dribbble.com/userupload/2798814/file/original-3cfdbabadfd8f92aed97b0c0b57c6b89.png?compress=1&resize=752x",
+            Name: "name",
+            Email: "user@demo.com",
+            Phone: "1",
+            Role: "user",
+            Created: new Date(),
+            Modified: new Date(),
         }
         return user
     }
     if (userToken === "demo@admin") {
-        const user = {
-            ID: "0",
-            Avatar:
-                "https://cdn.dribbble.com/userupload/2798814/file/original-3cfdbabadfd8f92aed97b0c0b57c6b89.png?compress=1&resize=752x",
-            Username: "DoxaDev",
-            Password: "demo",
+        const user: User = {
+            ID: "1",
+            Username: "admin",
+            Password: "1234",
+            Avatar: "https://cdn.dribbble.com/userupload/2798814/file/original-3cfdbabadfd8f92aed97b0c0b57c6b89.png?compress=1&resize=752x",
+            Name: "name",
+            Email: "admin@demo.com",
+            Phone: "1",
+            Role: "admin",
+            Created: new Date(),
+            Modified: new Date(),
         }
         return user
     }

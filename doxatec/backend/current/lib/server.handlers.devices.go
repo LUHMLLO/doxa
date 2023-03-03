@@ -2,8 +2,10 @@ package lib
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"reflect"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
@@ -30,6 +32,7 @@ func (s *Server) Handle_insertDevices(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
 
 	createDeviceReq := &CreateDeviceRequest{}
 	err := json.NewDecoder(r.Body).Decode(&createDeviceReq)
@@ -58,11 +61,13 @@ func (s *Server) Handle_readDevices(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
 
 	params := mux.Vars(r)
 	id, err := uuid.Parse(params["id"])
 	if err != nil {
-		log.Fatal(err)
+		json.NewEncoder(w).Encode(fmt.Sprintf("error reading id (typeOf %s): %s", reflect.TypeOf(params["id"]).String(), err.Error()))
+		return
 	}
 
 	device, err := s.store.Query_readDevices(id)
@@ -78,6 +83,7 @@ func (s *Server) Handle_updateDevices(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "PUT")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
 
 	params := mux.Vars(r)
 	id, err := uuid.Parse(params["id"])
@@ -112,6 +118,7 @@ func (s *Server) Handle_deleteDevices(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
 
 	params := mux.Vars(r)
 	id, err := uuid.Parse(params["id"])

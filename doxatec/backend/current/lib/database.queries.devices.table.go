@@ -4,8 +4,8 @@ func (s *Database) Query_tableDevices() error {
 	query := `
 		create table if not exists devices (
 			id varchar(250) primary key,
-			name varchar(250),
 			owner varchar(250),
+			name varchar(250),
 			tempsup decimal,
 			tempmid decimal,
 			tempsub decimal,
