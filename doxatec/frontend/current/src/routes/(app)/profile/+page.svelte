@@ -46,7 +46,7 @@
     <h6>Cerrar sesión</h6>
     <p>O cambiar de cuenta</p>
   </header>
-  <form action="/logout" method="POST">
+  <form action="/exit" method="POST">
     <button
       type="submit"
       class="bg-secondary clr-primary bord-hidden theme-radius"

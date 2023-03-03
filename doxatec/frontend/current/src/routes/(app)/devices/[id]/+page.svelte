@@ -6,10 +6,9 @@
 </script>
 
 <Device
-  id={data.device.ID}
-  owner={data.device.Owner}
-  name={data.device.Name}
-  temp_sup={data.device.TempSup}
-  temp_mid={data.device.TempMid}
-  temp_sub={data.device.TempSub}
+  id={data.device.id}
+  name={data.device.name}
+  temp_sup={data.device.temp_sup}
+  temp_mid={data.device.temp_mid}
+  temp_sub={data.device.temp_sup}
 />

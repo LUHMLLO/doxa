@@ -1,12 +1,12 @@
 interface Device {
-  ID: string;
-  Owner: string;
-  Name: string;
-  TempSup: number;
-  TempMid: number;
-  TempSub: number;
-  Created: Date;
-  Modified: Date;
+  id: string;
+  owner: string;
+  name: string;
+  temp_sup: number;
+  temp_mid: number;
+  temp_sub: number;
+  created: Date;
+  modified: Date;
 }
 
 export default Device;

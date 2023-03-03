@@ -8,12 +8,11 @@
 <grid class="grid md:grid-cols--2 gap--16">
   {#each data.devices as d}
     <Device
-      id={d.ID}
-      owner={d.Owner}
-      name={d.Name}
-      temp_sup={d.TempSup}
-      temp_mid={d.TempMid}
-      temp_sub={d.TempSub}
+      id={d.id}
+      name={d.name}
+      temp_sup={d.temp_sup}
+      temp_mid={d.temp_mid}
+      temp_sub={d.temp_sub}
     />
   {/each}
 </grid>

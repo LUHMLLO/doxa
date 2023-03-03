@@ -35,7 +35,7 @@
     </icon>
   </a>
   <a
-    href="/account"
+    href="/profile"
     class="clr-secondary inline-flex justify--center align--center"
   >
     <Avatar size={24} />

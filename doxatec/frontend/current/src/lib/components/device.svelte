@@ -1,6 +1,6 @@
 <script lang="ts">
   export let id: string;
-  export let owner: string;
+  //export let owner: string;
   export let name: string;
   export let temp_sup: number;
   export let temp_mid: number;

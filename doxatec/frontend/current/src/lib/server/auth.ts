@@ -11,33 +11,34 @@ export const authenticateUser = (event: RequestEvent) => {
     // if the user token is not valid, return null
     // this is where you would check the user token against your database
     // to see if it is valid and return the user object
-    if (userToken === "demo@user") {
+    if (userToken === "demo@admin") {
         const user: User = {
-            ID: "1",
-            Username: "user",
-            Password: "1234",
-            Avatar: "https://cdn.dribbble.com/userupload/2798814/file/original-3cfdbabadfd8f92aed97b0c0b57c6b89.png?compress=1&resize=752x",
-            Name: "name",
-            Email: "user@demo.com",
-            Phone: "1",
-            Role: "user",
-            Created: new Date(),
-            Modified: new Date(),
+            id: "1",
+            username: "admin",
+            password: "1234",
+            avatar: "https://cdn.dribbble.com/userupload/2798814/file/original-3cfdbabadfd8f92aed97b0c0b57c6b89.png?compress=1&resize=752x",
+            name: "name",
+            email: "admin@demo.com",
+            phone: "1",
+            role: "admin",
+            created: new Date(),
+            modified: new Date(),
         }
         return user
     }
-    if (userToken === "demo@admin") {
+    
+    if (userToken === "demo@user") {
         const user: User = {
-            ID: "1",
-            Username: "admin",
-            Password: "1234",
-            Avatar: "https://cdn.dribbble.com/userupload/2798814/file/original-3cfdbabadfd8f92aed97b0c0b57c6b89.png?compress=1&resize=752x",
-            Name: "name",
-            Email: "admin@demo.com",
-            Phone: "1",
-            Role: "admin",
-            Created: new Date(),
-            Modified: new Date(),
+            id: "1",
+            username: "user",
+            password: "1234",
+            avatar: "https://cdn.dribbble.com/userupload/2798814/file/original-3cfdbabadfd8f92aed97b0c0b57c6b89.png?compress=1&resize=752x",
+            name: "name",
+            email: "user@demo.com",
+            phone: "1",
+            role: "user",
+            created: new Date(),
+            modified: new Date(),
         }
         return user
     }

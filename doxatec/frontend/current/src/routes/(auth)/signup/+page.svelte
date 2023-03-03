@@ -1,7 +1,3 @@
-<script lang="ts">
-  import { goto } from "$app/navigation";
-</script>
-
 <form action="/login" method="POST" class="flex column gap--24">
   <header class="w--100">
     <h4>Crea una cuenta para continuar</h4>

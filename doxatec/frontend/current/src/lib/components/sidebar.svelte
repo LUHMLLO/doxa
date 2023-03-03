@@ -47,11 +47,11 @@
       <tooltip class="tooltip dpt-secondary">ajustes</tooltip>
     </a>
     <a
-      href="/account"
+      href="/profile"
       class="clr-secondary inline-flex justify--center align--center"
     >
       <Avatar size={24} />
-      <tooltip class="tooltip dpt-secondary">mi cuenta</tooltip>
+      <tooltip class="tooltip dpt-secondary">mi perfil</tooltip>
     </a>
   </nav>
 </sidebar>
