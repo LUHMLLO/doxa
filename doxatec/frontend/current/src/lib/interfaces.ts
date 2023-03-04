@@ -11,7 +11,6 @@ export interface User {
   modified: Date;
 }
 
-
 export interface Device {
   id: string;
   owner: string;

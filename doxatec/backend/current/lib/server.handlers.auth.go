@@ -35,16 +35,25 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	validToken, err := GenerateJWT(databaseUser.Username, databaseUser.Role)
+	token, err := GenerateJWT(databaseUser.Username, databaseUser.Role)
 	if err != nil {
 		json.NewEncoder(w).Encode(fmt.Sprintf("failed to generate token: %s", err.Error()))
 		return
 	}
 
+	// cookie := &http.Cookie{
+	// 	Name:     "jwt",
+	// 	Value:    token,
+	// 	Path:     "/",
+	// 	Secure:   true,
+	// 	HttpOnly: true,
+	// }
+	// http.SetCookie(w, cookie)
+
 	secretJWTtoken := NewSecretJWTtoken(
 		databaseUser.Username,
 		databaseUser.Role,
-		validToken,
+		token,
 	)
 	json.NewEncoder(w).Encode(secretJWTtoken)
 }

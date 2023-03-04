@@ -7,7 +7,7 @@
     <column class="flex justify--center align--center dpt-secondary zindex--2">
         <section class="w--100">
             <container class="container block">
-                <h4>Parece ser que hubo un error con tu busqueda</h4>
+                <h4>Parece ser que hubo un error</h4>
                 {#if $page?.error}
                     {#if $page?.status}
                         <p>Page status: {$page?.status}</p>
