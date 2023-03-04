@@ -1,8 +1,9 @@
-<form
-  action="/login"
-  method="POST"
-  class="flex column gap--24"
->
+<script lang="ts">
+  import { enhance } from '$app/forms'
+</script>
+
+
+<form method="POST" action="?/login" use:enhance class="flex column gap--24">
   <header class="w--100">
     <h4>Bienvenido a Doxatec, inicie sesión para continuar</h4>
     <p>
@@ -14,11 +15,11 @@
   <fieldgroup class="w--100 flex column gap--16">
     <fieldset>
       <small>Nombre de usuario</small>
-      <input type="text" />
+      <input type="text" name="username" />
     </fieldset>
     <fieldset>
       <small>Contraseña</small>
-      <input type="password" />
+      <input type="password" name="password" />
       <a href="/forgot" class="block w--100 text--10 text--end"
         >Olvidaste tu contraseña?</a
       >

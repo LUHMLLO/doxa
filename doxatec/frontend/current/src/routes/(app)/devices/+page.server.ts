@@ -1,5 +1,5 @@
 import type { PageServerLoad } from "./$types"
-import type Device from "$lib/types/device.interface";
+import type { Device } from "$lib/interfaces"
 
 export const load = (async ({ fetch }) => {
     const res = await fetch("http://localhost:3000/api/devices")

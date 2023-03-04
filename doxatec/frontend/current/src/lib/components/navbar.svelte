@@ -8,6 +8,9 @@
   <a href={void 0} class="inline-flex justify--center align--center">
     <button class="flex row align--center gap--8 bg-light bord--hidden">
       <h6 class="text--capitalize w--100 whitespace--nowrap">
+        {#if $page.url.pathname == "/"}
+          {$page.url.pathname.replace("/", "Dashboard")}
+        {/if}
         {$page.url.pathname.replace("/", "")}
       </h6>
     </button>
