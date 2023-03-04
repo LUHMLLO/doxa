@@ -4,6 +4,8 @@ func (s *Database) Query_tableDevices() error {
 	query := `
 		create table if not exists devices (
 			id varchar(250) primary key,
+			jwt varchar(250),
+			pin varchar(250),
 			owner varchar(250),
 			name varchar(250),
 			tempsup decimal,
@@ -30,7 +32,7 @@ func (s *Database) Query_allDevices() ([]*Device, error) {
 	for rows.Next() {
 		device := &Device{}
 
-		err := rows.Scan(&device.ID, &device.Owner, &device.Name, &device.TempSup, &device.TempMid, &device.TempSub, &device.Created, &device.Modified)
+		err := rows.Scan(&device.ID, &device.JWT, &device.PIN, &device.Owner, &device.Name, &device.TempSup, &device.TempMid, &device.TempSub, &device.Created, &device.Modified)
 		if err != nil {
 			return nil, err
 		}

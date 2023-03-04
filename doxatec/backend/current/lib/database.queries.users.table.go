@@ -4,6 +4,7 @@ func (s *Database) Query_tableUsers() error {
 	query := `
 		create table if not exists users (
 			id varchar(250) primary key,
+			jwt varchar(250),
 			username varchar(250),
 			password varchar(250),
 			avatar varchar(250),
@@ -32,7 +33,7 @@ func (s *Database) Query_allUsers() ([]*User, error) {
 	for rows.Next() {
 		user := &User{}
 
-		err := rows.Scan(&user.ID, &user.Username, &user.Password, &user.Avatar, &user.Name, &user.Email, &user.Phone, &user.Role, &user.Created, &user.Modified)
+		err := rows.Scan(&user.ID, &user.JWT, &user.Username, &user.Password, &user.Avatar, &user.Name, &user.Email, &user.Phone, &user.Role, &user.Created, &user.Modified)
 		if err != nil {
 			return nil, err
 		}

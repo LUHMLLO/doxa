@@ -7,6 +7,7 @@ import (
 )
 
 type CreateUserRequest struct {
+	JWT      string `json:"jwt"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 	Avatar   string `json:"avatar"`
@@ -18,6 +19,7 @@ type CreateUserRequest struct {
 
 type User struct {
 	ID       uuid.UUID `json:"id"`
+	JWT      string    `json:"jwt"`
 	Username string    `json:"username"`
 	Password string    `json:"password"`
 	Avatar   string    `json:"avatar"`
@@ -29,9 +31,10 @@ type User struct {
 	Modified time.Time `json:"modified"`
 }
 
-func NewUser(username, password, avatar, name, email, phone, role string) *User {
+func NewUser(jwt, username, password, avatar, name, email, phone, role string) *User {
 	return &User{
 		ID:       uuid.New(),
+		JWT:      jwt,
 		Username: username,
 		Password: password,
 		Avatar:   avatar,

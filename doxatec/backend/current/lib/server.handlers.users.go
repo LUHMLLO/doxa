@@ -40,6 +40,7 @@ func (s *Server) Handle_insertUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user := NewUser(
+		createUserReq.JWT,
 		createUserReq.Username,
 		createUserReq.Password,
 		createUserReq.Avatar,
@@ -111,6 +112,7 @@ func (s *Server) Handle_updateUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user := NewUser(
+		createUserReq.JWT,
 		createUserReq.Username,
 		createUserReq.Password,
 		createUserReq.Avatar,

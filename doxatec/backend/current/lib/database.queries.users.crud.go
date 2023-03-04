@@ -48,7 +48,7 @@ func (s *Database) Query_readUsers(id uuid.UUID) (*User, error) {
 
 	user := &User{}
 	for rows.Next() {
-		err := rows.Scan(&user.ID, &user.Username, &user.Password, &user.Avatar, &user.Name, &user.Email, &user.Phone, &user.Role, &user.Created, &user.Modified)
+		err := rows.Scan(&user.ID, &user.JWT, &user.Username, &user.Password, &user.Avatar, &user.Name, &user.Email, &user.Phone, &user.Role, &user.Created, &user.Modified)
 		if err != nil {
 			return nil, err
 		}

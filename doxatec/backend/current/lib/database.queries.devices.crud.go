@@ -6,6 +6,8 @@ func (s *Database) Query_insertDevices(d *Device) error {
 	query := `
 		insert into devices (
 			id,
+			jwt,
+			pin,
 			owner,
 			name,
 			tempsup,
@@ -22,11 +24,13 @@ func (s *Database) Query_insertDevices(d *Device) error {
 			$5,
 			$6,
 			$7,
-			$8
+			$8,
+			$9,
+			$10
 		)
 	`
 
-	_, err := s.db.Query(query, &d.ID, &d.Owner, &d.Name, &d.TempSup, &d.TempMid, &d.TempSub, &d.Created, &d.Modified)
+	_, err := s.db.Query(query, &d.ID, &d.JWT, &d.PIN, &d.Owner, &d.Name, &d.TempSup, &d.TempMid, &d.TempSub, &d.Created, &d.Modified)
 	if err != nil {
 		return err
 	}
@@ -44,7 +48,7 @@ func (s *Database) Query_readDevices(id uuid.UUID) (*Device, error) {
 
 	device := &Device{}
 	for rows.Next() {
-		err := rows.Scan(&device.ID, &device.Owner, &device.Name, &device.TempSup, &device.TempMid, &device.TempSub, &device.Created, &device.Modified)
+		err := rows.Scan(&device.ID, &device.JWT, &device.PIN, &device.Owner, &device.Name, &device.TempSup, &device.TempMid, &device.TempSub, &device.Created, &device.Modified)
 		if err != nil {
 			return nil, err
 		}
@@ -54,9 +58,9 @@ func (s *Database) Query_readDevices(id uuid.UUID) (*Device, error) {
 }
 
 func (s *Database) Query_updateDevices(id uuid.UUID, d *Device) error {
-	query := `update devices set owner=$2, name=$3, tempsup=$4, tempmid=$5, tempsub=$6, modified=$7 where id = $1`
+	query := `update devices set owner=$2, name=$3, tempsup=$4, tempmid=$5, tempsub=$6, pin=$7,modified=$8 where id = $1`
 
-	_, err := s.db.Exec(query, id, &d.Owner, &d.Name, &d.TempSup, &d.TempMid, &d.TempSub, &d.Modified)
+	_, err := s.db.Exec(query, id, &d.JWT, &d.PIN, &d.Owner, &d.Name, &d.TempSup, &d.TempMid, &d.TempSub, &d.Created, &d.Modified)
 	if err != nil {
 		return err
 	}

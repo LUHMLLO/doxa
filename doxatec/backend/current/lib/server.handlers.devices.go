@@ -41,6 +41,8 @@ func (s *Server) Handle_insertDevices(w http.ResponseWriter, r *http.Request) {
 	}
 
 	device := NewDevice(
+		createDeviceReq.JWT,
+		createDeviceReq.PIN,
 		createDeviceReq.Owner,
 		createDeviceReq.Name,
 		createDeviceReq.TempSup,
@@ -98,6 +100,8 @@ func (s *Server) Handle_updateDevices(w http.ResponseWriter, r *http.Request) {
 	}
 
 	device := NewDevice(
+		createDeviceReq.JWT,
+		createDeviceReq.PIN,
 		createDeviceReq.Owner,
 		createDeviceReq.Name,
 		createDeviceReq.TempSup,

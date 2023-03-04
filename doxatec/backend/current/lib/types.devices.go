@@ -7,6 +7,8 @@ import (
 )
 
 type CreateDeviceRequest struct {
+	JWT     string  `json:"jwt"`
+	PIN     string  `json:"pin"`
 	Owner   string  `json:"owner"`
 	Name    string  `json:"name"`
 	TempSup float64 `json:"temp_sup"`
@@ -16,6 +18,8 @@ type CreateDeviceRequest struct {
 
 type Device struct {
 	ID       uuid.UUID `json:"id"`
+	JWT      string    `json:"jwt"`
+	PIN      string    `json:"pin"`
 	Owner    string    `json:"owner"`
 	Name     string    `json:"name"`
 	TempSup  float64   `json:"temp_sup"`
@@ -25,9 +29,11 @@ type Device struct {
 	Modified time.Time `json:"modified"`
 }
 
-func NewDevice(owner, name string, sup, mid, sub float64) *Device {
+func NewDevice(jwt, pin, owner, name string, sup, mid, sub float64) *Device {
 	return &Device{
 		ID:       uuid.New(),
+		JWT:      jwt,
+		PIN:      pin,
 		Owner:    owner,
 		Name:     name,
 		TempSup:  sup,
@@ -36,4 +42,13 @@ func NewDevice(owner, name string, sup, mid, sub float64) *Device {
 		Created:  time.Now().UTC(),
 		Modified: time.Now().UTC(),
 	}
+}
+
+type SigninDeviceRequest struct {
+	Owner string `json:"username"`
+	PIN   string `json:"password"`
+}
+type SigninDevice struct {
+	Owner string `json:"username"`
+	PIN   string `json:"password"`
 }
