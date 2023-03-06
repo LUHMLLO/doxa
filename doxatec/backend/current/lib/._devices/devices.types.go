@@ -9,7 +9,6 @@ import (
 type CreateDeviceRequest struct {
 	Owner string `json:"owner"`
 	Name  string `json:"name"`
-	PIN   string `json:"pin"`
 }
 
 type Device struct {
@@ -24,15 +23,15 @@ type Device struct {
 	Modified time.Time `json:"modified"`
 }
 
-func NewDevice(owner, name, pin string, sup, mid, sub float64) *Device {
+func NewDevice(owner, name string) *Device {
 	return &Device{
 		ID:       uuid.New(),
 		Owner:    owner,
 		Name:     name,
-		PIN:      pin,
-		TempSup:  sup,
-		TempMid:  mid,
-		TempSub:  sub,
+		PIN:      "",
+		TempSup:  0,
+		TempMid:  0,
+		TempSub:  0,
 		Created:  time.Now().UTC(),
 		Modified: time.Now().UTC(),
 	}

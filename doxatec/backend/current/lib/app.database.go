@@ -40,8 +40,8 @@ func NewDatabase() (*Database, error) {
 	}, nil
 }
 
-func (storer *Database) Init() error {
-	storer.Query_create_users_table()
+func (s *Database) Init() error {
+	s.Query_create_users_table()
 
 	return nil
 }

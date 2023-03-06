@@ -58,3 +58,40 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(user)
 }
+
+func (s *Server) CheckAdmin(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
+
+	switch r.Header.Get("Role") {
+	case "admin":
+		json.NewEncoder(w).Encode("Welcome, Admin.")
+		return
+	default:
+		json.NewEncoder(w).Encode("Not authorized.")
+		return
+	}
+}
+
+func (s *Server) CheckRole(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
+
+	switch r.Header.Get("Role") {
+	case "admin":
+		json.NewEncoder(w).Encode(fmt.Sprintf("Role: %s", r.Header.Get("Role")))
+		return
+	case "user":
+		json.NewEncoder(w).Encode(fmt.Sprintf("Role: %s", r.Header.Get("Role")))
+		return
+	default:
+		json.NewEncoder(w).Encode("Not authorized.")
+		return
+	}
+}

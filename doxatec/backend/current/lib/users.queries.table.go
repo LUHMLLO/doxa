@@ -1,6 +1,6 @@
 package lib
 
-func (storer *Database) Query_create_users_table() error {
+func (s *Database) Query_create_users_table() error {
 	query := `
 		create table if not exists users (
 			id varchar(250) primary key,
@@ -17,24 +17,36 @@ func (storer *Database) Query_create_users_table() error {
 		)
 	`
 
-	_, err := storer.db.Exec(query)
+	_, err := s.db.Exec(query)
 	return err
 }
 
-func (storer *Database) Query_read_all_users_from_table() ([]*User, error) {
+func (s *Database) Query_read_all_users_from_table() ([]*User, error) {
 	query := `select * from users`
 
-	rows, err := storer.db.Query(query)
+	rows, err := s.db.Query(query)
 	if err != nil {
 		return nil, err
 	}
 
 	users := []*User{}
+
 	for rows.Next() {
 		user := &User{}
 
-		err := rows.Scan(&user.ID, &user.JWT, &user.Username, &user.Password, &user.Avatar, &user.Name, &user.Email, &user.Phone, &user.Role, &user.Created, &user.Modified)
-		if err != nil {
+		if err := rows.Scan(
+			&user.ID,
+			&user.JWT,
+			&user.Username,
+			&user.Password,
+			&user.Avatar,
+			&user.Name,
+			&user.Email,
+			&user.Phone,
+			&user.Role,
+			&user.Created,
+			&user.Modified,
+		); err != nil {
 			return nil, err
 		}
 

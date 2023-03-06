@@ -1,6 +1,6 @@
 package lib
 
-func (storer *Database) Query_create_devices_table() error {
+func (s *Database) Query_create_devices_table() error {
 	query := `
 		create table if not exists devices (
 			id varchar(250) primary key,
@@ -15,14 +15,14 @@ func (storer *Database) Query_create_devices_table() error {
 		)
 	`
 
-	_, err := storer.db.Exec(query)
+	_, err := s.db.Exec(query)
 	return err
 }
 
-func (storer *Database) Query_read_all_devices_from_table() ([]*Device, error) {
+func (s *Database) Query_read_all_devices_from_table() ([]*Device, error) {
 	query := `select * from devices`
 
-	rows, err := storer.db.Query(query)
+	rows, err := s.db.Query(query)
 	if err != nil {
 		return nil, err
 	}
