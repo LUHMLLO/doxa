@@ -31,14 +31,14 @@ docker run --name DoxaPostgres -e POSTGRES_DB=doxatec -e POSTGRES_USER=doxadmin 
 POST    "/auth/signup"
 POST    "/auth/signin"
 
-GET     "/api/users"
-POST    "/api/users/create"
+GET     "/api/users/all"
+POST    "/api/users/insert"
 GET     "/api/users/read/{id}"
 UPDATE  "/api/users/update/{id}"
 DELETE  "/api/users/delete/{id}"
 
-GET     "/api/devices"
-POST    "/api/devices/create"
+GET     "/api/devices/all"
+POST    "/api/devices/insert"
 GET     "/api/devices/read/{id}"
 UPDATE  "/api/devices/update/{id}"
 DELETE  "/api/devices/delete/{id}"
