@@ -7,7 +7,6 @@ import (
 )
 
 func (s *Database) users_init() error {
-
 	schema := []string{
 		"id varchar(250) primary key",
 		"jwt varchar(250)",
@@ -72,7 +71,6 @@ func (s *Database) users_beforeInsert(u *User) (*User, error) {
 }
 
 func (s *Database) users_insert(u *User) error {
-
 	schema := []string{
 		"id",
 		"jwt",

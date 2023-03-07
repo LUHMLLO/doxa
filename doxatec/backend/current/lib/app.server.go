@@ -22,12 +22,12 @@ func NewServer(listenAddress string, store Storage) *Server {
 func (s *Server) Start() {
 	router := mux.NewRouter()
 
-	// router.HandleFunc("/api/auth/check-admin", IsAuthorized(s.CheckAdmin)).Methods("GET", "OPTIONS")
-	// router.HandleFunc("/api/auth/check-role", IsAuthorized(s.CheckRole)).Methods("GET", "OPTIONS")
-	// router.HandleFunc("/api/auth/check-username", IsAuthorized(s.CheckUsername)).Methods("GET", "OPTIONS")
-
 	router.HandleFunc("/api/auth/signup", s.SignUp).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/auth/signin", s.SignIn).Methods("POST", "OPTIONS")
+
+	router.HandleFunc("/api/auth/check-admin", IsAuthorized(s.CheckAdmin)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/auth/check-role", IsAuthorized(s.CheckRole)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/auth/check-username", IsAuthorized(s.CheckUsername)).Methods("GET", "OPTIONS")
 
 	router.HandleFunc("/api/users/all", s.Route_all_users).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/users/insert", s.Route_insert_user).Methods("POST", "OPTIONS")
