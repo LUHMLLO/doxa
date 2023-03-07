@@ -106,12 +106,12 @@ func (s *Server) Route_update_device(w http.ResponseWriter, r *http.Request) {
 	)
 
 	if device.Name != "" {
-		if err = s.store.Query_update_device_column_where_ID(id, "Name", device.Name); err != nil {
+		if err = s.store.Query_update_device_where_ID_and_column(id, "Name", device.Name); err != nil {
 			log.Fatal(err)
 		}
 	}
 
-	if err = s.store.Query_update_device_column_where_ID(id, "modified", time.Now().UTC()); err != nil {
+	if err = s.store.Query_update_device_where_ID_and_column(id, "modified", time.Now().UTC()); err != nil {
 		log.Fatal(err)
 	}
 
