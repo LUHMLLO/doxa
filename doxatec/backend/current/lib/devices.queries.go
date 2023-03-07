@@ -50,12 +50,8 @@ func (s *Database) devices_beforeInsert(d *Device) (*Device, error) {
 			return nil, err
 		}
 
-		if device.Owner == d.Owner {
-			return nil, fmt.Errorf("username already in use")
-		}
-
-		if device.Name == d.Name {
-			return nil, fmt.Errorf("email already in use")
+		if device.Owner == d.Owner && device.Name == d.Name {
+			return nil, fmt.Errorf("device name already in use")
 		}
 	}
 
@@ -80,7 +76,7 @@ func (s *Database) devices_insert(d *Device) error {
 		cols = append(cols, fmt.Sprintf("$%d", i+1))
 	}
 
-	query := fmt.Sprintf(`insert into users (%s) values (%s)`, StringToQuery(schema), StringToQuery(cols))
+	query := fmt.Sprintf(`insert into devices (%s) values (%s)`, StringToQuery(schema), StringToQuery(cols))
 
 	if _, err := s.db.Query(
 		query,

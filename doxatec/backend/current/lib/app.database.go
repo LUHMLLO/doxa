@@ -27,6 +27,7 @@ func NewDatabase() (*Database, error) {
 
 func (s *Database) Init() error {
 	s.users_init()
+	s.devices_init()
 
 	return nil
 }

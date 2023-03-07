@@ -35,6 +35,12 @@ func (s *Server) Start() {
 	router.HandleFunc("/api/users/update/{id}", s.Route_update_user).Methods("PUT", "OPTIONS")
 	router.HandleFunc("/api/users/delete/{id}", s.Route_delete_user).Methods("DELETE", "OPTIONS")
 
+	router.HandleFunc("/api/devices/all", s.Route_all_devices).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/devices/insert", s.Route_insert_device).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/devices/read/{id}", s.Route_read_device).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/devices/update/{id}", s.Route_update_device).Methods("PUT", "OPTIONS")
+	router.HandleFunc("/api/devices/delete/{id}", s.Route_delete_device).Methods("DELETE", "OPTIONS")
+
 	log.Println("Doxatec server running on port:", s.listenAddress)
 	log.Fatal(http.ListenAndServe(s.listenAddress, router))
 }
