@@ -178,15 +178,35 @@ func (s *Database) users_read(id uuid.UUID) (*User, error) {
 	return user, nil
 }
 
-func (s *Database) users_readCol(column string, value any) error {
+func (s *Database) users_readCol(column string, value any) (*User, error) {
 	query := fmt.Sprintf(`select * from users where %s=$1`, column)
 
-	_, err := s.db.Exec(query, value)
+	rows, err := s.db.Query(query, value)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	user := &User{}
+
+	for rows.Next() {
+		if err := rows.Scan(
+			&user.ID,
+			&user.JWT,
+			&user.Username,
+			&user.Password,
+			&user.Avatar,
+			&user.Name,
+			&user.Email,
+			&user.Phone,
+			&user.Role,
+			&user.Created,
+			&user.Modified,
+		); err != nil {
+			return nil, err
+		}
+	}
+
+	return user, nil
 }
 
 func (s *Database) users_update(id uuid.UUID, column string, value any) error {

@@ -1,13 +1,13 @@
-import type { User } from "$lib/interfaces"
+// import type { User } from "$lib/types"
 
 declare global {
 	namespace App {
-		// interface Error {}
+		interface Error {}
 		interface Locals {
 			user: User | null
 		}
-		// interface PageData {}
-		// interface Platform {}
+		interface PageData {}
+		interface Platform {}
 	}
 }
 

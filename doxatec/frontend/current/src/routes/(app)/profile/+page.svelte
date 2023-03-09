@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { goto } from "$app/navigation";
   import Avatar from "$lib/components/avatar.svelte";
 </script>
 
@@ -46,11 +47,10 @@
     <h6>Cerrar sesión</h6>
     <p>O cambiar de cuenta</p>
   </header>
-  <form action="/exit" method="POST">
-    <button
-      type="submit"
-      class="bg-secondary clr-primary bord-hidden theme-radius"
-      >Cerrar sesión
-    </button>
-  </form>
+
+  <button
+    on:click={() => goto("/signout")}
+    class="bg-secondary clr-primary bord-hidden theme-radius"
+    >Cerrar sesión
+  </button>
 </container>

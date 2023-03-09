@@ -2,6 +2,7 @@ package lib
 
 import (
 	"fmt"
+	"net/http"
 	"strings"
 )
 
@@ -19,4 +20,13 @@ func StringToQuery(slice []string) string {
 	}
 
 	return keys.String()
+}
+
+func SetHeaders(w http.ResponseWriter, credentials bool, origin, methods string) {
+	w.Header().Set("Access-Control-Allow-Credentials", fmt.Sprintf("%v", credentials))
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Methods", methods)
+	w.Header().Set("Access-Control-Allow-Origin", origin)
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 }

@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"time"
+
+	"github.com/golang-jwt/jwt"
+	"github.com/google/uuid"
 )
 
 func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
@@ -12,11 +14,7 @@ func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "POST")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Content-Type", "application/json")
+	SetHeaders(w, true, ClientURL, "POST")
 
 	signInUserReq := &SigninUserRequest{}
 	err := json.NewDecoder(r.Body).Decode(&signInUserReq)
@@ -31,84 +29,74 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := GenerateJWT(user.Username, user.Role)
+	token, err := GenerateJWT(user.ID.String())
 	if err != nil {
 		json.NewEncoder(w).Encode(fmt.Sprintf("error generating token: %v", err))
 		return
 	}
 
-	if err = s.store.users_update(user.ID, "jwt", token); err != nil {
-		json.NewEncoder(w).Encode(fmt.Sprintf("error updating jwt: %v", err))
-		return
-	}
-
-	if err = s.store.users_update(user.ID, "modified", time.Now().UTC()); err != nil {
-		json.NewEncoder(w).Encode(fmt.Sprintf("error updating modified: %v", err))
-		return
-	}
+	// if err = s.store.users_update(user.ID, "modified", time.Now().UTC()); err != nil {
+	// 	json.NewEncoder(w).Encode(fmt.Sprintf("error updating modified: %v", err))
+	// 	return
+	// }
 
 	cookie := &http.Cookie{
-		Name:     "JWT",
+		Name:     "jwt",
 		Value:    token,
 		Path:     "/",
 		Secure:   true,
 		HttpOnly: true,
+		SameSite: http.SameSiteNoneMode,
+	}
+	http.SetCookie(w, cookie)
+	json.NewEncoder(w).Encode("user logged in succesfully")
+}
+
+func (s *Server) SignedUser(w http.ResponseWriter, r *http.Request) {
+	SetHeaders(w, true, ClientURL, "POST")
+
+	cookie, err := r.Cookie("jwt")
+	if err != nil {
+		json.NewEncoder(w).Encode(fmt.Sprintf("token does not exists: %v", err))
+		return
 	}
 
-	http.SetCookie(w, cookie)
+	token, err := jwt.ParseWithClaims(cookie.Value, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secretJWTkey), nil
+	})
+	if err != nil {
+		json.NewEncoder(w).Encode(fmt.Sprintf("not authenticated: %v", err))
+		return
+	}
+
+	claims := token.Claims.(*jwt.StandardClaims)
+
+	IssuerUUID, err := uuid.Parse(claims.Issuer)
+	if err != nil {
+		json.NewEncoder(w).Encode(fmt.Sprintf("error formating issuer: %v", err))
+		return
+	}
+
+	user, err := s.store.users_read(IssuerUUID)
+	if err != nil {
+		json.NewEncoder(w).Encode(fmt.Sprintf("token was valid but issuer was not found: %v", err))
+		return
+	}
 
 	json.NewEncoder(w).Encode(user)
 }
 
-func (s *Server) CheckAdmin(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "GET")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Content-Type", "application/json")
+func (s *Server) SignOut(w http.ResponseWriter, r *http.Request) {
+	SetHeaders(w, true, ClientURL, "POST")
 
-	switch r.Header.Get("Role") {
-	case "admin":
-		json.NewEncoder(w).Encode("Welcome, Admin.")
-		return
-	default:
-		json.NewEncoder(w).Encode("Not authorized.")
-		return
+	cookie := &http.Cookie{
+		Name:     "jwt",
+		Value:    "",
+		Path:     "/",
+		Secure:   true,
+		HttpOnly: true,
+		SameSite: http.SameSiteNoneMode,
 	}
-}
-
-func (s *Server) CheckRole(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "GET")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Content-Type", "application/json")
-
-	switch r.Header.Get("Role") {
-	case "admin":
-		json.NewEncoder(w).Encode(fmt.Sprintf("Role: %s", r.Header.Get("Role")))
-		return
-	case "user":
-		json.NewEncoder(w).Encode(fmt.Sprintf("Role: %s", r.Header.Get("Role")))
-		return
-	default:
-		json.NewEncoder(w).Encode("Not authorized.")
-		return
-	}
-}
-
-func (s *Server) CheckUsername(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "GET")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Content-Type", "application/json")
-
-	err := s.store.users_readCol("name", r.Header.Get("Username"))
-	if err != nil {
-		json.NewEncoder(w).Encode(fmt.Sprintf("error reading column: %v", err))
-		return
-	}
-
-	json.NewEncoder(w).Encode(r.Header.Get("Username"))
+	http.SetCookie(w, cookie)
+	json.NewEncoder(w).Encode("user logged out")
 }

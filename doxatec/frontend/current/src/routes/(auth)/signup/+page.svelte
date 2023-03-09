@@ -1,8 +1,29 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
+  import { goto } from "$app/navigation";
+
+  const formData = {
+    username: "",
+    password: "",
+  };
+
+  const CreateUser = async () => {
+    await fetch("http://localhost:3000/api/auth/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        username: formData.username,
+        password: formData.password,
+      }),
+    });
+
+    await goto("/signin");
+  };
 </script>
 
-<form method="POST" action="?/signup" use:enhance class="flex column gap--24">
+<form on:submit|preventDefault={CreateUser} class="flex column gap--24">
   <header class="w--100">
     <h4>Crea una cuenta para continuar</h4>
     <p>
@@ -23,8 +44,7 @@
   </fieldgroup>
 
   <button
-    type="submit"
     class="bg-secondary clr-primary bord--hidden text--center theme-radius"
-    >Crear usuario</button
+    type="submit">Crear usuario</button
   >
 </form>
