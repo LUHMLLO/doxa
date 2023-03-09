@@ -20,7 +20,7 @@
       href="/dashboard"
       class="clr-secondary inline-flex justify--center align--center"
     >
-      <icon class="icon size--24">
+      <icon class="icon size--32">
         <i class="iconoir-compass" />
       </icon>
       <tooltip class="tooltip dpt-secondary">dashboard</tooltip>
@@ -29,7 +29,7 @@
       href="/devices"
       class="clr-secondary inline-flex justify--center align--center"
     >
-      <icon class="icon size--24">
+      <icon class="icon size--32">
         <i class="iconoir-computer" />
       </icon>
       <tooltip class="tooltip dpt-secondary">dispositivos</tooltip>
@@ -41,7 +41,7 @@
       href="/settings"
       class="clr-secondary inline-flex justify--center align--center"
     >
-      <icon class="icon size--24">
+      <icon class="icon size--32">
         <i class="iconoir-settings" />
       </icon>
       <tooltip class="tooltip dpt-secondary">ajustes</tooltip>
@@ -50,7 +50,7 @@
       href="/profile"
       class="clr-secondary inline-flex justify--center align--center"
     >
-      <Avatar size={24} />
+      <Avatar size={32} />
       <tooltip class="tooltip dpt-secondary">mi perfil</tooltip>
     </a>
   </nav>

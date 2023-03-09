@@ -17,6 +17,7 @@ type Storage interface {
 	devices_beforeInsert(d *Device) (*Device, error)
 	devices_insert(d *Device) error
 	devices_readTable() ([]*Device, error)
+	devices_readTableWhereOwner(owner string) ([]*Device, error)
 	devices_read(id uuid.UUID) (*Device, error)
 	devices_readCol(column string, value any) error
 	devices_update(id uuid.UUID, column string, value any) error

@@ -128,6 +128,38 @@ func (s *Database) devices_readTable() ([]*Device, error) {
 
 	return devices, err
 }
+func (s *Database) devices_readTableWhereOwner(owner string) ([]*Device, error) {
+	query := `select * from devices where owner=$1`
+
+	rows, err := s.db.Query(query, owner)
+	if err != nil {
+		return nil, err
+	}
+
+	devices := []*Device{}
+
+	for rows.Next() {
+		device := &Device{}
+
+		if err := rows.Scan(
+			&device.ID,
+			&device.Owner,
+			&device.Name,
+			&device.PIN,
+			&device.TempSup,
+			&device.TempMid,
+			&device.TempSub,
+			&device.Created,
+			&device.Modified,
+		); err != nil {
+			return nil, err
+		}
+
+		devices = append(devices, device)
+	}
+
+	return devices, err
+}
 
 func (s *Database) devices_read(id uuid.UUID) (*Device, error) {
 	query := `select * from devices where id=$1`

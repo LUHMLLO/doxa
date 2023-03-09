@@ -56,17 +56,11 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
 func (s *Server) SignedUser(w http.ResponseWriter, r *http.Request) {
 	SetHeaders(w, true, ClientURL, "GET")
 
-	// for _, cookie := range r.Cookies() {
-	// 	fmt.Printf("Cookie: %s=%s\n", cookie.Name, cookie.Value)
-	// }
-
 	cookie, err := r.Cookie("jwt")
 	if err != nil {
 		json.NewEncoder(w).Encode(fmt.Sprintf("token does not exists: %v", err))
 		return
 	}
-
-	//log.Println(cookie)
 
 	if cookie.Value == "" {
 		log.Println("received an empty cookie")
@@ -87,8 +81,6 @@ func (s *Server) SignedUser(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(fmt.Sprintf("error formating issuer: %v", err))
 		return
 	}
-
-	//log.Println(IssuerUUID)
 
 	user, err := s.store.users_read(IssuerUUID)
 	if err != nil {
@@ -114,4 +106,36 @@ func (s *Server) SignOut(w http.ResponseWriter, r *http.Request) {
 	}
 	http.SetCookie(w, cookie)
 	json.NewEncoder(w).Encode("user session terminated")
+}
+
+func (s *Server) UserDevices(w http.ResponseWriter, r *http.Request) {
+	SetHeaders(w, true, ClientURL, "GET")
+
+	cookie, err := r.Cookie("jwt")
+	if err != nil {
+		json.NewEncoder(w).Encode(fmt.Sprintf("token does not exists: %v", err))
+		return
+	}
+
+	if cookie.Value == "" {
+		log.Println("received an empty cookie")
+	}
+
+	token, err := jwt.ParseWithClaims(cookie.Value, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secretJWTkey), nil
+	})
+	if err != nil {
+		json.NewEncoder(w).Encode(fmt.Sprintf("not authenticated: %v", err))
+		return
+	}
+
+	claims := token.Claims.(*jwt.StandardClaims)
+
+	devices, err := s.store.devices_readTableWhereOwner(claims.Issuer)
+	if err != nil {
+		json.NewEncoder(w).Encode(fmt.Sprintf("token was valid but issuer was not found: %v", err))
+		return
+	}
+
+	json.NewEncoder(w).Encode(devices)
 }
