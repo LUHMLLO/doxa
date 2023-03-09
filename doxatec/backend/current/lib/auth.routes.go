@@ -3,6 +3,7 @@ package lib
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/golang-jwt/jwt"
@@ -49,16 +50,26 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
 		SameSite: http.SameSiteNoneMode,
 	}
 	http.SetCookie(w, cookie)
-	json.NewEncoder(w).Encode("user logged in succesfully")
+	json.NewEncoder(w).Encode("user session initialized")
 }
 
 func (s *Server) SignedUser(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "POST")
+	SetHeaders(w, true, ClientURL, "GET")
+
+	// for _, cookie := range r.Cookies() {
+	// 	fmt.Printf("Cookie: %s=%s\n", cookie.Name, cookie.Value)
+	// }
 
 	cookie, err := r.Cookie("jwt")
 	if err != nil {
 		json.NewEncoder(w).Encode(fmt.Sprintf("token does not exists: %v", err))
 		return
+	}
+
+	//log.Println(cookie)
+
+	if cookie.Value == "" {
+		log.Println("received an empty cookie")
 	}
 
 	token, err := jwt.ParseWithClaims(cookie.Value, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
@@ -77,11 +88,15 @@ func (s *Server) SignedUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//log.Println(IssuerUUID)
+
 	user, err := s.store.users_read(IssuerUUID)
 	if err != nil {
 		json.NewEncoder(w).Encode(fmt.Sprintf("token was valid but issuer was not found: %v", err))
 		return
 	}
+
+	//log.Println(user)
 
 	json.NewEncoder(w).Encode(user)
 }
@@ -98,5 +113,5 @@ func (s *Server) SignOut(w http.ResponseWriter, r *http.Request) {
 		SameSite: http.SameSiteNoneMode,
 	}
 	http.SetCookie(w, cookie)
-	json.NewEncoder(w).Encode("user logged out")
+	json.NewEncoder(w).Encode("user session terminated")
 }

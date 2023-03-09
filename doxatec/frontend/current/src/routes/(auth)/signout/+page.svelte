@@ -3,7 +3,7 @@
     import { onMount } from "svelte";
 
     onMount(async () => {
-        await fetch("http://localhost:3000/api/auth/signout", {
+        const res = await fetch("http://localhost:3000/api/auth/signout", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -11,7 +11,8 @@
             credentials: "include",
         });
 
-        console.log("logged out");
+        const data = await res.json();
+        console.log(data);
 
         goto("/signin");
     });

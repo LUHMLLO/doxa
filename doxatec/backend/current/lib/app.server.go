@@ -24,7 +24,7 @@ func (s *Server) Start() {
 
 	router.HandleFunc("/api/auth/signup", s.SignUp).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/auth/signin", s.SignIn).Methods("POST", "OPTIONS")
-	router.HandleFunc("/api/auth/signature", s.SignedUser).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/auth/signature", s.SignedUser).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/auth/signout", s.SignOut).Methods("POST", "OPTIONS")
 	// router.HandleFunc("/api/auth/validate", s.VerifyJWT).Methods("POST", "OPTIONS")
 

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import Avatar from "$lib/components/avatar.svelte";
+  import { currentUser } from "$lib/stores";
 </script>
 
 <header>
@@ -10,8 +11,8 @@
       <Avatar size={100} />
       <row class="flex row align--center w--100 mt--32">
         <column class="flex column w--100">
-          <h4>Username</h4>
-          <p>user full name</p>
+          <h4>{$currentUser.username}</h4>
+          <p>{$currentUser.name}</p>
         </column>
         <button class="p--0 bord--hidden">
           <icon class="icon size--24">
