@@ -21,7 +21,7 @@
       class="clr-secondary inline-flex justify--center align--center"
     >
       <icon class="icon size--32">
-        <i class="iconoir-compass" />
+        <i class="iconoir-report-columns" />
       </icon>
       <tooltip class="tooltip dpt-secondary">dashboard</tooltip>
     </a>

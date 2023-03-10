@@ -2,7 +2,7 @@
   import Avatar from "$lib/components/avatar.svelte";
   const buttons = [
     {
-      icon: "iconoir-compass",
+      icon: "iconoir-report-columns",
       name: "dashboard",
     },
     {
@@ -20,7 +20,7 @@
       href="/{button.name}"
       class="clr-secondary inline-flex justify--center align--center mx--auto"
     >
-      <icon class="icon size--48">
+      <icon class="icon size--32">
         <i class={button.icon} />
       </icon>
     </a>
@@ -30,7 +30,7 @@
     href="/settings"
     class="clr-secondary inline-flex justify--center align--center mx--auto"
   >
-    <icon class="icon size--48">
+    <icon class="icon size--32">
       <i class="iconoir-settings" />
     </icon>
   </a>
@@ -38,6 +38,6 @@
     href="/profile"
     class="clr-secondary inline-flex justify--center align--center mx--auto"
   >
-    <Avatar size={48} />
+    <Avatar size={32} />
   </a>
 </nav>
