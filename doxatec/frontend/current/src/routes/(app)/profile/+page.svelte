@@ -15,8 +15,8 @@
       <Avatar size={100} />
       <row class="flex row align--center w--100 md:mt--32">
         <column class="block w--100">
-          <h5>{$currentUser.username}</h5>
-          <small>{$currentUser.name}</small>
+          <h5>{$currentUser?.username}</h5>
+          <small>{$currentUser?.name}</small>
         </column>
         <button class="p--0 bord--hidden">
           <icon class="icon size--24">

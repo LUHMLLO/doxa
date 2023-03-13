@@ -1,4 +1,5 @@
 <script>
+  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
 </script>
 
@@ -18,12 +19,12 @@
   </a>
 
   <nav class="justify--end align--center gap--16 w--100">
-    <button class="p--0 bord--hidden">
+    <button class="p--0 bord--hidden" on:click={() => goto("/search")}>
       <icon class="icon">
         <i class="iconoir-search" />
       </icon>
     </button>
-    <button class="p--0 bord--hidden">
+    <button class="p--0 bord--hidden" on:click={() => goto("/notifications")}>
       <icon class="icon">
         <i class="iconoir-bell" />
       </icon>
