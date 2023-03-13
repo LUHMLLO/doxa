@@ -7,19 +7,29 @@
   };
 
   const RequestSignin = async () => {
-    await fetch("http://localhost:3000/api/auth/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        username: formData.username,
-        password: formData.password,
-      }),
-    });
+    let response;
 
-    await goto("/");
+    try {
+      response = await fetch("http://localhost:3000/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
+    } catch (error) {
+      console.log("There was an error", error);
+    }
+
+    if (response?.ok) {
+      const data = await response.json();
+      console.log("response: ", data);
+    } else {
+      response?.text().then((data) => {
+        console.log("error: ", data);
+      });
+    }
   };
 </script>
 
