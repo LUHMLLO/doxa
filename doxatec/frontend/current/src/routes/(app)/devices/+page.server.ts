@@ -4,9 +4,6 @@ import type { Device } from "$lib/types"
 export const load = (async ({ fetch }) => {
     const res = await fetch("http://localhost:3000/api/auth/mydevices", {
         method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
         credentials: "include",
     });
 

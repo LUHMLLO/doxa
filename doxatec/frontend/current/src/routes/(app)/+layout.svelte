@@ -1,29 +1,21 @@
 <script lang="ts">
-  import Splashscreen from "$lib/components/splashscreen.svelte";
-  import BaseLayout from "$lib/layouts/base.svelte";
-  import { currentUser } from "$lib/stores";
-  import { onMount } from "svelte";
+    import type { LayoutData } from "./$types";
+    import { onMount } from "svelte";
+    import { currentUser } from "$lib/stores";
+    import Splashscreen from "$lib/components/splashscreen.svelte";
+    import BaseLayout from "$lib/layouts/base.svelte";
 
-  onMount(async () => {
-    if (!$currentUser) {
-      const res = await fetch("http://localhost:3000/api/auth/signature", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
+    export let data: LayoutData;
 
-      const data = await res.json();
-      currentUser.set(data);
-    }
-  });
+    onMount(() => {
+        currentUser.set(data.user);
+    });
 </script>
 
 {#if $currentUser}
-  <BaseLayout>
-    <slot />
-  </BaseLayout>
+    <BaseLayout>
+        <slot />
+    </BaseLayout>
 {:else}
-  <Splashscreen />
+    <Splashscreen />
 {/if}
