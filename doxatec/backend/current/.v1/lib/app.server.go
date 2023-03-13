@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 
@@ -21,6 +22,11 @@ func NewServer(listenAddress string, store Storage) *Server {
 
 func (s *Server) Start() {
 	router := mux.NewRouter()
+
+	router.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		SetHeaders(w, true, ClientURL, "GET")
+		json.NewEncoder(w).Encode("Everything seems to be fine")
+	}).Methods("GET", "OPTIONS")
 
 	router.HandleFunc("/api/auth/signup", s.SignUp).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/auth/signin", s.SignIn).Methods("POST", "OPTIONS")
