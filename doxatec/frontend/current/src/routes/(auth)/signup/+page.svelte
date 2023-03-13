@@ -13,16 +13,30 @@
   };
 
   const RequestSignup = async () => {
-    await fetch("http://localhost:3000/api/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(formData),
-    });
+    let response;
 
-    await goto("/signin");
+    try {
+      response = await fetch("http://localhost:3000/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
+    } catch (error) {
+      console.log("There was an error", error);
+    }
+
+    if (response?.ok) {
+      const data = await response.json();
+      console.log("response: ", data);
+      goto("/signin");
+    } else {
+      response?.text().then((data) => {
+        console.log("error: ", data);
+      });
+    }
   };
 </script>
 

@@ -3,5 +3,5 @@
 </script>
 
 <Block_Section>
-    <h6>nothing to see here</h6>
+    <h6>you have 0 notifications</h6>
 </Block_Section>

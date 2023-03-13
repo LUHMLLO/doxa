@@ -3,5 +3,5 @@
 </script>
 
 <Block_Section>
-    <h6>nothing to see here</h6>
+    <h6>nothing to see here yet</h6>
 </Block_Section>
