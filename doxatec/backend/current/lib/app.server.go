@@ -25,7 +25,7 @@ func (s *Server) Start() {
 
 	router.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		SetHeaders(w, r, "GET")
-		json.NewEncoder(w).Encode(map[string]string{"message": "api server working correctly"})
+		json.NewEncoder(w).Encode(map[string]string{"message": "api server working correctly", "origin": r.Header.Get("Origin")})
 	}).Methods("GET", "OPTIONS")
 
 	router.HandleFunc("/api/auth/signup", s.SignUp).Methods("POST", "OPTIONS")
