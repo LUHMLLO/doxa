@@ -92,7 +92,7 @@ func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(user)
+	json.NewEncoder(w).Encode(map[string]string{"message": "user created succesfully"})
 }
 
 func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
