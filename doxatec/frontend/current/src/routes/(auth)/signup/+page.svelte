@@ -30,8 +30,8 @@
 
     if (response?.ok) {
       const data = await response.json();
-      console.log("response: ", data);
-      goto("/signin");
+      console.log("response: ", data.message);
+      goto("/");
     } else {
       response?.text().then((data) => {
         console.log("error: ", data);

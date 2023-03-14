@@ -25,7 +25,7 @@ func (s *Server) Start() {
 
 	router.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		SetHeaders(w, r, "GET")
-		json.NewEncoder(w).Encode(map[string]string{"message": "api server working correctly", "origin": r.Header.Get("Origin")})
+		json.NewEncoder(w).Encode(map[string]string{"message": "api server working correctly"})
 	}).Methods("GET", "OPTIONS")
 
 	router.HandleFunc("/api/auth/signup", s.SignUp).Methods("POST", "OPTIONS")
@@ -33,9 +33,7 @@ func (s *Server) Start() {
 	router.HandleFunc("/api/auth/signature", Authenticate(s.SignedUser)).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/auth/signout", Authenticate(s.SignOut)).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/auth/mydevices", Authenticate(s.UserDevices)).Methods("GET", "OPTIONS")
-	// router.HandleFunc("/api/auth/check-admin", s.UserAdmin).Methods("GET", "OPTIONS")
-	// router.HandleFunc("/api/auth/check-role", s.UserRole).Methods("GET", "OPTIONS")
-	// router.HandleFunc("/api/auth/check-username", s.UserName).Methods("GET", "OPTIONS")
+
 	router.HandleFunc("/api/master/users/all", Authenticate(s.Route_all_users)).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/master/users/insert", Authenticate(s.Route_insert_user)).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/master/users/read/{id}", Authenticate(s.Route_read_user)).Methods("GET", "OPTIONS")

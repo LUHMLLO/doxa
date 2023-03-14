@@ -24,7 +24,7 @@
 
     if (response?.ok) {
       const data = await response.json();
-      console.log("response: ", data);
+      console.log("response: ", data.message);
       goto("/");
     } else {
       response?.text().then((data) => {
