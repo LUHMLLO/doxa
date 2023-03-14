@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: doxadmin
+      POSTGRES_PASSWORD: d@x@dm1n
+      POSTGRES_DB: doxatec
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  api:
+    build: .
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: doxadmin
+      DB_PASSWORD: d@x@dm1n
+      DB_NAME: doxatec
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+volumes:
+  postgres-data:
