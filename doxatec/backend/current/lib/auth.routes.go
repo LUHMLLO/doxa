@@ -141,7 +141,7 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
 		Value:    token,
 		Path:     "/",
 		Secure:   true,
-		HttpOnly: true,
+		HttpOnly: false,
 		SameSite: http.SameSiteNoneMode,
 	}
 	http.SetCookie(w, cookie)
@@ -177,7 +177,7 @@ func (s *Server) SignOut(w http.ResponseWriter, r *http.Request) {
 		Value:    "",
 		Path:     "/",
 		Secure:   true,
-		HttpOnly: true,
+		HttpOnly: false,
 		SameSite: http.SameSiteNoneMode,
 	}
 	http.SetCookie(w, cookie)
