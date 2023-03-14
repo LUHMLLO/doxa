@@ -1,5 +1,5 @@
 package lib
 
 const (
-	ClientURL string = "http://localhost:5173"
+	ClientURL string = "https://doxatec.vercel.app"
 )
