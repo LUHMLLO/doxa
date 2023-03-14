@@ -146,7 +146,7 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
 	}
 	http.SetCookie(w, cookie)
 
-	json.NewEncoder(w).Encode("user session initialized")
+	json.NewEncoder(w).Encode(map[string]string{"message": "user session initialized"})
 }
 
 func (s *Server) SignedUser(w http.ResponseWriter, r *http.Request) {
@@ -182,7 +182,7 @@ func (s *Server) SignOut(w http.ResponseWriter, r *http.Request) {
 	}
 	http.SetCookie(w, cookie)
 
-	json.NewEncoder(w).Encode("user session terminated")
+	json.NewEncoder(w).Encode(map[string]string{"message": "user session terminated"})
 }
 
 func (s *Server) UserDevices(w http.ResponseWriter, r *http.Request) {
