@@ -11,7 +11,7 @@ import (
 )
 
 func (s *Server) Route_all_users(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "GET")
+	SetHeaders(w, r, "GET")
 
 	users, err := s.store.users_readTable()
 
@@ -24,7 +24,7 @@ func (s *Server) Route_all_users(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) Route_insert_user(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "POST")
+	SetHeaders(w, r, "POST")
 
 	createUserReq := &CreateUserRequest{}
 	err := json.NewDecoder(r.Body).Decode(&createUserReq)
@@ -65,7 +65,7 @@ func (s *Server) Route_insert_user(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) Route_read_user(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "GET")
+	SetHeaders(w, r, "GET")
 
 	params := mux.Vars(r)
 	id, err := uuid.Parse(params["id"])
@@ -84,7 +84,7 @@ func (s *Server) Route_read_user(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) Route_update_user(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "PUT")
+	SetHeaders(w, r, "PUT")
 
 	params := mux.Vars(r)
 	id, err := uuid.Parse(params["id"])
@@ -174,7 +174,7 @@ func (s *Server) Route_update_user(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) Route_delete_user(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "DELETE")
+	SetHeaders(w, r, "DELETE")
 
 	params := mux.Vars(r)
 	id, err := uuid.Parse(params["id"])

@@ -9,7 +9,7 @@ import (
 )
 
 func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "POST")
+	SetHeaders(w, r, "POST")
 
 	createUserReq := &CreateUserRequest{}
 	err := json.NewDecoder(r.Body).Decode(&createUserReq)
@@ -96,7 +96,7 @@ func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "POST")
+	SetHeaders(w, r, "POST")
 
 	signInUserReq := &SigninUserRequest{}
 	if err := json.NewDecoder(r.Body).Decode(&signInUserReq); err != nil {
@@ -150,7 +150,7 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) SignedUser(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "GET")
+	SetHeaders(w, r, "GET")
 
 	//log.Println("after authenticated : ", r.Context().Value(ClaimsContext).(httpClaimsContext))
 
@@ -170,7 +170,7 @@ func (s *Server) SignedUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) SignOut(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "POST")
+	SetHeaders(w, r, "POST")
 
 	cookie := &http.Cookie{
 		Name:     "jwt",
@@ -186,7 +186,7 @@ func (s *Server) SignOut(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) UserDevices(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "GET")
+	SetHeaders(w, r, "GET")
 
 	devices, err := s.store.devices_readTableWhereOwner(r.Context().Value(ClaimsContext).(httpClaimsContext).Issuer)
 	if err != nil {

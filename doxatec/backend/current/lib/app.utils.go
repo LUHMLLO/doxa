@@ -24,11 +24,18 @@ func StringToQuery(slice []string) string {
 	return keys.String()
 }
 
-func SetHeaders(w http.ResponseWriter, credentials bool, origin, methods string) {
-	w.Header().Set("Access-Control-Allow-Credentials", fmt.Sprintf("%v", credentials))
+func SetHeaders(w http.ResponseWriter, r *http.Request, methods string) {
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Authorization, Credentials, Headers, Methods, Origin, Content-Type, Context-Type")
 	w.Header().Set("Access-Control-Allow-Methods", methods)
-	w.Header().Set("Access-Control-Allow-Origin", origin)
+
+	origin := r.Header.Get("Origin")
+	if origin != "" {
+		w.Header().Set("Access-Control-Allow-Origin", origin)
+	} else {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 }

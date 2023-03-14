@@ -11,7 +11,7 @@ import (
 )
 
 func (s *Server) Route_all_devices(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "GET")
+	SetHeaders(w, r, "GET")
 
 	devices, err := s.store.devices_readTable()
 
@@ -24,7 +24,7 @@ func (s *Server) Route_all_devices(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) Route_insert_device(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "POST")
+	SetHeaders(w, r, "POST")
 
 	createDeviceReq := &CreateDeviceRequest{}
 	err := json.NewDecoder(r.Body).Decode(&createDeviceReq)
@@ -58,7 +58,7 @@ func (s *Server) Route_insert_device(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) Route_read_device(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "GET")
+	SetHeaders(w, r, "GET")
 
 	params := mux.Vars(r)
 	id, err := uuid.Parse(params["id"])
@@ -77,7 +77,7 @@ func (s *Server) Route_read_device(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) Route_update_device(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "PUT")
+	SetHeaders(w, r, "PUT")
 
 	params := mux.Vars(r)
 	id, err := uuid.Parse(params["id"])
@@ -159,7 +159,7 @@ func (s *Server) Route_update_device(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) Route_delete_device(w http.ResponseWriter, r *http.Request) {
-	SetHeaders(w, true, ClientURL, "DELETE")
+	SetHeaders(w, r, "DELETE")
 
 	params := mux.Vars(r)
 	id, err := uuid.Parse(params["id"])

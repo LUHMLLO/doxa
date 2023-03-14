@@ -24,7 +24,7 @@ func (s *Server) Start() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		SetHeaders(w, true, ClientURL, "GET")
+		SetHeaders(w, r, "GET")
 		json.NewEncoder(w).Encode(map[string]string{"message": "api server working correctly"})
 	}).Methods("GET", "OPTIONS")
 
