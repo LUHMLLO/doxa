@@ -1,7 +1,7 @@
 package main
 
 import (
-	"doxatec/lib"
+	"doxatec/api/lib"
 	"log"
 )
 
