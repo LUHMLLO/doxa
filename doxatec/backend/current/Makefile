@@ -1,8 +1,8 @@
 build:
-	go build -o ./api/doxatec
+	go build -o ./app/doxatec
 
 run: build
-	./api/doxatec
+	./app/doxatec
 
 test:
 	@go test -v ./...
