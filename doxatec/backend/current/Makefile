@@ -5,6 +5,6 @@ docker-build:
 	docker build -t doxapi .
 
 docker-run:
-	docker run -it --rm -p 8081:8081 --name DoxapiContainer -d doxapi
+	docker run -it --rm -p 9000:9000 --name DoxapiContainer -d doxapi
 
 run: docker-build docker-run
