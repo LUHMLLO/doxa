@@ -15,6 +15,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	server := lib.NewServer(":8081", store)
+	server := lib.NewServer(":3000", store)
 	server.Start()
 }
