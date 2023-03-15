@@ -2,6 +2,7 @@ package lib
 
 import (
 	"database/sql"
+	"fmt"
 
 	_ "github.com/lib/pq"
 )
@@ -11,11 +12,18 @@ type Database struct {
 }
 
 func NewDatabase() (*Database, error) {
-	// local db
-	//db, err := sql.Open("postgres", "dbname=doxatec user=doxadmin password=d@x@dm1n sslmode=disable")
+	const (
+		db_user     string = "doxadmin"
+		db_password string = "d@x@dm1n"
+		db_host     string = "142.93.207.120"
+		db_port     string = "5432"
+		db_database string = "doxatec"
+	)
 
-	// online db
-	db, err := sql.Open("postgres", "postgres://doxadmin:DXIq5uCiqi2xQpUVokA55sRZHQPG4q32@dpg-cg8a6v9mbg53mc4sp150-a.oregon-postgres.render.com/doxatec")
+	//url_local := "dbname=doxatec user=doxadmin password=d@x@dm1n sslmode=disable"
+	url_public := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", db_user, db_password, db_host, db_port, db_database)
+
+	db, err := sql.Open("postgres", url_public)
 	if err != nil {
 		return nil, err
 	}

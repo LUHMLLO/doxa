@@ -38,7 +38,7 @@ func ReadFromTable(table string, dataType []interface{}) ([]interface{}, error) 
 	for rows.Next() {
 		user := &User{}
 
-		err := rows.Scan(&user.ID, &user.JWT, &user.Username, &user.Password, &user.Avatar, &user.Name, &user.Email, &user.Phone, &user.Created, &user.Modified)
+		err := rows.Scan(&user.ID, &user.Username, &user.Password, &user.Avatar, &user.Name, &user.Email, &user.Phone, &user.Created, &user.Modified)
 		if err != nil {
 			log.Fatal(err)
 			return nil, err

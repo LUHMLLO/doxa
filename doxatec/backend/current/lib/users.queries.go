@@ -9,7 +9,6 @@ import (
 func (s *Database) users_init() error {
 	schema := []string{
 		"id varchar(250) primary key",
-		"jwt varchar(250)",
 		"username varchar(250)",
 		"password varchar(250)",
 		"avatar varchar(250)",
@@ -40,7 +39,6 @@ func (s *Database) users_beforeInsert(u *User) (*User, error) {
 	for rows.Next() {
 		if err := rows.Scan(
 			&user.ID,
-			&user.JWT,
 			&user.Username,
 			&user.Password,
 			&user.Avatar,
@@ -73,7 +71,6 @@ func (s *Database) users_beforeInsert(u *User) (*User, error) {
 func (s *Database) users_insert(u *User) error {
 	schema := []string{
 		"id",
-		"jwt",
 		"username",
 		"password",
 		"avatar",
@@ -95,7 +92,6 @@ func (s *Database) users_insert(u *User) error {
 	if _, err := s.db.Query(
 		query,
 		&u.ID,
-		&u.JWT,
 		&u.Username,
 		&u.Password,
 		&u.Avatar,
@@ -127,7 +123,6 @@ func (s *Database) users_readTable() ([]*User, error) {
 
 		if err := rows.Scan(
 			&user.ID,
-			&user.JWT,
 			&user.Username,
 			&user.Password,
 			&user.Avatar,
@@ -160,7 +155,6 @@ func (s *Database) users_read(id uuid.UUID) (*User, error) {
 	for rows.Next() {
 		if err := rows.Scan(
 			&user.ID,
-			&user.JWT,
 			&user.Username,
 			&user.Password,
 			&user.Avatar,
@@ -191,7 +185,6 @@ func (s *Database) users_readCol(column string, value any) (*User, error) {
 	for rows.Next() {
 		if err := rows.Scan(
 			&user.ID,
-			&user.JWT,
 			&user.Username,
 			&user.Password,
 			&user.Avatar,
@@ -243,7 +236,6 @@ func (s *Database) Users_beforeSignin(username, password string) (*User, error) 
 	for rows.Next() {
 		if err := rows.Scan(
 			&user.ID,
-			&user.JWT,
 			&user.Username,
 			&user.Password,
 			&user.Avatar,
