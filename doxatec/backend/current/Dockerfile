@@ -10,5 +10,5 @@ RUN go build -o ./doxapi
 FROM alpine:latest as production
 RUN apk add --no-cache ca-certificates
 COPY --from=builder app .
-EXPOSE 3000
+EXPOSE 30999
 CMD ./doxapi
