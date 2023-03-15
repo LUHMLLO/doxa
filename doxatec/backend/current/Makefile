@@ -1,8 +1,10 @@
 build:
-	go build -o ./.app/doxatec
+	go build -o ./doxapi
 
-run: build
-	./.app/doxatec
+docker-build:
+	docker build -t doxapi .
 
-test:
-	@go test -v ./...
+docker-run:
+	docker run -it --rm -p 8081:8081 --name DoxapiContainer doxapi
+
+run: docker-build docker-run
