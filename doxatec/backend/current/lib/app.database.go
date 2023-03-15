@@ -15,7 +15,7 @@ func NewDatabase() (*Database, error) {
 	const (
 		db_user     string = "doxadmin"
 		db_password string = "d@x@dm1n"
-		db_host     string = "142.93.207.120"
+		db_host     string = "127.0.0.1"
 		db_port     string = "5432"
 		db_database string = "doxatec"
 	)
