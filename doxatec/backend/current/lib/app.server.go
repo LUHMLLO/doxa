@@ -2,7 +2,6 @@ package lib
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -24,9 +23,9 @@ func NewServer(listenAddress string, store Storage) *Server {
 func (s *Server) Start() {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
-	})
+	// router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	// 	fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
+	// })
 
 	router.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		SetHeaders(w, r, "GET")
