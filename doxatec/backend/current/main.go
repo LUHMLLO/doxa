@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func Main() {
+func main() {
 	store, err := lib.NewDatabase()
 	if err != nil {
 		log.Fatal(err)
