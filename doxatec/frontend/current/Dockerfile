@@ -1,13 +1,10 @@
 FROM node:latest
-WORKDIR /api
+WORKDIR /frontend
 
-RUN npm install -g pnpm
+RUN npm install -g pnpm vite
 COPY .npmrc package.json pnpm-lock.yaml ./
-
-RUN pnpm install --frozen-lockfile --prod
+RUN pnpm install
 COPY . .
-
-RUN pnpm i
 RUN pnpm run build
 EXPOSE 4173
 CMD ["pnpm", "run", "preview"]
