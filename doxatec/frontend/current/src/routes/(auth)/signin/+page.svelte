@@ -10,7 +10,7 @@
     let response;
 
     try {
-      response = await fetch("http://142.93.207.120:3000/api/auth/signin", {
+      response = await fetch("http://localhost:3000/api/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

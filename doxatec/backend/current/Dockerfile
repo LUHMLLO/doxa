@@ -11,13 +11,13 @@
 FROM golang:latest as builder
 ENV GOOS linux
 ENV CGO_ENABLED 0
-WORKDIR /app
+WORKDIR /api
 COPY . .
 RUN go build -o ./doxapi
 
 #production stage
 FROM alpine:latest as production
 RUN apk add --no-cache ca-certificates
-COPY --from=builder app .
+COPY --from=builder api .
 EXPOSE 3000
 CMD ./doxapi
