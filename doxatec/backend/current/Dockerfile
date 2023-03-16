@@ -1,3 +1,12 @@
+# # Set environment variables
+# ENV DB_HOST=localhost
+# ENV DB_PORT=5432
+# ENV DB_USER=myuser
+# ENV DB_PASSWORD=mypassword
+# ENV DB_NAME=mydb
+# ENV PORT=8080
+# ENV PGDATA=/var/lib/postgresql/data
+
 #build stage
 FROM golang:latest as builder
 ENV GOOS linux
@@ -10,5 +19,5 @@ RUN go build -o ./doxapi
 FROM alpine:latest as production
 RUN apk add --no-cache ca-certificates
 COPY --from=builder app .
-EXPOSE 30999
+EXPOSE 3000
 CMD ./doxapi
