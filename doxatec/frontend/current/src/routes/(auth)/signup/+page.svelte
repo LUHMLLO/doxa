@@ -16,7 +16,7 @@
     let response;
 
     try {
-      response = await fetch("http://localhost:3000/api/auth/signup", {
+      response = await fetch("http://172.17.0.1:3000/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

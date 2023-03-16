@@ -3,7 +3,7 @@ import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch }) => {
-    await fetch("http://localhost:3000/api/auth/signout", {
+    await fetch("http://172.17.0.1:3000/api/auth/signout", {
         method: "POST",
         credentials: "include",
     });
