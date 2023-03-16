@@ -16,7 +16,7 @@
     let response;
 
     try {
-      response = await fetch("https://doxapi.onrender.com/api/auth/signup", {
+      response = await fetch("http://142.93.207.120:3000/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

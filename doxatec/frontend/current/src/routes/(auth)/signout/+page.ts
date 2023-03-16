@@ -3,7 +3,7 @@ import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch }) => {
-    await fetch("https://doxapi.onrender.com/api/auth/signout", {
+    await fetch("http://142.93.207.120:3000/api/auth/signout", {
         method: "POST",
         credentials: "include",
     });
