@@ -3,6 +3,7 @@ package lib
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -37,16 +38,25 @@ var ClaimsContext = &httpClaimsContext{}
 func Authenticate(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
+			// headerToken := r.Header.Get("Authorization")
+			// if headerToken == "" {
+			// 	log.Println("header does not exists")
+			// 	w.WriteHeader(http.StatusUnauthorized)
+			// 	return
+			// }
+
 			cookie, err := r.Cookie("jwt")
 			if err != nil {
 				// set error status code and message
-				http.Error(w, "token does not exists", 200)
+				log.Println("token does not exists: ", err.Error())
+				w.WriteHeader(http.StatusUnauthorized)
 				return
 			}
 
 			if cookie.Value == "" {
 				// set error status code and message
-				http.Error(w, "received an empty token", 400)
+				log.Println("received an empty token")
+				w.WriteHeader(http.StatusUnauthorized)
 				return
 			}
 
@@ -55,14 +65,12 @@ func Authenticate(next http.HandlerFunc) http.HandlerFunc {
 			})
 			if err != nil {
 				// set error status code and message
-				http.Error(w, fmt.Sprintf("not authenticated: %v", err), 400)
+				log.Println("not authenticated: ", err.Error())
+				w.WriteHeader(http.StatusUnauthorized)
 				return
 			}
 
 			claims, ok := token.Claims.(*jwt.StandardClaims)
-			// log.Println("claims: ", claims)
-			// log.Println("status: ", ok)
-
 			r = r.WithContext(
 				context.WithValue(
 					r.Context(),

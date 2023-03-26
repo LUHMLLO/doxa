@@ -2,7 +2,7 @@ package lib
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -15,49 +15,57 @@ func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&createUserReq)
 	if err != nil {
 		// set error status code and message
-		http.Error(w, "error reading request body", 200)
+		log.Println("error reading request body")
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	if createUserReq.Username == "" {
 		// set error status code and message
-		http.Error(w, "username field was empty", 400)
+		log.Println("username field was empty")
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	if createUserReq.Password == "" {
 		// set error status code and message
-		http.Error(w, "password field was empty", 400)
+		log.Println("password field was empty")
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	if createUserReq.Avatar == "" {
 		// set error status code and message
-		http.Error(w, "avatar field was empty", 400)
+		log.Println("avatar field was empty")
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	if createUserReq.Name == "" {
 		// set error status code and message
-		http.Error(w, "name field was empty", 400)
+		log.Println("name field was empty")
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	if createUserReq.Email == "" {
 		// set error status code and message
-		http.Error(w, "email field was empty", 400)
+		log.Println("email field was empty")
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	if createUserReq.Phone == "" {
 		// set error status code and message
-		http.Error(w, "phone field was empty", 400)
+		log.Println("phone field was empty")
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	if createUserReq.Role == "" {
 		// set error status code and message
-		http.Error(w, "role field was empty", 400)
+		log.Println("role field was empty")
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
@@ -74,21 +82,24 @@ func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
 	_, err = s.store.users_beforeInsert(user)
 	if err != nil {
 		// set error status code and message
-		http.Error(w, err.Error(), 400)
+		log.Println(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	user.Password, err = GeneratehashPassword(user.Password)
 	if err != nil {
 		// set error status code and message
-		http.Error(w, fmt.Sprintf("error hashing password: %v", err), 400)
+		log.Println("error hashing password: ", err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	err = s.store.users_insert(user)
 	if err != nil {
 		// set error status code and message
-		http.Error(w, err.Error(), 400)
+		log.Println(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
@@ -101,47 +112,47 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
 	signInUserReq := &SigninUserRequest{}
 	if err := json.NewDecoder(r.Body).Decode(&signInUserReq); err != nil {
 		// set error status code and message
-		http.Error(w, "error reading request body", 200)
+		log.Println("error reading request body")
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	if signInUserReq.Username == "" {
 		// set error status code and message
-		http.Error(w, "username field was empty", 400)
+		log.Println("username field was empty")
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	if signInUserReq.Password == "" {
 		// set error status code and message
-		http.Error(w, "password field was empty", 400)
+		log.Println("password field was empty")
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	user, err := s.store.Users_beforeSignin(signInUserReq.Username, signInUserReq.Password)
 	if err != nil {
 		// set error status code and message
-		http.Error(w, err.Error(), 400)
+		log.Println(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	token, err := GenerateJWT(user.ID)
 	if err != nil {
 		// set error status code and message
-		http.Error(w, err.Error(), 400)
+		log.Println(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
-	// if err = s.store.users_update(user.ID, "modified", time.Now().UTC()); err != nil {
-	// 	json.NewEncoder(w).Encode(fmt.Sprintf("error updating modified: %v", err))
-	// 	return
-	// }
 
 	cookie := &http.Cookie{
 		Name:     "jwt",
 		Value:    token,
 		Path:     "/",
-		Secure:   true,
-		HttpOnly: true,
+		Secure:   false,
+		HttpOnly: false,
 		SameSite: http.SameSiteNoneMode,
 	}
 	http.SetCookie(w, cookie)
@@ -156,13 +167,15 @@ func (s *Server) SignedUser(w http.ResponseWriter, r *http.Request) {
 
 	IssuerUUID, err := uuid.Parse(r.Context().Value(ClaimsContext).(httpClaimsContext).Issuer)
 	if err != nil {
-		json.NewEncoder(w).Encode(fmt.Sprintf("error formating issuer: %v", err))
+		log.Println("error formating issuer: ", err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	user, err := s.store.users_read(IssuerUUID)
 	if err != nil {
-		json.NewEncoder(w).Encode(fmt.Sprintf("token was valid but issuer was not found: %v", err))
+		log.Println("token was valid but issuer was not found: ", err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
@@ -176,8 +189,8 @@ func (s *Server) SignOut(w http.ResponseWriter, r *http.Request) {
 		Name:     "jwt",
 		Value:    "",
 		Path:     "/",
-		Secure:   true,
-		HttpOnly: true,
+		Secure:   false,
+		HttpOnly: false,
 		SameSite: http.SameSiteNoneMode,
 	}
 	http.SetCookie(w, cookie)
@@ -191,7 +204,8 @@ func (s *Server) UserDevices(w http.ResponseWriter, r *http.Request) {
 	devices, err := s.store.devices_readTableWhereOwner(r.Context().Value(ClaimsContext).(httpClaimsContext).Issuer)
 	if err != nil {
 		// set error status code and message
-		http.Error(w, err.Error(), 400)
+		log.Println(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
