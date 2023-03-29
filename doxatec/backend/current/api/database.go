@@ -1,4 +1,4 @@
-package lib
+package main
 
 import (
 	"database/sql"
@@ -37,8 +37,6 @@ func NewDatabase() (*Database, error) {
 }
 
 func (db *Database) Init() error {
-	db.users_init()
-	db.devices_init()
 
 	return nil
 }

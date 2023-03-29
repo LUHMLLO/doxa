@@ -1,20 +1,16 @@
 package main
 
 import (
-	"doxatec/lib"
 	"log"
 )
 
 func main() {
-	store, err := lib.NewDatabase()
-	if err != nil {
-		log.Fatal(err)
-	}
+	password := "1234567890"
+	salt := RandSalt16()
 
-	if err := store.Init(); err != nil {
-		log.Fatal(err)
-	}
+	SecuredPassword := SecurePassword(password, salt)
+	log.Println("Secured: ", SecuredPassword)
 
-	server := lib.NewServer(":3000", store)
-	server.Start()
+	ValidatedPassword := ValidatePassword(password, salt, SecuredPassword)
+	log.Println("Validated: ", ValidatedPassword)
 }
