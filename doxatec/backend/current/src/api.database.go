@@ -1,8 +1,10 @@
-package lib
+package main
 
 import (
 	"database/sql"
 	"fmt"
+	"log"
+	"time"
 
 	_ "github.com/lib/pq"
 )
@@ -20,15 +22,16 @@ func NewDatabase() (*Database, error) {
 		db_database string = "doxatec"
 	)
 
-	url := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", db_user, db_password, db_host, db_port, db_database)
-
-	db, err := sql.Open("postgres", url)
+	db, err := sql.Open("postgres", fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", db_user, db_password, db_host, db_port, db_database))
 	if err != nil {
 		return nil, err
 	}
+	db.SetMaxIdleConns(5)
+	db.SetMaxOpenConns(20)
+	db.SetConnMaxLifetime(time.Minute * 3)
 
 	if err := db.Ping(); err != nil {
-		return nil, err
+		log.Fatal(err)
 	}
 
 	return &Database{
@@ -37,8 +40,5 @@ func NewDatabase() (*Database, error) {
 }
 
 func (db *Database) Init() error {
-	db.users_init()
-	db.devices_init()
-
 	return nil
 }

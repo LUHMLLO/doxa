@@ -8,17 +8,27 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func Server(listenAddrss string) {
-	r := mux.NewRouter()
+type Server struct {
+	port string
+}
 
-	r.Use(func(next http.Handler) http.Handler {
+func NewStart(port string) *Server {
+	return &Server{
+		port: port,
+	}
+}
+
+func (s *Server) Start() {
+	router := mux.NewRouter()
+
+	router.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("x-token", "Hello, world!")
 			next.ServeHTTP(w, r)
 		})
 	})
 
-	r.Use(func(next http.Handler) http.Handler {
+	router.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 			origin := r.Header.Get("Origin")
@@ -42,18 +52,18 @@ func Server(listenAddrss string) {
 		})
 	})
 
-	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Hello from root")
 	})
 
-	r.HandleFunc("/init", func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("/init", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Hello from init")
 	})
 
-	r.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Hello from api")
 	})
 
-	log.Println("Doxapi available at port:", listenAddrss)
-	log.Fatal(http.ListenAndServe(listenAddrss, r))
+	log.Println("Doxapi available at port:", s.port)
+	log.Fatal(http.ListenAndServe(s.port, router))
 }
