@@ -1,7 +1,3 @@
--- enable the uuid-ossp extension (if not already enabled)
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
--- generate a UUID value
-SELECT uuid_generate_v4();
 -- create clients table
 CREATE TABLE IF NOT EXISTS Clients (
     id UUID PRIMARY KEY,

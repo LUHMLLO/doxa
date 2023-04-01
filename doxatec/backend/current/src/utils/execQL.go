@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"database/sql"
@@ -6,16 +6,16 @@ import (
 	"os"
 )
 
-func ExecQL(db *sql.DB, path string) {
+func ExecQL(db *sql.DB, path string) sql.Result {
 	bytes, err := os.ReadFile(path)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	_, err = db.Exec(string(bytes))
+	result, err := db.Exec(string(bytes))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Println("Queried")
+	return result
 }

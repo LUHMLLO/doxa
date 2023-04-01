@@ -1,3 +1,5 @@
-package main
+package utils
 
-const SuperSecret string = "There is no secret actually"
+const (
+	SuperSecret string = "There is no secret actually"
+)

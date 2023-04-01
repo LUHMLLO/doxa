@@ -1,3 +1,9 @@
-.vercel
 .app
+/.app
+
+.vscode
+/.vscode
+
+.vercel
+
 doxapi

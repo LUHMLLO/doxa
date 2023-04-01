@@ -1,9 +1,12 @@
 package main
 
-import "log"
+import (
+	"doxapi/app"
+	"log"
+)
 
 func main() {
-	db, err := NewDatabase()
+	db, err := app.NewPostgres()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -12,6 +15,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	server := NewServer(":3000", db)
+	server := app.NewApi(":3000", db)
 	server.Start()
 }

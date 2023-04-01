@@ -6,10 +6,10 @@
             "port": 5432,
             "driver": "PostgreSQL",
             "name": "DoxaDB",
-            "username": "doxadmin",
-            "password": "d@x@dm1n",
+            "group": "docker",
             "database": "doxatec",
-            "group": "docker"
+            "username": "doxadmin",
+            "password": "d@x@dm1n"
         }
     ]
 }
