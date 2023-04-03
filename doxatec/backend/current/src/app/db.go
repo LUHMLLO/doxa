@@ -41,14 +41,14 @@ func NewPostgres() (*Postgres, error) {
 	}, nil
 }
 
-func (p *Postgres) Init() error {
-	utils.ExecQL(p.db, "sqls/table.clients.sql")
-	utils.ExecQL(p.db, "sqls/table.users.sql")
+func (s *Postgres) Init() error {
+	utils.ExecQL(s.db, "sqls/clients/table/create.sql")
+	utils.ExecQL(s.db, "sqls/users/table/create.sql")
 
-	utils.ExecQL(p.db, "sqls/table.devices.sql")
-	utils.ExecQL(p.db, "sqls/table.temperatures.sql")
+	utils.ExecQL(s.db, "sqls/devices/table/create.sql")
+	utils.ExecQL(s.db, "sqls/temperatures/table/create.sql")
 
-	utils.ExecQL(p.db, "sqls/table.subscriptions.sql")
-	utils.ExecQL(p.db, "sqls/table.transfers.sql")
+	utils.ExecQL(s.db, "sqls/subscriptions/table/create.sql")
+	utils.ExecQL(s.db, "sqls/transfers/table/create.sql")
 	return nil
 }

@@ -6,6 +6,5 @@ CREATE TABLE IF NOT EXISTS Temperatures (
     temp_sup NUMERIC(6, 2),
     temp_mid NUMERIC(6, 2),
     temp_sub NUMERIC(6, 2),
-    created TIMESTAMP,
-    isolated BOOLEAN DEFAULT FALSE
+    created TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

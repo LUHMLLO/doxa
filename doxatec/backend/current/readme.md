@@ -4,7 +4,7 @@
 
 - ### Docker Postgres Database
 
-    [Setup Postgres on Docker](./readme.postgres.sh)
+    [Setup Postgres on Docker](./.create_postgres.sh)
 
 ## Rutas
 

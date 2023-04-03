@@ -1,4 +1,4 @@
-package main
+package entities
 
 import (
 	"time"
@@ -6,11 +6,16 @@ import (
 	"github.com/google/uuid"
 )
 
-type Clients struct {
-	ID       uuid.UUID `json:"id"`
-	Name     string    `json:"name"`
-	Email    string    `json:"email"`
-	Phone    string    `json:"phone"`
-	Created  time.Time `json:"created"`
-	Modified time.Time `json:"modified"`
+type Client struct {
+	ID       uuid.UUID  `json:"id"`
+	Name     string     `json:"name"`
+	Email    string     `json:"email"`
+	Phone    string     `json:"phone"`
+	Created  time.Time  `json:"created"`
+	Modified *time.Time `json:"modified"`
+}
+type NewClient struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+	Phone string `json:"phone"`
 }

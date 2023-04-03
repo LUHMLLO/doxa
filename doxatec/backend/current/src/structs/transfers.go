@@ -1,4 +1,4 @@
-package main
+package entities
 
 import (
 	"time"
@@ -6,11 +6,15 @@ import (
 	"github.com/google/uuid"
 )
 
-type Transfers struct {
-	ID             uuid.UUID `json:"id"`
-	Subscription   uuid.UUID `json:"subscription_id"`
-	Amount         float64   `json:"amount"`
-	InitialBalance float64   `json:"initial_balance"`
-	FinalBalance   float64   `json:"final_balance"`
-	Created        time.Time `json:"created"`
+type Transfer struct {
+	ID           uuid.UUID `json:"id"`
+	User         uuid.UUID `json:"user_id"`
+	Subscription uuid.UUID `json:"subscription_id"`
+	Amount       float64   `json:"amount"`
+	Created      time.Time `json:"created"`
+}
+type NewTransfer struct {
+	User         uuid.UUID `json:"user_id"`
+	Subscription uuid.UUID `json:"subscription_id"`
+	Amount       float64   `json:"amount"`
 }
