@@ -1,3 +1,4 @@
 -- read client
 SELECT *
-FROM Clients;
+FROM Clients
+WHERE id = $1;

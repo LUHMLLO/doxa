@@ -19,6 +19,12 @@ type NewClient struct {
 	Email string `json:"email"`
 	Phone string `json:"phone"`
 }
+type UpdateClient struct {
+	Name     string    `json:"name"`
+	Email    string    `json:"email"`
+	Phone    string    `json:"phone"`
+	Modified time.Time `json:"modified"`
+}
 
 type User struct {
 	ID       uuid.UUID  `json:"id"`
