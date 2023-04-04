@@ -42,13 +42,13 @@ func NewPostgres() (*Postgres, error) {
 }
 
 func (s *Postgres) Init() error {
-	utils.ExecQL(s.db, "sqls/clients/table/create.sql")
-	utils.ExecQL(s.db, "sqls/users/table/create.sql")
+	utils.RowsQL(s.db, "sqls/clients/table/create.sql")
+	utils.RowsQL(s.db, "sqls/users/table/create.sql")
 
-	utils.ExecQL(s.db, "sqls/devices/table/create.sql")
-	utils.ExecQL(s.db, "sqls/temperatures/table/create.sql")
+	utils.RowsQL(s.db, "sqls/devices/table/create.sql")
+	utils.RowsQL(s.db, "sqls/temperatures/table/create.sql")
 
-	utils.ExecQL(s.db, "sqls/subscriptions/table/create.sql")
-	utils.ExecQL(s.db, "sqls/transfers/table/create.sql")
+	utils.RowsQL(s.db, "sqls/subscriptions/table/create.sql")
+	utils.RowsQL(s.db, "sqls/transfers/table/create.sql")
 	return nil
 }

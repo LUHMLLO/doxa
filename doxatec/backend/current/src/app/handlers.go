@@ -1,31 +1,18 @@
 package app
 
 import (
-	entities "doxapi/structs"
+	"doxapi/utils"
 	"encoding/json"
-	"fmt"
-	"log"
 	"net/http"
-	"os"
-
-	"github.com/gorilla/mux"
 )
 
 func (s *Api) ListClients(w http.ResponseWriter, r *http.Request) {
-	sql, err := os.ReadFile("sqls/clients/table/read.sql")
-	if err != nil {
-		log.Println(err)
-	}
+	rows := utils.RowsQL(s.storer.db, "sqls/clients/table/read.sql")
 
-	rows, err := s.storer.db.Query(string(sql))
-	if err != nil {
-		json.NewEncoder(w).Encode(err)
-	}
-
-	clients := []*entities.Client{}
+	clients := []*Client{}
 
 	for rows.Next() {
-		client := &entities.Client{}
+		client := &Client{}
 
 		if err := rows.Scan(
 			&client.ID,
@@ -35,7 +22,8 @@ func (s *Api) ListClients(w http.ResponseWriter, r *http.Request) {
 			&client.Created,
 			&client.Modified,
 		); err != nil {
-			log.Println(err)
+			json.NewEncoder(w).Encode(err)
+			return
 		}
 
 		clients = append(clients, client)
@@ -45,58 +33,34 @@ func (s *Api) ListClients(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Api) CreateClient(w http.ResponseWriter, r *http.Request) {
-	DTO := &entities.NewClient{}
+	DTO := &NewClient{}
 	err := json.NewDecoder(r.Body).Decode(&DTO)
 	if err != nil {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
 
-	sql, err := os.ReadFile("sqls/clients/crud/create.sql")
-	if err != nil {
-		log.Println(err)
-		return
-	}
-
-	rows, err := s.storer.db.Query(string(sql), DTO.Name, DTO.Email, DTO.Phone)
+	_, err = s.storer.db.Query(utils.StringQL("sqls/clients/crud/create.sql"), DTO.Name, DTO.Email, DTO.Phone)
 	if err != nil {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-
-	client := &entities.Client{}
-
-	for rows.Next() {
-		if err := rows.Scan(
-			&client.ID,
-			&client.Name,
-			&client.Email,
-			&client.Phone,
-			&client.Created,
-			&client.Modified,
-		); err != nil {
-			log.Println(err)
-			return
-		}
-	}
-
-	json.NewEncoder(w).Encode(client)
 }
 
-func (s *Api) ReadClient(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
+// func (s *Api) ReadClient(w http.ResponseWriter, r *http.Request) {
+// 	vars := mux.Vars(r)
 
-	w.Write([]byte(fmt.Sprintf("read client '%v'", vars["id"])))
-}
+// 	w.Write([]byte(fmt.Sprintf("read client '%v'", vars["id"])))
+// }
 
-func (s *Api) UpdateClient(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
+// func (s *Api) UpdateClient(w http.ResponseWriter, r *http.Request) {
+// 	vars := mux.Vars(r)
 
-	w.Write([]byte(fmt.Sprintf("update/patch client '%v'", vars["id"])))
-}
+// 	w.Write([]byte(fmt.Sprintf("update/patch client '%v'", vars["id"])))
+// }
 
-func (s *Api) DeleteClient(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
+// func (s *Api) DeleteClient(w http.ResponseWriter, r *http.Request) {
+// 	vars := mux.Vars(r)
 
-	w.Write([]byte(fmt.Sprintf("delete client '%v'", vars["id"])))
-}
+// 	w.Write([]byte(fmt.Sprintf("delete client '%v'", vars["id"])))
+// }
