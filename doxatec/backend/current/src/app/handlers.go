@@ -4,6 +4,7 @@ import (
 	"doxapi/utils"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -12,27 +13,13 @@ import (
 )
 
 func (s *Api) ListClients(w http.ResponseWriter, r *http.Request) {
-	rows := utils.RowsQL(s.storer.db, "sqls/clients/table/read.sql")
-
-	clients := []*Client{}
-
-	for rows.Next() {
-		client := &Client{}
-
-		if err := rows.Scan(
-			&client.ID,
-			&client.Name,
-			&client.Email,
-			&client.Phone,
-			&client.Created,
-			&client.Modified,
-		); err != nil {
-			json.NewEncoder(w).Encode(err)
-			return
-		}
-
-		clients = append(clients, client)
+	clients, err := s.storer.QueryList("clients")
+	if err != nil {
+		json.NewEncoder(w).Encode(err)
+		return
 	}
+
+	log.Println(clients)
 
 	json.NewEncoder(w).Encode(clients)
 }
