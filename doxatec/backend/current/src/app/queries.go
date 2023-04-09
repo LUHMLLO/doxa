@@ -5,18 +5,17 @@ import (
 	"fmt"
 )
 
-func (s *Postgres) QueryList(entity string) ([]*any, error) {
+func (s *Postgres) QueryList(entity string) (interface{}, error) {
 	query := fmt.Sprintf("sqls/%s/table/read.sql", entity)
 
 	rows := utils.RowsQL(s.db, query)
 
 	switch entity {
-	case "client":
-		clients := []*Client{}
 
+	case "clients":
+		clients := []*Client{}
 		for rows.Next() {
 			client := &Client{}
-
 			if err := rows.Scan(
 				&client.ID,
 				&client.Name,
@@ -27,18 +26,14 @@ func (s *Postgres) QueryList(entity string) ([]*any, error) {
 			); err != nil {
 				return nil, err
 			}
-
 			clients = append(clients, client)
 		}
-
 		return clients, nil
 
-	case "user":
+	case "users":
 		users := []*User{}
-
 		for rows.Next() {
 			user := &User{}
-
 			if err := rows.Scan(
 				&user.ID,
 				&user.Avatar,
@@ -51,11 +46,10 @@ func (s *Postgres) QueryList(entity string) ([]*any, error) {
 			); err != nil {
 				return nil, err
 			}
-
 			users = append(users, user)
 		}
-
 		return users, nil
+
 	}
 
 	return nil, nil

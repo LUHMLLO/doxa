@@ -4,7 +4,6 @@ import (
 	"doxapi/utils"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 
@@ -18,8 +17,6 @@ func (s *Api) ListClients(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-
-	log.Println(clients)
 
 	json.NewEncoder(w).Encode(clients)
 }
