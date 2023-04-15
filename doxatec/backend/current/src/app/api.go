@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"reflect"
 
 	"github.com/gorilla/mux"
 )
@@ -57,8 +58,8 @@ func (s *Api) Start() {
 		json.NewEncoder(w).Encode("Hello from Doxapi")
 	})
 
-	router.HandleFunc("/api/clients/list", s.ListClients).Methods("GET")
-	router.HandleFunc("/api/clients/create", s.CreateClient).Methods("POST")
+	router.HandleFunc("/api/clients/list", s.HandlerList("clients", reflect.TypeOf(Client{}))).Methods("GET")
+	router.HandleFunc("/api/clients/create", s.HandlerCreate("clients")).Methods("POST")
 	router.HandleFunc("/api/clients/read/{id}", s.ReadClient).Methods("GET")
 	router.HandleFunc("/api/clients/update/{id}", s.UpdateClient).Methods("PUT", "PATCH")
 	router.HandleFunc("/api/clients/delete/{id}", s.DeleteClient).Methods("DELETE")

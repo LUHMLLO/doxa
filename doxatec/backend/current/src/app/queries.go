@@ -3,54 +3,44 @@ package app
 import (
 	"doxapi/utils"
 	"fmt"
+	"reflect"
 )
 
-func (s *Postgres) QueryList(entity string) (interface{}, error) {
+func (s *Postgres) QueryList(entity string, t reflect.Type) (interface{}, error) {
 	query := fmt.Sprintf("sqls/%s/table/read.sql", entity)
 
 	rows := utils.RowsQL(s.db, query)
 
-	switch entity {
+	slice := reflect.MakeSlice(reflect.SliceOf(t), 0, 0)
 
-	case "clients":
-		clients := []*Client{}
-		for rows.Next() {
-			client := &Client{}
-			if err := rows.Scan(
-				&client.ID,
-				&client.Name,
-				&client.Email,
-				&client.Phone,
-				&client.Created,
-				&client.Modified,
-			); err != nil {
-				return nil, err
-			}
-			clients = append(clients, client)
+	for rows.Next() {
+		item := reflect.New(t).Elem()
+
+		fields := make([]interface{}, item.NumField())
+
+		for i := 0; i < item.NumField(); i++ {
+			fields[i] = item.Field(i).Addr().Interface()
 		}
-		return clients, nil
 
-	case "users":
-		users := []*User{}
-		for rows.Next() {
-			user := &User{}
-			if err := rows.Scan(
-				&user.ID,
-				&user.Avatar,
-				&user.Username,
-				&user.Password,
-				&user.Role,
-				&user.Created,
-				&user.Modified,
-				&user.Accessed,
-			); err != nil {
-				return nil, err
-			}
-			users = append(users, user)
+		if err := rows.Scan(fields...); err != nil {
+			return nil, err
 		}
-		return users, nil
 
+		slice = reflect.Append(slice, item)
 	}
 
-	return nil, nil
+	return slice.Interface(), nil
+}
+
+func (s *Postgres) QueryCreate(entity string, values ...interface{}) error {
+	query := fmt.Sprintf("sqls/%s/crud/create.sql", entity)
+
+	result := utils.ExecQL(s.db, query, values...)
+
+	_, err := result.LastInsertId()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

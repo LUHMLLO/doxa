@@ -5,37 +5,75 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"reflect"
 	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/lib/pq"
 )
 
-func (s *Api) ListClients(w http.ResponseWriter, r *http.Request) {
-	clients, err := s.storer.QueryList("clients")
-	if err != nil {
-		json.NewEncoder(w).Encode(err)
-		return
-	}
+// better
 
-	json.NewEncoder(w).Encode(clients)
-}
+func (s *Api) HandlerList(entity string, t reflect.Type) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		entities, err := s.storer.QueryList(entity, t)
 
-func (s *Api) CreateClient(w http.ResponseWriter, r *http.Request) {
-	DTO := &NewClient{}
+		if err != nil {
+			json.NewEncoder(w).Encode(err)
+			return
+		}
 
-	err := json.NewDecoder(r.Body).Decode(&DTO)
-	if err != nil {
-		json.NewEncoder(w).Encode(err)
-		return
-	}
-
-	_, err = s.storer.db.Query(utils.StringQL("sqls/clients/crud/create.sql"), DTO.Name, DTO.Email, DTO.Phone)
-	if err != nil {
-		json.NewEncoder(w).Encode(err)
-		return
+		json.NewEncoder(w).Encode(entities)
 	}
 }
+
+func (s *Api) HandlerCreate(entity string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var DTO interface{}
+
+		err := json.NewDecoder(r.Body).Decode(&DTO)
+		if err != nil {
+			json.NewEncoder(w).Encode(err)
+			return
+		}
+
+		err = s.storer.QueryCreate(entity, DTO)
+		if err != nil {
+			json.NewEncoder(w).Encode(err)
+			return
+		}
+
+		json.NewEncoder(w).Encode("client created succesfully")
+	}
+}
+
+// non-generic
+
+// func (s *Api) ListClients(w http.ResponseWriter, r *http.Request) {
+// 	clients, err := s.storer.QueryList("clients")
+// 	if err != nil {
+// 		json.NewEncoder(w).Encode(err)
+// 		return
+// 	}
+
+// 	json.NewEncoder(w).Encode(clients)
+// }
+
+// func (s *Api) CreateClient(w http.ResponseWriter, r *http.Request) {
+// 	DTO := &NewClient{}
+
+// 	err := json.NewDecoder(r.Body).Decode(&DTO)
+// 	if err != nil {
+// 		json.NewEncoder(w).Encode(err)
+// 		return
+// 	}
+
+// 	_, err = s.storer.db.Query(utils.StringQL("sqls/clients/crud/create.sql"), DTO.Name, DTO.Email, DTO.Phone)
+// 	if err != nil {
+// 		json.NewEncoder(w).Encode(err)
+// 		return
+// 	}
+// }
 
 func (s *Api) ReadClient(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
