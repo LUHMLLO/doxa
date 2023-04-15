@@ -47,6 +47,32 @@ func (s *Api) HandlerCreate(entity string) http.HandlerFunc {
 	}
 }
 
+func (s *Api) HandlerRead(entity string, t reflect.Type) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		vars := mux.Vars(r)
+		id := vars["id"]
+
+		item, err := s.storer.QueryRead(entity, t, id)
+		if err != nil {
+			json.NewEncoder(w).Encode(err)
+			return
+		}
+
+		json.NewEncoder(w).Encode(item)
+	}
+}
+
+func (s *Api) HandlerDelete(entity string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		vars := mux.Vars(r)
+		id := vars["id"]
+
+		msg := s.storer.QueryDelete(entity, id)
+
+		json.NewEncoder(w).Encode(msg)
+	}
+}
+
 // non-generic
 
 // func (s *Api) ListClients(w http.ResponseWriter, r *http.Request) {
@@ -75,34 +101,34 @@ func (s *Api) HandlerCreate(entity string) http.HandlerFunc {
 // 	}
 // }
 
-func (s *Api) ReadClient(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
+// func (s *Api) ReadClient(w http.ResponseWriter, r *http.Request) {
+// 	vars := mux.Vars(r)
+// 	id := vars["id"]
 
-	rows, err := s.storer.db.Query(utils.StringQL("sqls/clients/crud/read.sql"), id)
-	if err != nil {
-		json.NewEncoder(w).Encode(err)
-		return
-	}
+// 	rows, err := s.storer.db.Query(utils.StringQL("sqls/clients/crud/read.sql"), id)
+// 	if err != nil {
+// 		json.NewEncoder(w).Encode(err)
+// 		return
+// 	}
 
-	client := &Client{}
+// 	client := &Client{}
 
-	for rows.Next() {
-		if err := rows.Scan(
-			&client.ID,
-			&client.Name,
-			&client.Email,
-			&client.Phone,
-			&client.Created,
-			&client.Modified,
-		); err != nil {
-			json.NewEncoder(w).Encode(err)
-			return
-		}
-	}
+// 	for rows.Next() {
+// 		if err := rows.Scan(
+// 			&client.ID,
+// 			&client.Name,
+// 			&client.Email,
+// 			&client.Phone,
+// 			&client.Created,
+// 			&client.Modified,
+// 		); err != nil {
+// 			json.NewEncoder(w).Encode(err)
+// 			return
+// 		}
+// 	}
 
-	json.NewEncoder(w).Encode(client)
-}
+// 	json.NewEncoder(w).Encode(client)
+// }
 
 func (s *Api) UpdateClient(w http.ResponseWriter, r *http.Request) {
 	DTO := &UpdateClient{}
@@ -176,13 +202,13 @@ func (s *Api) UpdateClient(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(client)
 }
 
-func (s *Api) DeleteClient(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
+// func (s *Api) DeleteClient(w http.ResponseWriter, r *http.Request) {
+// 	vars := mux.Vars(r)
+// 	id := vars["id"]
 
-	_, err := s.storer.db.Query(utils.StringQL("sqls/clients/crud/delete.sql"), id)
-	if err != nil {
-		json.NewEncoder(w).Encode(err)
-		return
-	}
-}
+// 	_, err := s.storer.db.Query(utils.StringQL("sqls/clients/crud/delete.sql"), id)
+// 	if err != nil {
+// 		json.NewEncoder(w).Encode(err)
+// 		return
+// 	}
+// }

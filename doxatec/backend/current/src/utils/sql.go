@@ -15,13 +15,24 @@ func StringQL(path string) string {
 	return string(sql)
 }
 
-func RowsQL(db *sql.DB, path string) *sql.Rows {
+func RowsQL(db *sql.DB, path string, params ...interface{}) *sql.Rows {
 	sql, err := os.ReadFile(path)
 	if err != nil {
 		log.Println(err)
 	}
 
-	rows, err := db.Query(string(sql))
+	var args []interface{}
+	for _, arg := range params {
+		if m, ok := arg.(map[string]interface{}); ok {
+			for _, key := range sortedKeys(m) {
+				args = append(args, m[key])
+			}
+		} else {
+			args = append(args, arg)
+		}
+	}
+
+	rows, err := db.Query(string(sql), args...)
 	if err != nil {
 		log.Println("RowsQL error: ", err)
 	}
