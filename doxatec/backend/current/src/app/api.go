@@ -28,6 +28,11 @@ func (s *Api) Start() {
 		"http://0.0.0.0":         true,
 		"http://192.168.0.1":     true,
 		"http://172.17.0.1":      true,
+		"http://142.93.207.120":  true,
+		"https://localhost":      true,
+		"https://0.0.0.0":        true,
+		"https://192.168.0.1":    true,
+		"https://172.17.0.1":     true,
 		"https://142.93.207.120": true,
 	}
 
@@ -51,7 +56,6 @@ func (s *Api) Start() {
 	}
 
 	router := mux.NewRouter().StrictSlash(true)
-
 	router.Use(cors)
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -61,7 +65,7 @@ func (s *Api) Start() {
 	router.HandleFunc("/api/clients/list", s.HandlerList("clients", reflect.TypeOf(Client{}))).Methods("GET")
 	router.HandleFunc("/api/clients/create", s.HandlerCreate("clients")).Methods("POST")
 	router.HandleFunc("/api/clients/read/{id}", s.HandlerRead("clients", reflect.TypeOf(Client{}))).Methods("GET")
-	router.HandleFunc("/api/clients/update/{id}", s.UpdateClient).Methods("PUT", "PATCH")
+	//router.HandleFunc("/api/clients/update/{id}", s.UpdateClient).Methods("PUT", "PATCH")
 	router.HandleFunc("/api/clients/delete/{id}", s.HandlerDelete("clients")).Methods("DELETE")
 
 	log.Println("Doxapi available at port:", s.port)
