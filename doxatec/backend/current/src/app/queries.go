@@ -67,10 +67,16 @@ func (s *Postgres) QueryRead(entity string, t reflect.Type, id string) (interfac
 	return item.Interface(), nil
 }
 
-func (s *Postgres) QueryDelete(entity string, id string) string {
+func (s *Postgres) QueryUpdate(entity string, id string, params interface{}) (interface{}, error) {
+	for key, value := range params.(map[string]interface{}) {
+		fmt.Printf("Key: %v, Value: %v\n", key, value)
+	}
+
+	return nil, nil
+}
+
+func (s *Postgres) QueryDelete(entity string, id string) {
 	query := fmt.Sprintf("sqls/%s/crud/delete.sql", entity)
 
 	utils.ExecQL(s.db, query, id)
-
-	return "succesfully deleted"
 }

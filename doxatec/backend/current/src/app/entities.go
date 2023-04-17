@@ -44,6 +44,13 @@ type NewUser struct {
 	Password string    `json:"password"`
 	Role     string    `json:"role"`
 }
+type UpdateUser struct {
+	Avatar   string    `json:"avatar"`
+	Username string    `json:"username"`
+	Password string    `json:"password"`
+	Role     string    `json:"role"`
+	Modified time.Time `json:"modified"`
+}
 
 type Device struct {
 	ID       uuid.UUID     `json:"id"`
@@ -58,6 +65,12 @@ type NewDevice struct {
 	User uuid.UUID `json:"user_id"`
 	Name string    `json:"name"`
 	PIN  string    `json:"pin"`
+}
+type UpdateDevice struct {
+	User     uuid.UUID `json:"user_id"`
+	Name     string    `json:"name"`
+	PIN      string    `json:"pin"`
+	Modified time.Time `json:"modified"`
 }
 
 type Temperature struct {
@@ -74,6 +87,12 @@ type NewTemperature struct {
 	TempMid float64   `json:"temp_mid"`
 	TempSub float64   `json:"temp_sub"`
 }
+type UpdateTemperature struct {
+	TempSup  float64   `json:"temp_sup"`
+	TempMid  float64   `json:"temp_mid"`
+	TempSub  float64   `json:"temp_sub"`
+	Modified time.Time `json:"modified"`
+}
 
 type Subscription struct {
 	ID          uuid.UUID  `json:"id"`
@@ -89,6 +108,12 @@ type NewSubscription struct {
 	Description string  `json:"description"`
 	Price       float64 `json:"amount"`
 }
+type UpdateSubscription struct {
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	Price       float64   `json:"amount"`
+	Modified    time.Time `json:"modified"`
+}
 
 type Transfer struct {
 	ID           uuid.UUID `json:"id"`
@@ -101,4 +126,10 @@ type NewTransfer struct {
 	User         uuid.UUID `json:"user_id"`
 	Subscription uuid.UUID `json:"subscription_id"`
 	Amount       float64   `json:"amount"`
+}
+type UpdateTransfer struct {
+	User         uuid.UUID `json:"user_id"`
+	Subscription uuid.UUID `json:"subscription_id"`
+	Amount       float64   `json:"amount"`
+	Modified     time.Time `json:"modified"`
 }

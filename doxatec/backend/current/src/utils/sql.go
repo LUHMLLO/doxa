@@ -24,7 +24,7 @@ func RowsQL(db *sql.DB, path string, params ...interface{}) *sql.Rows {
 	var args []interface{}
 	for _, arg := range params {
 		if m, ok := arg.(map[string]interface{}); ok {
-			for _, key := range sortedKeys(m) {
+			for _, key := range SortedKeys(m) {
 				args = append(args, m[key])
 			}
 		} else {
@@ -49,7 +49,7 @@ func ExecQL(db *sql.DB, path string, params ...interface{}) sql.Result {
 	var args []interface{}
 	for _, arg := range params {
 		if m, ok := arg.(map[string]interface{}); ok {
-			for _, key := range sortedKeys(m) {
+			for _, key := range SortedKeys(m) {
 				args = append(args, m[key])
 			}
 		} else {
