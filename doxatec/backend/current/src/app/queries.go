@@ -3,6 +3,7 @@ package app
 import (
 	"doxapi/utils"
 	"fmt"
+	"log"
 	"reflect"
 )
 
@@ -32,17 +33,10 @@ func (s *Postgres) QueryList(entity string, t reflect.Type) (interface{}, error)
 	return slice.Interface(), nil
 }
 
-func (s *Postgres) QueryCreate(entity string, params ...interface{}) error {
-	query := fmt.Sprintf("sqls/%s/crud/create.sql", entity)
-
-	result := utils.ExecQL(s.db, query, params...)
-
-	_, err := result.LastInsertId()
-	if err != nil {
-		return err
-	}
-
-	return nil
+func (s *Postgres) QueryCreate(entity string, params ...interface{}) {
+	//query := fmt.Sprintf("sqls/%s/crud/create.sql", entity)
+	log.Println(params...)
+	//utils.ExecQL(s.db, query, params...)
 }
 
 func (s *Postgres) QueryRead(entity string, t reflect.Type, id string) (interface{}, error) {

@@ -22,10 +22,25 @@ func NewApi(listenAddress string, store *Postgres) *Api {
 	}
 }
 
-func (s *Api) NewApiRoute(r *mux.Router, t interface{}, entity, path, method string) {
+func (s *Api) NewApiRoute(r *mux.Router, t interface{}, entity, path string) {
 	endpoint := fmt.Sprintf("/api/%s/%s", entity, path)
-	//log.Printf("router.HandleFunc(%s, s.HandlerList(%s, reflect.TypeOf(t))).Methods(%s)\n", endpoint, entity, method)
-	r.HandleFunc(endpoint, s.HandlerList(entity, reflect.TypeOf(t))).Methods(method)
+	switch path {
+	case "list":
+		r.HandleFunc(endpoint, s.HandlerList(entity, reflect.TypeOf(t))).Methods("GET")
+		return
+	case "create":
+		r.HandleFunc(endpoint, s.HandlerCreate(entity, t)).Methods("POST")
+		return
+	case "read/{id}":
+		r.HandleFunc(endpoint, s.HandlerRead(entity, reflect.TypeOf(t))).Methods("GET")
+		return
+	case "update/{id}":
+		r.HandleFunc(endpoint, s.HandlerUpdate(entity, reflect.TypeOf(t))).Methods("UPDATE")
+		return
+	case "delete/{id}":
+		r.HandleFunc(endpoint, s.HandlerDelete(entity)).Methods("DELETE")
+		return
+	}
 }
 
 func (s *Api) Start() {
@@ -68,23 +83,23 @@ func (s *Api) Start() {
 		json.NewEncoder(w).Encode("Hello from Doxapi")
 	})
 
-	s.NewApiRoute(router, Client{}, "clients", "list", "GET")
-	s.NewApiRoute(router, NewClient{}, "clients", "create/{id}", "POST")
-	s.NewApiRoute(router, Client{}, "clients", "read/{id}", "GET")
-	s.NewApiRoute(router, UpdateClient{}, "clients", "update/{id}", "PATCH")
-	s.NewApiRoute(router, Client{}, "clients", "delete/{id}", "DELETE")
+	s.NewApiRoute(router, Client{}, "clients", "list")
+	s.NewApiRoute(router, NewClient{}, "clients", "create")
+	s.NewApiRoute(router, Client{}, "clients", "read/{id}")
+	s.NewApiRoute(router, UpdateClient{}, "clients", "update/{id}")
+	s.NewApiRoute(router, Client{}, "clients", "delete/{id}")
 
-	s.NewApiRoute(router, User{}, "users", "list", "GET")
-	s.NewApiRoute(router, NewUser{}, "users", "create/{id}", "POST")
-	s.NewApiRoute(router, User{}, "users", "read/{id}", "GET")
-	s.NewApiRoute(router, UpdateUser{}, "users", "update/{id}", "PATCH")
-	s.NewApiRoute(router, User{}, "users", "delete/{id}", "DELETE")
+	s.NewApiRoute(router, User{}, "users", "list")
+	s.NewApiRoute(router, NewUser{}, "users", "create")
+	s.NewApiRoute(router, User{}, "users", "read/{id}")
+	s.NewApiRoute(router, UpdateUser{}, "users", "update/{id}")
+	s.NewApiRoute(router, User{}, "users", "delete/{id}")
 
-	s.NewApiRoute(router, Device{}, "devices", "list", "GET")
-	s.NewApiRoute(router, NewDevice{}, "devices", "create/{id}", "POST")
-	s.NewApiRoute(router, Device{}, "devices", "read/{id}", "GET")
-	s.NewApiRoute(router, UpdateDevice{}, "devices", "update/{id}", "PATCH")
-	s.NewApiRoute(router, Device{}, "devices", "delete/{id}", "DELETE")
+	s.NewApiRoute(router, Device{}, "devices", "list")
+	s.NewApiRoute(router, NewDevice{}, "devices", "create")
+	s.NewApiRoute(router, Device{}, "devices", "read/{id}")
+	s.NewApiRoute(router, UpdateDevice{}, "devices", "update/{id}")
+	s.NewApiRoute(router, Device{}, "devices", "delete/{id}")
 
 	log.Println("Doxapi available at port:", s.port)
 	log.Fatal(http.ListenAndServe(s.port, router))

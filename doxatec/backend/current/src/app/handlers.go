@@ -1,6 +1,7 @@
 package app
 
 import (
+	"doxapi/utils"
 	"encoding/json"
 	"net/http"
 	"reflect"
@@ -21,23 +22,21 @@ func (s *Api) HandlerList(entity string, t reflect.Type) http.HandlerFunc {
 	}
 }
 
-func (s *Api) HandlerCreate(entity string) http.HandlerFunc {
+func (s *Api) HandlerCreate(entity string, requestBody interface{}) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var params interface{}
-
-		err := json.NewDecoder(r.Body).Decode(&params)
+		err := json.NewDecoder(r.Body).Decode(&requestBody)
 		if err != nil {
 			json.NewEncoder(w).Encode(err)
 			return
 		}
 
-		err = s.storer.QueryCreate(entity, params)
+		_, err = utils.ReorderMap(requestBody.(map[string]interface{}), reflect.TypeOf(requestBody).Elem())
 		if err != nil {
 			json.NewEncoder(w).Encode(err)
 			return
 		}
 
-		json.NewEncoder(w).Encode("client created succesfully")
+		json.NewEncoder(w).Encode("done")
 	}
 }
 
