@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS transfers;
+DROP TABLE IF EXISTS subscriptions;
+DROP TABLE IF EXISTS temperatures;
+DROP TABLE IF EXISTS devices;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS clients;
