@@ -2,12 +2,12 @@ package app
 
 import (
 	"database/sql"
+	"doxapi/utils"
+	"fmt"
 	"log"
-	"os"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 )
 
 type Database struct {
@@ -15,12 +15,15 @@ type Database struct {
 }
 
 func NewDatabase() (*Database, error) {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal(err)
-	}
+	const (
+		db_user     string = "gopher"
+		db_password string = "k4mvoQ3Mpnlm1htZDDqBiYIuQpO3qAPR"
+		db_host     string = "dpg-ck4pa3d8ggls7396ml4g-a.oregon-postgres.render.com"
+		db_port     string = "5432"
+		db_postgres string = "gosql"
+	)
 
-	db, err := sql.Open("mysql", os.Getenv("DSN"))
+	db, err := sql.Open("postgres", fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=verify-full", db_user, db_password, db_host, db_port, db_postgres))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -33,7 +36,7 @@ func NewDatabase() (*Database, error) {
 		log.Fatal(err)
 	}
 
-	log.Println("Connected to PlanetScale")
+	log.Println("Connected to Database")
 
 	return &Database{
 		db: db,
@@ -41,33 +44,7 @@ func NewDatabase() (*Database, error) {
 }
 
 func (s *Database) InitializeTables() {
-	if _, err := s.db.Exec(`
-		CREATE TABLE IF NOT EXISTS Clients (
-			id INT PRIMARY KEY,
-			name VARCHAR(250),
-			email VARCHAR(250) UNIQUE,
-			phone VARCHAR(250) UNIQUE,
-			created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			modified TIMESTAMP NULL
-		);
-	`); err != nil {
-		log.Println(err)
-	}
-
-	if _, err := s.db.Exec(`
-		CREATE TABLE IF NOT EXISTS Users (
-			id INT PRIMARY KEY,
-			username VARCHAR(250),
-			password VARCHAR(250),
-			avatar VARCHAR(250),
-			role VARCHAR(250),
-			created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			modified TIMESTAMP NULL,
-			accessed TIMESTAMP NULL,
-			client_id INT UNIQUE,
-			FOREIGN KEY (client_id) REFERENCES Clients(id)
-		);
-	`); err != nil {
+	if _, err := s.db.Exec(utils.StringQL("sqls/clients/table/create.sql")); err != nil {
 		log.Println(err)
 	}
 }

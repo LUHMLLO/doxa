@@ -13,6 +13,6 @@ func main() {
 
 	db.InitializeTables()
 
-	// server := app.NewApi(":3000", db)
-	// server.Start()
+	server := app.NewApi(":3000", db)
+	server.Start()
 }

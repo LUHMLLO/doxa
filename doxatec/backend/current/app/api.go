@@ -101,6 +101,6 @@ func (s *Api) Start() {
 	s.NewApiRoute(router, UpdateDevice{}, "devices", "update/{id}")
 	s.NewApiRoute(router, Device{}, "devices", "delete/{id}")
 
-	log.Println("Doxapi available at port:", s.port)
+	log.Println("Api available at port:", s.port)
 	log.Fatal(http.ListenAndServe(s.port, router))
 }
