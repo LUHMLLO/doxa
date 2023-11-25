@@ -16,11 +16,11 @@ type Database struct {
 
 func NewDatabase() (*Database, error) {
 	const (
-		db_user     string = "gopher"
-		db_password string = "k4mvoQ3Mpnlm1htZDDqBiYIuQpO3qAPR"
-		db_host     string = "dpg-ck4pa3d8ggls7396ml4g-a.oregon-postgres.render.com"
+		db_user     string = "gosql_l0kb_user"
+		db_password string = "lPRWwZc2NJ630lgZolV4BPzLIO1cFFm8"
+		db_host     string = "dpg-clgun9r1hq4c73bkh290-a.oregon-postgres.render.com"
 		db_port     string = "5432"
-		db_postgres string = "gosql"
+		db_postgres string = "gosql_l0kb"
 	)
 
 	db, err := sql.Open("postgres", fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=verify-full", db_user, db_password, db_host, db_port, db_postgres))
